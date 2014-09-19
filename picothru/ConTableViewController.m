@@ -215,6 +215,8 @@ int i;
 }
 
 - (void)posttoken{
+    
+    //テスト用
     codes = [[NSMutableArray alloc]init];
     numbers = [[NSMutableArray alloc]init];
     beacon_id = @"4";
@@ -227,10 +229,11 @@ int i;
     
     NSMutableArray *purchase = [[NSMutableArray alloc]init];
     for(int i = 0; i < [codes count]; i++){
-        NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",
-                                         numbers[i], @"amount", nil];
+        NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
         [purchase addObject:codestmp];
     }
+    
+    
     // NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
     [mutableDic setValue:beacon_id forKey:@"store_id"];
@@ -246,10 +249,11 @@ int i;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if(connection){
-        NSData   *response  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-        NSString *loginResult = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-        if (loginResult){
+    NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    if(response){
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        BOOL loginResult = [array valueForKey:@"status"];
+        if (!loginResult){
             UIAlertView *alert =
             [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
             [alert show];
@@ -259,12 +263,16 @@ int i;
             ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
             [self presentViewController:ViewController animated:YES completion:nil];
         }else{
-            UIAlertView *alert =
-            [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
-            [alert show];
+            [self errormessage];
         }
+    }else{
+        [self errormessage];
     }
-    
+}
+-(void)errormessage{
+    UIAlertView *alert =
+    [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
+    [alert show];
 }
 
 /*
