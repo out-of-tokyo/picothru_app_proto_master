@@ -27,6 +27,8 @@ NSArray *numbers;
 NSInteger total;
 NSArray *cardinfo;
 NSString *tokenid;
+NSMutableArray *codes;
+NSNumber *store_id;
 int i;
 
 
@@ -54,21 +56,22 @@ int i;
     names = [list valueForKeyPath:@"names"];
     prices = [list valueForKeyPath:@"prices"];
     numbers = [list valueForKeyPath:@"number"];
-//    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
-//    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
-//	NSLog(@"%@",list);
+    codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
+    //    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
+    //    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
+    //	NSLog(@"%@",list);
 	
-//	NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
-//	NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
-
-//	NSArray * temp_n = [list valueForKeyPath:@"names"];
-//	NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
-//	NSLog(@"%@, %@",temp_n,temp_p);
-
-//    names = [NSArray arrayWithObjects:temp_n, nil];
-//    prices = [NSArray arrayWithObjects:temp_p, nil];
-
-//	NSLog(@"name: %@, prices: %@",names,prices);
+    //	NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
+    //	NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
+    
+    //	NSArray * temp_n = [list valueForKeyPath:@"names"];
+    //	NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
+    //	NSLog(@"%@, %@",temp_n,temp_p);
+    
+    //    names = [NSArray arrayWithObjects:temp_n, nil];
+    //    prices = [NSArray arrayWithObjects:temp_p, nil];
+    
+    //	NSLog(@"name: %@, prices: %@",names,prices);
 	
     UINavigationBar *nav = [[UINavigationBar alloc] init];
     nav.frame = CGRectMake(0, -64, 320, 64);
@@ -212,13 +215,28 @@ int i;
 }
 
 - (void)posttoken{
+    NSMutableArray *purchase = [[NSMutableArray alloc]init];
+    for(int i = 0; i < [codes count]; i++){
+        NSMutableArray *codestmp = [[NSMutableArray alloc]init];
+        NSMutableArray *counttmp = [[NSMutableArray alloc]init];
+        [codestmp setValue:codes[i] forKey:@"barcode_id"];
+        [counttmp setValue:numbers[i] forKey:@"amount"];
+        [purchase addObject:codestmp];
+        [purchase addObject:counttmp];
+    }
+    NSString *total_price = [[NSString alloc] initWithFormat:@"%d",total];
+    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
+    [mutableDic setValue:store_id forKey:@"store_id"];
+    [mutableDic setValue:purchase forKey:@"purchase"];
+    [mutableDic setValue:total_price forKey:@"total_price"];
+    [mutableDic setValue:tokenid forKey:@"token"];
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableDic options:0 error:&error];
     NSString *url = @"http://xoxoxoxoxoxo:8080/app/login";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
-    NSString *body = [NSString stringWithFormat:@"token=%@&prodact=%@&total=%ld", tokenid, names, (long)total];
-    NSData   *httpBody   = [body dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:httpBody];
+    [request setHTTPBody:jsonData];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     NSData *statusdata = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSString *status = [NSJSONSerialization JSONObjectWithData:statusdata options:NSJSONReadingAllowFragments error:nil];
