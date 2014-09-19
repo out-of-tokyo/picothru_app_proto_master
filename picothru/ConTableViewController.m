@@ -21,14 +21,14 @@
 @implementation ConTableViewController
 
 NSArray *list;
-NSArray *names;
-NSArray *prices;
-NSArray *numbers;
+NSMutableArray *names;
+NSMutableArray *prices;
+NSMutableArray *numbers;
 NSInteger total;
 NSArray *cardinfo;
 NSString *tokenid;
 NSMutableArray *codes;
-NSNumber *store_id;
+NSNumber *beacon_id;
 int i;
 
 
@@ -53,26 +53,26 @@ int i;
     [fetchrequest setEntity:d];
     NSError *error = nil;
     list = [moc executeFetchRequest:fetchrequest error:&error];
-    names = [list valueForKeyPath:@"names"];
-    prices = [list valueForKeyPath:@"prices"];
-    numbers = [list valueForKeyPath:@"number"];
-    codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
+    //  names = [list valueForKeyPath:@"names"];
+    //  prices = [list valueForKeyPath:@"prices"];
+    //  numbers = [list valueForKeyPath:@"number"];
+    //codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
     //    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
     //    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
-    //	NSLog(@"%@",list);
-	
-    //	NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
-    //	NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
+    //  NSLog(@"%@",list);
     
-    //	NSArray * temp_n = [list valueForKeyPath:@"names"];
-    //	NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
-    //	NSLog(@"%@, %@",temp_n,temp_p);
+    //  NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
+    //  NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
+    
+    //  NSArray * temp_n = [list valueForKeyPath:@"names"];
+    //  NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
+    //  NSLog(@"%@, %@",temp_n,temp_p);
     
     //    names = [NSArray arrayWithObjects:temp_n, nil];
     //    prices = [NSArray arrayWithObjects:temp_p, nil];
     
-    //	NSLog(@"name: %@, prices: %@",names,prices);
-	
+    //  NSLog(@"name: %@, prices: %@",names,prices);
+    
     UINavigationBar *nav = [[UINavigationBar alloc] init];
     nav.frame = CGRectMake(0, -64, 320, 64);
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
@@ -107,17 +107,17 @@ int i;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-	[self.tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-	total = 0;
-	NSLog(@"prices count = %ld",(long)[prices count]);
+    total = 0;
+    NSLog(@"prices count = %ld",(long)[prices count]);
     for(i = 0;i < [names count]; i++) {
         NSInteger tmp = [prices[i] integerValue];
-		NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
-		NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
+        NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
+        NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
     }
     
@@ -128,11 +128,11 @@ int i;
     goukei.textColor = [UIColor whiteColor];
     goukei.textAlignment = NSTextAlignmentCenter;
     NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
-	NSLog(@"%ld",(long)total);
+    NSLog(@"%ld",(long)total);
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
     goukei.text = totaltxt ;
     [self.view addSubview: goukei];
-	
+    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -177,19 +177,19 @@ int i;
 
 -(void)done:(UIButton*)button{
     /*id delegate = [[UIApplication sharedApplication] delegate];
-	 self.managedObjectContext = [delegate managedObjectContext];
-	 NSManagedObjectContext *moc = [self managedObjectContext];
-	 NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-	 NSEntityDescription *d = [NSEntityDescription entityForName: @"Payment" inManagedObjectContext:_managedObjectContext];
-	 [fetchrequest setEntity:d];
-	 NSError *error = nil;
-	 cardinfo = [moc executeFetchRequest:fetchrequest error:&error];
-	 if([cardinfo valueForKeyPath:@"name"], [cardinfo valueForKeyPath:@"number"],[cardinfo valueForKeyPath:@"month"], [cardinfo valueForKeyPath:@"year"],[cardinfo valueForKeyPath:@"cvc"] ){
-	 ;
-	 }
-	 CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
-	 [self presentViewController:CardViewController animated:YES completion:nil];*/
-    [self createtoken];
+     self.managedObjectContext = [delegate managedObjectContext];
+     NSManagedObjectContext *moc = [self managedObjectContext];
+     NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
+     NSEntityDescription *d = [NSEntityDescription entityForName: @"Payment" inManagedObjectContext:_managedObjectContext];
+     [fetchrequest setEntity:d];
+     NSError *error = nil;
+     cardinfo = [moc executeFetchRequest:fetchrequest error:&error];
+     if([cardinfo valueForKeyPath:@"name"], [cardinfo valueForKeyPath:@"number"],[cardinfo valueForKeyPath:@"month"], [cardinfo valueForKeyPath:@"year"],[cardinfo valueForKeyPath:@"cvc"] ){
+     ;
+     }
+     CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
+     [self presentViewController:CardViewController animated:YES completion:nil];*/
+    //[self createtoken];
     [self posttoken];
 }
 
@@ -211,26 +211,34 @@ int i;
             NSLog(@"error:%@", [error localizedDescription]);
         }
     }];
-	
+    
 }
 
 - (void)posttoken{
+    codes = [[NSMutableArray alloc]init];
+    numbers = [[NSMutableArray alloc]init];
+    beacon_id = @"4";
+    NSString *total_price = @"450";
+    tokenid = @"45mjff8pdmh";
+    [codes addObject:@"345447762"];
+    [codes addObject:@"245856512"];
+    [numbers addObject:@"2"];
+    [numbers addObject:@"1"];
+    
     NSMutableArray *purchase = [[NSMutableArray alloc]init];
     for(int i = 0; i < [codes count]; i++){
-        NSMutableArray *codestmp = [[NSMutableArray alloc]init];
-        NSMutableArray *counttmp = [[NSMutableArray alloc]init];
-        [codestmp setValue:codes[i] forKey:@"barcode_id"];
-        [counttmp setValue:numbers[i] forKey:@"amount"];
+        NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",
+                                         numbers[i], @"amount", nil];
         [purchase addObject:codestmp];
-        [purchase addObject:counttmp];
     }
-    NSString *total_price = [[NSString alloc] initWithFormat:@"%d",total];
+    // NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
-    [mutableDic setValue:store_id forKey:@"store_id"];
+    [mutableDic setValue:beacon_id forKey:@"store_id"];
     [mutableDic setValue:purchase forKey:@"purchase"];
     [mutableDic setValue:total_price forKey:@"total_price"];
     [mutableDic setValue:tokenid forKey:@"token"];
     NSError *error = nil;
+    NSLog(@"%@",mutableDic);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableDic options:0 error:&error];
     NSString *url = @"http://xoxoxoxoxoxo:8080/app/login";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
@@ -238,23 +246,25 @@ int i;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    NSData *statusdata = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    NSString *status = [NSJSONSerialization JSONObjectWithData:statusdata options:NSJSONReadingAllowFragments error:nil];
-    if (status){
-        UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
-        [alert show];
-        [Scanitems MR_truncateAll];
-        NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-        [context MR_saveNestedContexts];
-        ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
-        [self presentViewController:ViewController animated:YES completion:nil];
-    }else{
-        UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
-        [alert show];
+    if(connection){
+        NSData   *response  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        NSString *loginResult = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+        if (loginResult){
+            UIAlertView *alert =
+            [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
+            [alert show];
+            [Scanitems MR_truncateAll];
+            NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
+            [context MR_saveNestedContexts];
+            ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
+            [self presentViewController:ViewController animated:YES completion:nil];
+        }else{
+            UIAlertView *alert =
+            [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
+            [alert show];
+        }
     }
-	
+    
 }
 
 /*
