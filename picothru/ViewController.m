@@ -188,7 +188,7 @@ NSInteger labelindex;
     NSLog(@"array = %@",array);
 	
 	//値の代入
-    labelindex++;
+   
 	scanitems = [Scanitems MR_createEntity];
     scanitems.prodacts = response;
     NSString *name = [array valueForKeyPath:@"name"];
@@ -206,8 +206,8 @@ NSInteger labelindex;
 	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
     _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
     _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+	labelindex++;
     return @"hoge";
-	
 }
 
 - (NSString *)new_itemlabel
@@ -287,7 +287,7 @@ NSInteger labelindex;
 			
 			NSLog(@"scaned_barcode: %@",scaned_barcode);
 			NSLog(@"detectionString: %@",detectionString);
-			if(![scaned_barcode containsObject:detectionString]){//重複しなかった場合
+//			if(![scaned_barcode containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
 				NSLog(@"scaned_barcode: %@",scaned_barcode);
 				NSLog(@"detectionString: %@",detectionString);
@@ -299,7 +299,7 @@ NSInteger labelindex;
 				//バーコード値から商品情報をCoredataに保存
 				[self barcode2product:detectionString];
 				
-			}
+//			}
 			
 			//バーコード値をリセット
 			detectionString = nil;
