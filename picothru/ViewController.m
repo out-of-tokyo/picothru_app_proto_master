@@ -187,7 +187,8 @@ NSInteger labelindex;
             codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
         }
     }*/
-    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
+ //   [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
+ //   [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112853"];
 }
 
 
@@ -239,15 +240,22 @@ NSInteger labelindex;
         {
 			//ダミーコード
 			detectionString = @"becon_id=1&barcode_id=4903326112852";
-			if(![codearray containsObject:detectionString]){//重複しなかった場合
-				//バーコード値を配列に保管
-                [codearray addObject:detectionString];
-				//バーコード値から商品情報を保存する関数を呼び出す
-				[self barcode2product:detectionString];
-			}
+            if (codearray) {
+                if(![codearray containsObject:detectionString]){//重複しなかった場合
+                    //バーコード値を配列に保管
+                    [codearray addObject:detectionString];
+                    //バーコード値から商品情報を保存する関数を呼び出す
+                    [self barcode2product:detectionString];
+                }else{
+                    //バーコード値を配列に保管
+                    [codearray addObject:detectionString];
+                    //バーコード値から商品情報を保存する関数を呼び出す
+                    [self barcode2product:detectionString];
+                }
 			//バーコード値をリセット
 			detectionString = nil;
             break;
+            }
         }
     }
     
