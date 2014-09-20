@@ -180,9 +180,7 @@ NSInteger labelindex;
 {
 	//バーコード値を投げてデータを格納
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
-	
 
-    
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];

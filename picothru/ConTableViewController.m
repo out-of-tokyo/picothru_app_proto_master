@@ -29,6 +29,7 @@ NSArray *cardinfo;
 NSString *tokenid;
 NSMutableArray *codes;
 NSNumber *beacon_id;
+NSMutableArray *purchase;
 int i;
 
 
@@ -53,9 +54,9 @@ int i;
     [fetchrequest setEntity:d];
     NSError *error = nil;
     list = [moc executeFetchRequest:fetchrequest error:&error];
-    //  names = [list valueForKeyPath:@"names"];
-    //  prices = [list valueForKeyPath:@"prices"];
-    //  numbers = [list valueForKeyPath:@"number"];
+    names = [list valueForKeyPath:@"names"];
+    prices = [list valueForKeyPath:@"prices"];
+    numbers = [list valueForKeyPath:@"number"];
     //codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
     //    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
     //    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
@@ -189,7 +190,7 @@ int i;
      }
      CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
      [self presentViewController:CardViewController animated:YES completion:nil];*/
-    //[self createtoken];
+    [self createtoken];
     [self posttoken];
 }
 
@@ -217,7 +218,9 @@ int i;
 - (void)posttoken{
     
     //テスト用
-    codes = [[NSMutableArray alloc]init];
+    /*  
+     
+     codes = [[NSMutableArray alloc]init];
     numbers = [[NSMutableArray alloc]init];
     beacon_id = @"4";
     NSString *total_price = @"450";
@@ -227,14 +230,15 @@ int i;
     [numbers addObject:@"2"];
     [numbers addObject:@"1"];
     
-    NSMutableArray *purchase = [[NSMutableArray alloc]init];
+    purchase = [[NSMutableArray alloc]init];
     for(int i = 0; i < [codes count]; i++){
         NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
         [purchase addObject:codestmp];
     }
     
-    
-    // NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
+    */
+     
+    NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
     [mutableDic setValue:beacon_id forKey:@"store_id"];
     [mutableDic setValue:purchase forKey:@"purchase"];
