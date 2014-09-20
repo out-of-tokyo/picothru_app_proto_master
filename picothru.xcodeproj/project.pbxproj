@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		DF7F5A4819CD163D0042F00F /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4719CD163D0042F00F /* Entity.m */; };
+		DF7F5A4B19CD99D40042F00F /* ConViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* ConViewController.m */; };
+		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
 		DFBBE26519BF7228007F65AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26419BF7228007F65AD /* CoreGraphics.framework */; };
 		DFBBE26719BF7228007F65AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26619BF7228007F65AD /* UIKit.framework */; };
 		DFBBE26D19BF7228007F65AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE26B19BF7228007F65AD /* InfoPlist.strings */; };
 		DFBBE26F19BF7228007F65AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DFBBE26E19BF7228007F65AD /* main.m */; };
 		DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DFBBE27219BF7228007F65AD /* AppDelegate.m */; };
-		DFBBE27619BF7228007F65AD /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE27419BF7228007F65AD /* Main_iPhone.storyboard */; };
 		DFBBE27919BF7228007F65AD /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */; };
 		DFBBE27C19BF7228007F65AD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFBBE27B19BF7228007F65AD /* ViewController.m */; };
 		DFBBE27E19BF7229007F65AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE27D19BF7229007F65AD /* Images.xcassets */; };
@@ -26,7 +27,6 @@
 		DFBBE29B19BF724B007F65AD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE29A19BF724B007F65AD /* Podfile */; };
 		DFCE221019C056CE00BF4128 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCE220F19C056CE00BF4128 /* AVFoundation.framework */; };
 		DFCE221219C06F0700BF4128 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCE221119C06F0700BF4128 /* QuartzCore.framework */; };
-		DFCE221519C0BA9800BF4128 /* ConTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCE221419C0BA9800BF4128 /* ConTableViewController.m */; };
 		DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFCE221919C0BCD700BF4128 /* picothru.xcdatamodeld */; };
 		DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */; };
 		DFCE222919C0D39B00BF4128 /* ListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */; };
@@ -51,6 +51,9 @@
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DF7F5A4619CD163D0042F00F /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		DF7F5A4719CD163D0042F00F /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
+		DF7F5A4919CD99D40042F00F /* ConViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConViewController.h; sourceTree = "<group>"; };
+		DF7F5A4A19CD99D40042F00F /* ConViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConViewController.m; sourceTree = "<group>"; };
+		DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		DFBBE25F19BF7228007F65AD /* picothru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = picothru.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFBBE26219BF7228007F65AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DFBBE26419BF7228007F65AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -61,7 +64,6 @@
 		DFBBE27019BF7228007F65AD /* picothru-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "picothru-Prefix.pch"; sourceTree = "<group>"; };
 		DFBBE27119BF7228007F65AD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DFBBE27219BF7228007F65AD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DFBBE27519BF7228007F65AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		DFBBE27819BF7228007F65AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		DFBBE27A19BF7228007F65AD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		DFBBE27B19BF7228007F65AD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -74,8 +76,6 @@
 		DFBBE29A19BF724B007F65AD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DFCE220F19C056CE00BF4128 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DFCE221119C06F0700BF4128 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DFCE221319C0BA9800BF4128 /* ConTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConTableViewController.h; sourceTree = "<group>"; };
-		DFCE221419C0BA9800BF4128 /* ConTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConTableViewController.m; sourceTree = "<group>"; };
 		DFCE221A19C0BCD700BF4128 /* picothru.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = picothru.xcdatamodel; sourceTree = "<group>"; };
 		DFCE222519C0D39B00BF4128 /* ListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewCell.h; sourceTree = "<group>"; };
 		DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewCell.m; sourceTree = "<group>"; };
@@ -159,16 +159,16 @@
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
-				DFBBE27419BF7228007F65AD /* Main_iPhone.storyboard */,
 				DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */,
+				DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */,
 				DFBBE27A19BF7228007F65AD /* ViewController.h */,
 				DFBBE27B19BF7228007F65AD /* ViewController.m */,
+				DF7F5A4919CD99D40042F00F /* ConViewController.h */,
+				DF7F5A4A19CD99D40042F00F /* ConViewController.m */,
 				DFCE222519C0D39B00BF4128 /* ListTableViewCell.h */,
 				DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */,
 				DFCE224A19C283F700BF4128 /* CardViewController.h */,
 				DFCE224B19C283F700BF4128 /* CardViewController.m */,
-				DFCE221319C0BA9800BF4128 /* ConTableViewController.h */,
-				DFCE221419C0BA9800BF4128 /* ConTableViewController.m */,
 				DFBBE27D19BF7229007F65AD /* Images.xcassets */,
 				DFBBE26919BF7228007F65AD /* Supporting Files */,
 			);
@@ -287,9 +287,9 @@
 			files = (
 				DFBBE29B19BF724B007F65AD /* Podfile in Resources */,
 				DFCE222919C0D39B00BF4128 /* ListTableViewCell.xib in Resources */,
+				DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */,
 				DFBBE27919BF7228007F65AD /* Main_iPad.storyboard in Resources */,
 				DFBBE27E19BF7229007F65AD /* Images.xcassets in Resources */,
-				DFBBE27619BF7228007F65AD /* Main_iPhone.storyboard in Resources */,
 				DFBBE26D19BF7228007F65AD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,9 +347,9 @@
 				DFCE225219C28D1D00BF4128 /* Payment.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
 				DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */,
+				DF7F5A4B19CD99D40042F00F /* ConViewController.m in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
 				DF7F5A4819CD163D0042F00F /* Entity.m in Sources */,
-				DFCE221519C0BA9800BF4128 /* ConTableViewController.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,14 +379,6 @@
 				DFBBE26C19BF7228007F65AD /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		DFBBE27419BF7228007F65AD /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DFBBE27519BF7228007F65AD /* Base */,
-			);
-			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */ = {

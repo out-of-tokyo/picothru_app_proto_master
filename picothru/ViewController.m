@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "ConTableViewController.h"
 #import "Entity.h"
+#import "ConViewController.h"
 
 @interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -177,7 +178,7 @@ NSInteger labelindex;
     NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
     [fetchrequest setEntity:d];
     list = [moc executeFetchRequest:fetchrequest error:nil];
-    if(list){
+   /* if(list){
         NSArray *array = [list valueForKeyPath:@"names"];
         if ([array count] > 0) {
             namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
@@ -185,8 +186,8 @@ NSInteger labelindex;
             countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
             codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
         }
-    }
-    [self barcode2product:@"store_id=1&barcode_id=4903326112852"];
+    }*/
+    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
 }
 
 
@@ -201,6 +202,7 @@ NSInteger labelindex;
     //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
     NSString *price = [array valueForKeyPath:@"price"];
+    NSLog(@"%@",name);
     [namearray addObject:name];
     [pricearray addObject:price];
 	[countarray addObject:[NSNumber numberWithInteger:1]];
@@ -236,7 +238,7 @@ NSInteger labelindex;
         if (detectionString != nil)
         {
 			//ダミーコード
-			detectionString = @"store_id=1&barcode_id=4903326112852";
+			detectionString = @"becon_id=1&barcode_id=4903326112852";
 			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
@@ -264,8 +266,8 @@ NSInteger labelindex;
     scanitems.codes = codesdata;
     NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     [context MR_saveNestedContexts];
-    ConTableViewController *conTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ctv"];
-    [self presentViewController:conTableViewController animated:YES completion:nil];
+    ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
+    [self presentViewController:conViewController animated:YES completion:nil];
 }
 -(void)subcount:(UIButton*)button{
 	int tmp = [countarray[labelindex]intValue] - 1;

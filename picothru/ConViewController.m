@@ -1,12 +1,12 @@
 //
-//  ConTableViewController.m
+//  ConViewController.m
 //  picothru
 //
-//  Created by Masaru Iwasa on 2014/09/11.
+//  Created by 谷村元気 on 2014/09/20.
 //  Copyright (c) 2014年 Masaru. All rights reserved.
 //
 
-#import "ConTableViewController.h"
+#import "ConViewController.h"
 #import "ViewController.h"
 #import "Entity.h"
 #import "Payment.h"
@@ -14,11 +14,12 @@
 #import "CardViewController.h"
 #import "Webpay.h"
 
-@interface ConTableViewController ()
+
+@interface ConViewController ()
 
 @end
 
-@implementation ConTableViewController
+@implementation ConViewController
 
 NSArray *list;
 NSMutableArray *names;
@@ -30,12 +31,10 @@ NSString *tokenid;
 NSMutableArray *codes;
 NSNumber *beacon_id;
 NSMutableArray *purchase;
-int i;
 
-
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -45,6 +44,11 @@ int i;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+		
+	// テーブル定義、位置指定
+	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
+	[self.view addSubview:tableView];
+
     //coredataの読み込み
     id delegate = [[UIApplication sharedApplication] delegate];
     self.managedObjectContext = [delegate managedObjectContext];
@@ -54,36 +58,38 @@ int i;
     [fetchrequest setEntity:d];
     NSError *error = nil;
     list = [moc executeFetchRequest:fetchrequest error:&error];
-    names = [list valueForKeyPath:@"names"];
-    prices = [list valueForKeyPath:@"prices"];
-    numbers = [list valueForKeyPath:@"number"];
-    //codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
-    //    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
-    //    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
-    //  NSLog(@"%@",list);
-    
-    //  NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
-    //  NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
-    
-    //  NSArray * temp_n = [list valueForKeyPath:@"names"];
-    //  NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
-    //  NSLog(@"%@, %@",temp_n,temp_p);
-    
-    //    names = [NSArray arrayWithObjects:temp_n, nil];
-    //    prices = [NSArray arrayWithObjects:temp_p, nil];
-    
-    //  NSLog(@"name: %@, prices: %@",names,prices);
-    
+	//    names = [list valueForKeyPath:@"names"];
+	//    prices = [list valueForKeyPath:@"prices"];
+	//    numbers = [list valueForKeyPath:@"number"];
+	
+	names = [NSMutableArray array];
+	for(int i=0;i<20;i++){
+		[names addObject:@"ごりらの鼻くそ"];
+	}
+	prices = [NSMutableArray array];
+	for(int i=0;i<20;i++){
+		[prices addObject:[NSNumber numberWithInt:[@"100" intValue]]];
+		
+	}
+	numbers = [NSMutableArray array];
+	for(int i=0;i<20;i++){
+		[numbers addObject:[NSNumber numberWithInt:[@"1" intValue]]];
+	}
+	
+	
+	
+	
+	//上のナビゲーションバー
     UINavigationBar *nav = [[UINavigationBar alloc] init];
-    nav.frame = CGRectMake(0, -64, 320, 64);
+    nav.frame = CGRectMake(0, 0, 320, 64);
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
     
     
-    
+    // スキャン画面へ遷移ボタン
     UIButton *back = [[UIButton alloc] init];
-    back.frame = CGRectMake(0, self.view.bounds.size.height - 144, self.view.bounds.size.width, 80);
+    back.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
     back.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     back.backgroundColor = [UIColor orangeColor];
     [ back setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
@@ -92,8 +98,9 @@ int i;
     [back addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:back];
     
+	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
-    done.frame = CGRectMake(0, self.view.bounds.size.height - 224, self.view.bounds.size.width, 80);
+    done.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 80);
     done.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     done.backgroundColor = [UIColor greenColor];
     [ done setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
@@ -101,21 +108,19 @@ int i;
     done.titleLabel.adjustsFontSizeToFitWidth = YES;
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:done];
-    
-    UIEdgeInsets insets = self.tableView.contentInset;
-    insets.top += 64;
-    self.tableView.contentInset = insets;
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
+	
+    // テーブルビューの余白
+	
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     total = 0;
     NSLog(@"prices count = %ld",(long)[prices count]);
-    for(i = 0;i < [names count]; i++) {
+    for(int i = 0;i < [names count]; i++) {
         NSInteger tmp = [prices[i] integerValue];
         NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
         NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
@@ -123,7 +128,7 @@ int i;
     }
     
     UILabel *goukei = [[UILabel alloc] init];
-    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 264, self.view.bounds.size.width, 40);
+    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
     goukei.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     goukei.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
     goukei.textColor = [UIColor whiteColor];
@@ -218,20 +223,27 @@ int i;
 - (void)posttoken{
     
     //テスト用
+    /*
      
-    codes = [[NSMutableArray alloc]init];
-    numbers = [[NSMutableArray alloc]init];
-    beacon_id = @"1";
-    NSString *total_price = @"216";
-    [codes addObject:@"4903326112852"];
-    [numbers addObject:@"2"];
-    
-    purchase = [[NSMutableArray alloc]init];
-    for(int i = 0; i < [codes count]; i++){
-        NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
-        [purchase addObject:codestmp];
-    }
-    //NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
+     codes = [[NSMutableArray alloc]init];
+	 numbers = [[NSMutableArray alloc]init];
+	 beacon_id = @"4";
+	 NSString *total_price = @"450";
+	 tokenid = @"45mjff8pdmh";
+	 [codes addObject:@"345447762"];
+	 [codes addObject:@"245856512"];
+	 [numbers addObject:@"2"];
+	 [numbers addObject:@"1"];
+	 
+	 purchase = [[NSMutableArray alloc]init];
+	 for(int i = 0; i < [codes count]; i++){
+	 NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
+	 [purchase addObject:codestmp];
+	 }
+	 
+	 */
+	
+    NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
     [mutableDic setValue:beacon_id forKey:@"store_id"];
     [mutableDic setValue:purchase forKey:@"purchase"];
@@ -240,7 +252,7 @@ int i;
     NSError *error = nil;
     NSLog(@"%@",mutableDic);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableDic options:0 error:&error];
-    NSString *url = @"http://54.64.69.224/api/v0/purchase";
+    NSString *url = @"http://xoxoxoxoxoxo:8080/app/login";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
