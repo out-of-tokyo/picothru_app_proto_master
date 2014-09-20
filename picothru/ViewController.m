@@ -35,14 +35,20 @@
 NSMutableArray *items;
 NSArray *prodactname;
 NSMutableArray *prodactprice;
+NSMutableArray *namearray;
+NSMutableArray *pricearray;
+NSMutableArray *countarray;
+NSInteger labelindex;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
 	scaned_barcode = [NSMutableArray array];
-
-	
-    
+    namearray = [[NSMutableArray alloc]init];
+    pricearray = [[NSMutableArray alloc]init];
+	countarray = [[NSMutableArray alloc]init];
+    labelindex = 0;
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
     _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
@@ -154,8 +160,6 @@ NSMutableArray *prodactprice;
     //	[self barcode2product:(queue)];
     //	queue = @"store_id=2&barcode_id=4903326112853";
     //	[self barcode2product:(queue)];
-	
-    
 	////////////////////////////////////
 	
 	
@@ -177,6 +181,8 @@ NSMutableArray *prodactprice;
 	//バーコード値を投げてデータを格納
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
 	
+
+    
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
@@ -184,25 +190,23 @@ NSMutableArray *prodactprice;
     NSLog(@"array = %@",array);
 	
 	//値の代入
+    labelindex++;
 	scanitems = [Scanitems MR_createEntity];
     scanitems.prodacts = response;
-    scanitems.names = [array valueForKeyPath:@"name"];
-    scanitems.prices = [array valueForKeyPath:@"price"];
-	scanitems.number = [NSNumber numberWithInt:1];
-	
-	NSLog(@"scanitems.number = %@",scanitems.number);
-	NSLog(@"scanitems.prices = %@",scanitems.prices);
+    namearray = [array valueForKeyPath:@"name"];
+    pricearray = [array valueForKeyPath:@"price"];
+	[countarray addObject:[NSNumber numberWithInteger:1]];
+	NSLog(@"scanitems.number = %@",namearray[labelindex]);
+	NSLog(@"scanitems.prices = %@",pricearray[labelindex]);
 	
 	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     [context MR_saveNestedContexts];
     
 	
-	_namelabel.text = [NSString stringWithFormat:@"%@", scanitems.names];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", scanitems.prices];
-    _countlabel.text = [NSString stringWithFormat:@"%@", scanitems.number];
-	//_namelabel.text = [NSString stringWithFormat:@"%@ %@円 %@点", scanitems.names, scanitems.prices, scanitems.number];
-    
-	return @"hoge";
+	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
+    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
+    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+    return @"hoge";
 	
 }
 
@@ -322,16 +326,17 @@ NSMutableArray *prodactprice;
     [self presentViewController:conTableViewController animated:YES completion:nil];
 }
 -(void)hoge2:(UIButton*)button{
-	
-    int temp = scanitems.number.intValue-1;
-	scanitems.number = [NSNumber numberWithInt:temp];
-	 _countlabel.text = [NSString stringWithFormat:@"%d", temp];
+	int tmp = [countarray[labelindex]intValue] - 1;
+    NSNumber *tmpnum = [[NSNumber alloc] initWithInt:tmp];
+    [countarray replaceObjectAtIndex:labelindex withObject:tmpnum];
+    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
 }
 -(void)hoge3:(UIButton*)button{
-	
-    int temp = scanitems.number.intValue+1;
-	scanitems.number = [NSNumber numberWithInt:temp];
-    _countlabel.text = [NSString stringWithFormat:@"%d", temp];
+	int tmp = [countarray[labelindex]intValue] + 1;
+    NSNumber *tmpnum = [[NSNumber alloc] initWithInt:tmp];
+    [countarray replaceObjectAtIndex:labelindex withObject:tmpnum];
+    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+
 }
 
 @end
