@@ -178,16 +178,21 @@ NSInteger labelindex;
     NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
     [fetchrequest setEntity:d];
     list = [moc executeFetchRequest:fetchrequest error:nil];
-   /* if(list){
+    if(list){
         NSArray *array = [list valueForKeyPath:@"names"];
         if ([array count] > 0) {
             namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
             pricearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"prices"]];
             countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
             codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
+			labelindex = [array count]-1;
+			_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
+			_pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
+			_countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+
         }
-    }*/
-    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
+    }
+//    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
 }
 
 
@@ -238,7 +243,7 @@ NSInteger labelindex;
         if (detectionString != nil)
         {
 			//ダミーコード
-			detectionString = @"becon_id=1&barcode_id=4903326112852";
+			detectionString = @"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852";
 			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
@@ -264,6 +269,9 @@ NSInteger labelindex;
     scanitems.prices = pricesdata;
     scanitems.counts = countsdata;
     scanitems.codes = codesdata;
+	
+	NSLog(@"scanitems.names: %@",[NSKeyedUnarchiver unarchiveObjectWithData:scanitems.names]);
+	
     NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     [context MR_saveNestedContexts];
     ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];

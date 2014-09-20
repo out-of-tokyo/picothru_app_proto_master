@@ -20,11 +20,13 @@
 @end
 
 @implementation ConViewController
-
+NSMutableArray *items;
+NSMutableArray *namearray;
+NSMutableArray *pricearray;
+NSMutableArray *countarray;
+NSMutableArray *codearray;
 NSArray *list;
-NSMutableArray *names;
-NSMutableArray *prices;
-NSMutableArray *numbers;
+NSInteger labelindex;
 NSInteger total;
 NSArray *cardinfo;
 NSString *tokenid;
@@ -44,7 +46,16 @@ NSMutableArray *purchase;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-		
+
+	//変数初期化処理
+	codearray =[[NSMutableArray array]init];
+    namearray = [[NSMutableArray alloc]init];
+    pricearray = [[NSMutableArray alloc]init];
+	countarray = [[NSMutableArray alloc]init];
+    list = [[NSArray alloc]init];
+    labelindex = -1;
+
+	
 	// テーブル定義、位置指定
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
 	[self.view addSubview:tableView];
@@ -56,25 +67,32 @@ NSMutableArray *purchase;
     NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
     [fetchrequest setEntity:d];
-    NSError *error = nil;
-    list = [moc executeFetchRequest:fetchrequest error:&error];
-	//    names = [list valueForKeyPath:@"names"];
-	//    prices = [list valueForKeyPath:@"prices"];
-	//    numbers = [list valueForKeyPath:@"number"];
-	
-	names = [NSMutableArray array];
-	for(int i=0;i<20;i++){
-		[names addObject:@"ごりらの鼻くそ"];
-	}
-	prices = [NSMutableArray array];
-	for(int i=0;i<20;i++){
-		[prices addObject:[NSNumber numberWithInt:[@"100" intValue]]];
-		
-	}
-	numbers = [NSMutableArray array];
-	for(int i=0;i<20;i++){
-		[numbers addObject:[NSNumber numberWithInt:[@"1" intValue]]];
-	}
+    list = [moc executeFetchRequest:fetchrequest error:nil];
+    NSLog(@"list;", list);
+	if(list){
+        NSArray *array = [list valueForKeyPath:@"names"];
+        if ([array count] > 0) {
+            namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
+            pricearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"prices"]];
+            countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
+            codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
+			NSLog(@"[con_scanitems.namearray]%@",namearray);
+        }
+    }
+
+//	names = [NSMutableArray array];
+//	for(int i=0;i<20;i++){
+//		[names addObject:@"ごりらの鼻くそ"];
+//	}
+//	prices = [NSMutableArray array];
+//	for(int i=0;i<20;i++){
+//		[prices addObject:[NSNumber numberWithInt:[@"100" intValue]]];
+//		
+//	}
+//	numbers = [NSMutableArray array];
+//	for(int i=0;i<20;i++){
+//		[numbers addObject:[NSNumber numberWithInt:[@"1" intValue]]];
+//	}
 	
 	
 	
@@ -119,9 +137,9 @@ NSMutableArray *purchase;
 -(void)viewDidAppear:(BOOL)animated
 {
     total = 0;
-    NSLog(@"prices count = %ld",(long)[prices count]);
-    for(int i = 0;i < [names count]; i++) {
-        NSInteger tmp = [prices[i] integerValue];
+    NSLog(@"prices count = %ld",(long)[pricearray count]);
+    for(int i = 0;i < [namearray count]; i++) {
+        NSInteger tmp = [pricearray[i] integerValue];
         NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
         NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
@@ -155,7 +173,7 @@ NSMutableArray *purchase;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [names count];
+    return [namearray count];
 }
 
 
@@ -163,9 +181,9 @@ NSMutableArray *purchase;
 {
     NSString *cellIdentifier = @"cell";
     ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.prodactname.text = names[indexPath.row];
-    NSString *pricestr = [prices[indexPath.row] stringValue];
-    NSString *numberstr = [numbers[indexPath.row] stringValue];
+    cell.prodactname.text = namearray[indexPath.row];
+    NSString *pricestr = [pricearray[indexPath.row] stringValue];
+    NSString *numberstr = [countarray[indexPath.row] stringValue];
     cell.prodactprice.text = pricestr;
     cell.prodactcount.text = numberstr;
     return cell;
@@ -200,7 +218,7 @@ NSMutableArray *purchase;
 }
 
 - (void)createtoken{
-    // カードモデルを作成し、必要な値を渡します
+    // カードモデルを作成し、必要な値を渡し ます
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
     card.number = @"4242424242424242";
     card.expiryYear = 2015;
