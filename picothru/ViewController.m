@@ -35,6 +35,7 @@ NSMutableArray *namearray;
 NSMutableArray *pricearray;
 NSMutableArray *countarray;
 NSMutableArray *codearray;
+NSArray *list;
 NSInteger labelindex;
 
 - (void)viewDidLoad
@@ -46,6 +47,7 @@ NSInteger labelindex;
     namearray = [[NSMutableArray alloc]init];
     pricearray = [[NSMutableArray alloc]init];
 	countarray = [[NSMutableArray alloc]init];
+    list = [[NSArray alloc]init];
     labelindex = 0;
     
     _highlightView = [[UIView alloc] init];
@@ -144,6 +146,21 @@ NSInteger labelindex;
     _addbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_addbutton addTarget:self action:@selector(hoge3:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_addbutton];
+    
+    //coredataの読み込み
+    id delegate = [[UIApplication sharedApplication] delegate];
+    self.managedObjectContext = [delegate managedObjectContext];
+    NSManagedObjectContext *moc = [self managedObjectContext];
+    NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
+    [fetchrequest setEntity:d];
+    list = [moc executeFetchRequest:fetchrequest error:nil];
+    if(list){
+        namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
+        pricearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"prices"]];
+        countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
+        codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
+    }
 }
 
 
