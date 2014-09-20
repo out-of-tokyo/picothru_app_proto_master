@@ -178,7 +178,7 @@ NSInteger labelindex;
     NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
     [fetchrequest setEntity:d];
     list = [moc executeFetchRequest:fetchrequest error:nil];
-   /* if(list){
+    if(list){
         NSArray *array = [list valueForKeyPath:@"names"];
         if ([array count] > 0) {
             namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
@@ -186,8 +186,7 @@ NSInteger labelindex;
             countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
             codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
         }
-    }*/
-    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
+    }
 }
 
 
@@ -238,7 +237,7 @@ NSInteger labelindex;
         if (detectionString != nil)
         {
 			//ダミーコード
-			detectionString = @"becon_id=1&barcode_id=4903326112852";
+			detectionString = @"becon_id=beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852";
 			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
@@ -292,12 +291,11 @@ NSInteger labelindex;
     }
 }
 -(void)addindex:(UIButton*)button{
-    if(labelindex > [namearray count]){
+    if(labelindex < [namearray count]-1 ){
     labelindex ++;
     _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
     _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
     _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
     }
 }
-
 @end
