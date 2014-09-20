@@ -1,8 +1,8 @@
 //
-//  ConTableViewController.h
+//  ConViewController.h
 //  picothru
 //
-//  Created by Masaru Iwasa on 2014/09/11.
+//  Created by 谷村元気 on 2014/09/20.
 //  Copyright (c) 2014年 Masaru. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "CardViewController.h"
 @class ViewController;
-@interface ConTableViewController : UIViewController
+@interface ConViewController : UIViewController
 @property (weak, nonatomic) ViewController *ViewController;
 @property (weak, nonatomic) CardViewController *CardViewController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

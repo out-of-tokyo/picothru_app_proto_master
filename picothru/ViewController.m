@@ -8,7 +8,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "ViewController.h"
-#import "ConTableViewController.h"
+#import "ConViewController.h"
 #import "Entity.h"
 
 @interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
@@ -54,7 +54,10 @@ NSInteger labelindex;
     _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
     _highlightView.layer.borderWidth = 3;
     [self.view addSubview:_highlightView];
-    
+   
+	
+	
+
 	
 	//カメラ起動してなんかやってる
     _session = [[AVCaptureSession alloc] init];
@@ -84,6 +87,7 @@ NSInteger labelindex;
     [self.view bringSubviewToFront:_highlightView];
     [self.view bringSubviewToFront:_namelabel];
 	
+		
 	// スキャン履歴表示ラベル
     _namelabel = [[UILabel alloc] init];
     _namelabel.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 40);
@@ -321,9 +325,9 @@ NSInteger labelindex;
     //scanitems.prices = priceData;
     //	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     //    [context MR_saveNestedContexts];
-    
-    ConTableViewController *conTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ctv"];
-    [self presentViewController:conTableViewController animated:YES completion:nil];
+    	
+    ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
+    [self presentViewController:conViewController animated:YES completion:nil];
 }
 -(void)hoge2:(UIButton*)button{
 	int tmp = [countarray[labelindex]intValue] - 1;

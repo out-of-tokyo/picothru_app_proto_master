@@ -20,12 +20,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ee8-7f-B1M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="245" y="-669"/>
+            <point key="canvasLocation" x="-291" y="-653"/>
         </scene>
         <!--Card View Controller-->
         <scene sceneID="4pn-w9-cuk">
             <objects>
-                <viewController storyboardIdentifier="cvc" id="H1c-SA-vTw" customClass="CardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cardvc" id="H1c-SA-vTw" customClass="CardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PgC-uI-JI0"/>
                         <viewControllerLayoutGuide type="bottom" id="9gW-5H-ufn"/>
@@ -38,12 +38,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hG8-8I-Ysg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="85" y="40"/>
+            <point key="canvasLocation" x="-185" y="67"/>
         </scene>
-        <!--Con Table View Controller-->
+        <!--Con View Controller-->
         <scene sceneID="0Og-SB-g32">
             <objects>
-                <viewController storyboardIdentifier="ctv" id="qKG-fR-2Vx" customClass="ConTableViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="convc" id="qKG-fR-2Vx" customClass="ConViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZTH-ym-Umh"/>
                         <viewControllerLayoutGuide type="bottom" id="rkW-sJ-ifK"/>
@@ -53,9 +53,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <outlet property="viewfortable" destination="tXp-yz-XFh" id="v8s-ri-PnW"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YNX-v9-7VK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
