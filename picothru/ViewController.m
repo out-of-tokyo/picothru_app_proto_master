@@ -26,7 +26,8 @@
     UIButton *_button2;
     UIButton *_button3;
 	Scanitems *scanitems;
-	long long scan_barcode[100];
+
+	NSMutableArray *scaned_barcode;
 }
 @end
 
@@ -38,7 +39,8 @@ NSMutableArray *prodactprice;
 {
     [super viewDidLoad];
 	
-    
+	scaned_barcode = [NSMutableArray array];
+
 	
     
     _highlightView = [[UIView alloc] init];
@@ -271,35 +273,35 @@ NSMutableArray *prodactprice;
                 break;
             }
         }
-        
+		//バーコードスキャン成功したら商品を取得して保存
         if (detectionString != nil)
         {
 			NSLog(@"###############barcode: %@#################",detectionString);
-            //			NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?store_id=1&barcode_id=%@", detectionString];
-            //            NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-            //            NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            //            NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
-            //            Scanitems *scanitems = [Scanitems MR_createEntity];
-            //            scanitems.prodacts = response;
-            //            scanitems.names = [array valueForKeyPath:@"name"];
-            //            scanitems.prices = [array valueForKeyPath:@"price"];
-            //            _label.text = [array valueForKeyPath:@"name"];
-			
+			//だみーバーコード値
 			detectionString = @"store_id=1&barcode_id=4903326112852";
-            //			for(int i=0;i<[scan_barcode count];i++){
-            //
-            //
-            //			}
-            
-			[self barcode2product:detectionString];
-            
-            //			[NSThread sleepForTimeInterval:1.0f];
+			
+			
+			NSLog(@"scaned_barcode: %@",scaned_barcode);
+			NSLog(@"detectionString: %@",detectionString);
+			if(![scaned_barcode containsObject:detectionString]){//重複しなかった場合
+				//バーコード値を配列に保管
+				NSLog(@"scaned_barcode: %@",scaned_barcode);
+				NSLog(@"detectionString: %@",detectionString);
+				[scaned_barcode addObject:detectionString];
+				NSLog(@"scaned_barcode: %@",scaned_barcode);
+				NSLog(@"detectionString: %@",detectionString);
+
+				NSLog(@"scaned_barcode[0]: %@",[scaned_barcode objectAtIndex:0]);
+				//バーコード値から商品情報をCoredataに保存
+				[self barcode2product:detectionString];
+				
+			}
+			
+			//バーコード値をリセット
 			detectionString = nil;
 			
             break;
         }
-        else
-            _namelabel.text = @"(none)";
     }
     
     _highlightView.frame = highlightViewRect;
