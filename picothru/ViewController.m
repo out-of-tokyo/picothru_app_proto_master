@@ -50,7 +50,7 @@ NSInteger labelindex;
     pricearray = [[NSMutableArray alloc]init];
 	countarray = [[NSMutableArray alloc]init];
     list = [[NSArray alloc]init];
-    labelindex = 0;
+    labelindex = -1;
     
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
@@ -204,9 +204,11 @@ NSInteger labelindex;
     [namearray addObject:name];
     [pricearray addObject:price];
 	[countarray addObject:[NSNumber numberWithInteger:1]];
-	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+    NSInteger newindex = [namearray count]-1;
+	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[newindex]];
+    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[newindex]];
+    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[newindex]];
+    labelindex++;
     return @"hoge";
 	
 }
