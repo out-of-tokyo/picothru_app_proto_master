@@ -22,41 +22,38 @@
     UILabel *_namelabel;
     UILabel *_pricelabel;
     UILabel *_countlabel;
-    UIButton *_button;
-    UIButton *_button2;
-    UIButton *_button3;
+    UIButton *_donebutton;
+    UIButton *_subbutton;
+    UIButton *_addbutton;
 	Scanitems *scanitems;
-
-	NSMutableArray *scaned_barcode;
 }
 @end
 
 @implementation ViewController
 NSMutableArray *items;
-NSArray *prodactname;
-NSMutableArray *prodactprice;
 NSMutableArray *namearray;
 NSMutableArray *pricearray;
 NSMutableArray *countarray;
+NSMutableArray *codearray;
 NSInteger labelindex;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
-	scaned_barcode = [NSMutableArray array];
+    //変数初期化処理
+	codearray =[[NSMutableArray array]init];
     namearray = [[NSMutableArray alloc]init];
     pricearray = [[NSMutableArray alloc]init];
 	countarray = [[NSMutableArray alloc]init];
     labelindex = 0;
+    
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
     _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
     _highlightView.layer.borderWidth = 3;
     [self.view addSubview:_highlightView];
     
-	
-	//カメラ起動してなんかやってる
     _session = [[AVCaptureSession alloc] init];
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
@@ -112,67 +109,41 @@ NSInteger labelindex;
     _countlabel.text = @"0";
     [self.view addSubview:_countlabel];
 
-	
-    // 会計終了ボタン
-    _button = [[UIButton alloc] init];
-    _button.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    _button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _button.backgroundColor = [UIColor greenColor];
-    [ _button setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ _button setTitle:@"確認&決済" forState:UIControlStateNormal ];
-    _button.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [_button addTarget:self action:@selector(hoge:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_button];
+    _donebutton = [[UIButton alloc] init];
+    _donebutton.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
+    _donebutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _donebutton.backgroundColor = [UIColor greenColor];
+    [ _donebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+    [ _donebutton setTitle:@"確認&決済" forState:UIControlStateNormal ];
+    _donebutton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [_donebutton addTarget:self action:@selector(hoge:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_donebutton];
     
-    _button2 = [[UIButton alloc] init];
-    _button2.frame = CGRectMake(200, self.view.bounds.size.height - 110, 20, 20);
-    _button2.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _button2.tintColor = [UIColor whiteColor];
-    [ _button2 setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ _button2 setTitle:@"-" forState:UIControlStateNormal ];
-    _button2.layer.cornerRadius = 10;
-    _button2.layer.borderColor = [UIColor whiteColor].CGColor;
-    _button2.layer.borderWidth = 1;
-    _button2.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [_button2 addTarget:self action:@selector(hoge2:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_button2];
+    _subbutton = [[UIButton alloc] init];
+    _subbutton.frame = CGRectMake(200, self.view.bounds.size.height - 110, 20, 20);
+    _subbutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _subbutton.tintColor = [UIColor whiteColor];
+    [ _subbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+    [ _subbutton setTitle:@"-" forState:UIControlStateNormal ];
+    _subbutton.layer.cornerRadius = 10;
+    _subbutton.layer.borderColor = [UIColor whiteColor].CGColor;
+    _subbutton.layer.borderWidth = 1;
+    _subbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [_subbutton addTarget:self action:@selector(hoge2:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_subbutton];
     
-    _button3 = [[UIButton alloc] init];
-    _button3.frame = CGRectMake(260, self.view.bounds.size.height - 110, 20, 20);
-    _button3.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _button3.tintColor = [UIColor whiteColor];
-    [ _button3 setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ _button3 setTitle:@"+" forState:UIControlStateNormal ];
-    _button3.layer.cornerRadius = 10;
-    _button3.layer.borderColor = [UIColor whiteColor].CGColor;
-    _button3.layer.borderWidth = 1;
-    _button3.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [_button3 addTarget:self action:@selector(hoge3:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_button3];
-
-    
-    
-    
-	
-	/////////////queueを作成/////////////
-    //	NSString * queue;
-    //	queue = @"store_id=1&barcode_id=4903326112852";
-    //	[self barcode2product:(queue)];
-    //	queue = @"store_id=2&barcode_id=4903326112853";
-    //	[self barcode2product:(queue)];
-	////////////////////////////////////
-	
-	
-	
-	
-	
-	/////////////ラベル書き換え(Coredata経由)/////////////
-    //	[self new_itemlabel];
-	////////////////////////////////////
-    
-	
-	
-    
+    _addbutton = [[UIButton alloc] init];
+    _addbutton.frame = CGRectMake(260, self.view.bounds.size.height - 110, 20, 20);
+    _addbutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    _addbutton.tintColor = [UIColor whiteColor];
+    [ _addbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+    [ _addbutton setTitle:@"+" forState:UIControlStateNormal ];
+    _addbutton.layer.cornerRadius = 10;
+    _addbutton.layer.borderColor = [UIColor whiteColor].CGColor;
+    _addbutton.layer.borderWidth = 1;
+    _addbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [_addbutton addTarget:self action:@selector(hoge3:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_addbutton];
 }
 
 
@@ -184,13 +155,9 @@ NSInteger labelindex;
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
-	
     NSLog(@"array = %@",array);
 	
-	//値の代入
-    labelindex++;
-	scanitems = [Scanitems MR_createEntity];
-    scanitems.prodacts = response;
+    //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
     NSString *price = [array valueForKeyPath:@"price"];
     [namearray addObject:name];
@@ -198,65 +165,13 @@ NSInteger labelindex;
 	[countarray addObject:[NSNumber numberWithInteger:1]];
 	NSLog(@"scanitems.number = %@",namearray[labelindex]);
 	NSLog(@"scanitems.prices = %@",pricearray[labelindex]);
-	
-	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-    [context MR_saveNestedContexts];
-    
-	
 	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
     _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
     _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+    labelindex++;
     return @"hoge";
 	
 }
-
-- (NSString *)new_itemlabel
-{
-	//Coredata呼び出し
-	id delegate = [[UIApplication sharedApplication] delegate];
-	self.managedObjectContext = [delegate managedObjectContext];
-	NSManagedObjectContext *moc = [self managedObjectContext];
-	NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
-	[fetchrequest setEntity:d];
-    NSError *error_coredata = nil;
-	
-	//呼び出したCoredata格納
-	NSArray *list;
-    list = [moc executeFetchRequest:fetchrequest error:&error_coredata];
-	
-	//呼び出したCoredata分割格納
-	//	NSLog(@"list##########%@##########",list);
-    //	NSString *names = [[list valueForKeyPath:@"names"] objectAtIndex:0];
-    //	NSString *prices = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
-    //	NSString *number = [[list valueForKeyPath:@"number"] objectAtIndex:0];
-	NSString *names = [list valueForKeyPath:@"names"];
-	NSString *prices = [list valueForKeyPath:@"prices"];
-	NSString *number = [list valueForKeyPath:@"number"];
-	//	NSString *names = @"hoge";
-	//	NSString *prices = @"foo";
-	//	NSString *number = @"bar";
-	//	NSArray *names = [list valueForKeyPath:@"names"];
-	//	NSArray *prices = [list valueForKeyPath:@"prices"];
-	//	NSArray *number = [list valueForKeyPath:@"number"];
-	
-	//現在スキャン済みとされている商品一覧
-	NSLog(@"names: %@",[[list valueForKeyPath:@"names"] description]);
-	NSLog(@"prices: %@",[[list valueForKeyPath:@"prices"] description]);
-	NSLog(@"number: %@",[[list valueForKeyPath:@"number"] description]);
-	
-	
-    _namelabel.text = [NSString stringWithFormat:@"%@", names];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", prices];
-    _countlabel.text = [NSString stringWithFormat:@"%@", number];
-
-    
-	//_namelabel.text = [NSString stringWithFormat:@"%@ %@円 %@点", names, prices, number];
-    
-	return @"foo";
-}
-
-
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
@@ -280,30 +195,18 @@ NSInteger labelindex;
 		//バーコードスキャン成功したら商品を取得して保存
         if (detectionString != nil)
         {
-			NSLog(@"###############barcode: %@#################",detectionString);
-			//だみーバーコード値
+			//ダミーコード
 			detectionString = @"store_id=1&barcode_id=4903326112852";
-			
-			
-			NSLog(@"scaned_barcode: %@",scaned_barcode);
-			NSLog(@"detectionString: %@",detectionString);
-			if(![scaned_barcode containsObject:detectionString]){//重複しなかった場合
+			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
-				NSLog(@"scaned_barcode: %@",scaned_barcode);
-				NSLog(@"detectionString: %@",detectionString);
-				[scaned_barcode addObject:detectionString];
-				NSLog(@"scaned_barcode: %@",scaned_barcode);
-				NSLog(@"detectionString: %@",detectionString);
-
-				NSLog(@"scaned_barcode[0]: %@",[scaned_barcode objectAtIndex:0]);
-				//バーコード値から商品情報をCoredataに保存
+                [codearray addObject:detectionString];
+				//バーコード値から商品情報を保存する関数を呼び出す
 				[self barcode2product:detectionString];
-				
-			}
-			
+			}else{
+                [NSThread sleepForTimeInterval:0.5];
+            }
 			//バーコード値をリセット
 			detectionString = nil;
-			
             break;
         }
     }
@@ -312,16 +215,17 @@ NSInteger labelindex;
 }
 
 -(void)hoge:(UIButton*)button{
-    //Scanitems* scanitems = [Scanitems MR_createEntity];
-    //NSData *itemsData = [NSKeyedArchiver archivedDataWithRootObject:items];
-    //NSData *nameData = [NSKeyedArchiver archivedDataWithRootObject:prodactname];
-    //NSData *priceData = [NSKeyedArchiver archivedDataWithRootObject:prodactprice];
-    //scanitems.prodacts = itemsData;
-    //scanitems.names = nameData;
-    //scanitems.prices = priceData;
-    //	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-    //    [context MR_saveNestedContexts];
-    
+    NSData *namesdata = [NSKeyedArchiver archivedDataWithRootObject:namearray];
+    NSData *pricesdata = [NSKeyedArchiver archivedDataWithRootObject:pricearray];
+    NSData *countsdata = [NSKeyedArchiver archivedDataWithRootObject:countarray];
+    NSData *codesdata = [NSKeyedArchiver archivedDataWithRootObject:codearray];
+    scanitems = [Scanitems MR_createEntity];
+    scanitems.names = namesdata;
+    scanitems.prices = pricesdata;
+    scanitems.counts = countsdata;
+    scanitems.codes = codesdata;
+    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
+    [context MR_saveNestedContexts];
     ConTableViewController *conTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ctv"];
     [self presentViewController:conTableViewController animated:YES completion:nil];
 }

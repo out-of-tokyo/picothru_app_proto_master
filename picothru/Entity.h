@@ -2,7 +2,7 @@
 //  Entity.h
 //  picothru
 //
-//  Created by 谷村元気 on 2014/09/18.
+//  Created by Masaru Iwasa on 2014/09/20.
 //  Copyright (c) 2014年 Masaru. All rights reserved.
 //
 
@@ -12,9 +12,10 @@
 
 @interface Scanitems : NSManagedObject
 
-@property (nonatomic, retain) NSString * names;
-@property (nonatomic, retain) NSNumber * number;
-@property (nonatomic, retain) NSNumber * prices;
+@property (nonatomic, retain) NSData * names;
+@property (nonatomic, retain) NSData * counts;
+@property (nonatomic, retain) NSData * prices;
 @property (nonatomic, retain) NSData * prodacts;
+@property (nonatomic, retain) NSData * codes;
 
 @end

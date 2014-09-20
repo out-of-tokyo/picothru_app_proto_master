@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA09432619CAA15500F065D8 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = AA09432519CAA15500F065D8 /* Entity.m */; };
+		DF7F5A4819CD163D0042F00F /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4719CD163D0042F00F /* Entity.m */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
 		DFBBE26519BF7228007F65AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26419BF7228007F65AD /* CoreGraphics.framework */; };
 		DFBBE26719BF7228007F65AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26619BF7228007F65AD /* UIKit.framework */; };
@@ -48,9 +48,9 @@
 /* Begin PBXFileReference section */
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA09432319CA958B00F065D8 /* picothru 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "picothru 2.xcdatamodel"; sourceTree = "<group>"; };
-		AA09432419CAA15500F065D8 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		AA09432519CAA15500F065D8 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		DF7F5A4619CD163D0042F00F /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		DF7F5A4719CD163D0042F00F /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		DFBBE25F19BF7228007F65AD /* picothru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = picothru.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFBBE26219BF7228007F65AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DFBBE26419BF7228007F65AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -153,8 +153,8 @@
 			children = (
 				DFCE225019C28D1D00BF4128 /* Payment.h */,
 				DFCE225119C28D1D00BF4128 /* Payment.m */,
-				AA09432419CAA15500F065D8 /* Entity.h */,
-				AA09432519CAA15500F065D8 /* Entity.m */,
+				DF7F5A4619CD163D0042F00F /* Entity.h */,
+				DF7F5A4719CD163D0042F00F /* Entity.m */,
 				DFCE221919C0BCD700BF4128 /* picothru.xcdatamodeld */,
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
@@ -342,13 +342,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA09432619CAA15500F065D8 /* Entity.m in Sources */,
 				DFCE224C19C283F700BF4128 /* CardViewController.m in Sources */,
 				DFBBE27C19BF7228007F65AD /* ViewController.m in Sources */,
 				DFCE225219C28D1D00BF4128 /* Payment.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
 				DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
+				DF7F5A4819CD163D0042F00F /* Entity.m in Sources */,
 				DFCE221519C0BA9800BF4128 /* ConTableViewController.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,
 			);
