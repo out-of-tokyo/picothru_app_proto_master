@@ -237,7 +237,7 @@ NSInteger labelindex;
         if (detectionString != nil)
         {
 			//ダミーコード
-			detectionString = @"becon_id=beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852";
+			detectionString = @"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852";
 			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
