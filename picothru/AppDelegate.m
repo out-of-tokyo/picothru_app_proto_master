@@ -13,6 +13,9 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
+@synthesize products = _products;
+
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -22,6 +25,10 @@
 	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
 	[context MR_saveNestedContexts];
     [WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
+	
+	// スキャンしたデータの初期化
+	self.products = [[NSMutableArray alloc] init];
+	
     return YES;
 }
 							
@@ -146,6 +153,60 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+//　スキャンしたアイテムの総数を返す
+- (int)getCount
+{
+	return (int)[_products count];
+}
+
+//　スキャンしたアイテムを格納
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price
+{
+	NSMutableDictionary * product = [NSMutableDictionary dictionary];
+	[product setObject:name forKey:@"name"];
+	[product setObject:price forKey:@"price"];
+	[product setObject:@"1" forKey:@"number"];
+	
+	NSLog(@"NSMutableDictionary: %@",product);
+	
+
+	[_products addObject:product];
+	NSLog(@"_products: %@",_products);
+	return @"Success";
+}
+
+// スキャンしたアイテムを出力
+- (NSDictionary *)getScanedProduct:(int)scanedNumber
+{
+	NSLog(@"products: %@",_products);
+	
+	return [_products objectAtIndex:scanedNumber];
+}
+
+- (NSString *)subNumber:(int)scanedNumber
+{
+	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
+	int num = str.intValue;
+	//もとの数値が0より大きければ引いて値を更新する
+	if(num >0){
+		num--;
+		[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		return [NSString stringWithFormat:@"%d", num];
+	}else{
+		return @"0";
+	}
+	
+
+}
+- (NSString *)addNumber:(int)scanedNumber
+{
+	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
+	int num = str.intValue;
+	num++;
+	[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		return [NSString stringWithFormat:@"%d", num];
 }
 
 @end

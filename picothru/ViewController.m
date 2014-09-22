@@ -11,6 +11,7 @@
 #import "ConTableViewController.h"
 #import "Entity.h"
 #import "ConViewController.h"
+#import "AppDelegate.h"
 
 @interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -29,28 +30,23 @@
     UIButton *_nextbutton;
     UIButton *_prebutton;
 	Scanitems *scanitems;
+	AppDelegate *appDelegate;
 }
 @end
 
 @implementation ViewController
-NSMutableArray *items;
-NSMutableArray *namearray;
-NSMutableArray *pricearray;
-NSMutableArray *countarray;
 NSMutableArray *codearray;
-NSArray *list;
 NSInteger labelindex;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+	//デリゲート生成
+	appDelegate = [[UIApplication sharedApplication] delegate];
+	
     //変数初期化処理
 	codearray =[[NSMutableArray array]init];
-    namearray = [[NSMutableArray alloc]init];
-    pricearray = [[NSMutableArray alloc]init];
-	countarray = [[NSMutableArray alloc]init];
-    list = [[NSArray alloc]init];
     labelindex = -1;
     
     _highlightView = [[UIView alloc] init];
@@ -169,32 +165,8 @@ NSInteger labelindex;
     _nextbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_nextbutton];
-    
-    //coredataの読み込み
-    id delegate = [[UIApplication sharedApplication] delegate];
-    self.managedObjectContext = [delegate managedObjectContext];
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
-    [fetchrequest setEntity:d];
-    list = [moc executeFetchRequest:fetchrequest error:nil];
-    if(list){
-        NSArray *array = [list valueForKeyPath:@"names"];
-        if ([array count] > 0) {
-            namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
-            pricearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"prices"]];
-            countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
-            codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
-			labelindex = [array count]-1;
-			_namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-			_pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-			_countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
-
-        }
-    }
-//    [self barcode2product:@"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852"];
+	
 }
-
 
 - (NSString *)barcode2product:(NSString *)queue
 {
@@ -207,16 +179,14 @@ NSInteger labelindex;
     //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
     NSString *price = [array valueForKeyPath:@"price"];
-    NSLog(@"%@",name);
-    [namearray addObject:name];
-    [pricearray addObject:price];
-	[countarray addObject:[NSNumber numberWithInteger:1]];
-    NSInteger newindex = [namearray count]-1;
-	_namelabel.text = [NSString stringWithFormat:@"%@", namearray[newindex]];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[newindex]];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[newindex]];
-    labelindex++;
-    return @"hoge";
+
+	// 値をDelegateの配列に格納
+	[appDelegate setScanedProduct:name andPrice:price];
+	_namelabel.text = [NSString stringWithFormat:@"%@", name];
+    _pricelabel.text = [NSString stringWithFormat:@"%@円", price];
+    _countlabel.text = @"1";
+
+	return @"hoge";
 	
 }
 
@@ -259,53 +229,42 @@ NSInteger labelindex;
     _highlightView.frame = highlightViewRect;
 }
 
+//画面遷移ボタン
 -(void)gotoctv:(UIButton*)button{
-    NSData *namesdata = [NSKeyedArchiver archivedDataWithRootObject:namearray];
-    NSData *pricesdata = [NSKeyedArchiver archivedDataWithRootObject:pricearray];
-    NSData *countsdata = [NSKeyedArchiver archivedDataWithRootObject:countarray];
-    NSData *codesdata = [NSKeyedArchiver archivedDataWithRootObject:codearray];
-    scanitems = [Scanitems MR_createEntity];
-    scanitems.names = namesdata;
-    scanitems.prices = pricesdata;
-    scanitems.counts = countsdata;
-    scanitems.codes = codesdata;
-	
-	NSLog(@"scanitems.names: %@",[NSKeyedUnarchiver unarchiveObjectWithData:scanitems.names]);
-	
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-    [context MR_saveNestedContexts];
-    ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
+	ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
     [self presentViewController:conViewController animated:YES completion:nil];
 }
+
+//個数減らすボタン
 -(void)subcount:(UIButton*)button{
-	int tmp = [countarray[labelindex]intValue] - 1;
-    if (tmp >= 0) {
-    NSNumber *tmpnum = [[NSNumber alloc] initWithInt:tmp];
-    [countarray replaceObjectAtIndex:labelindex withObject:tmpnum];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
-    }
+	// 一番最近スキャンした商品の個数を1減らす
+	NSString * presenceNumber = [appDelegate getScanedProduct:[appDelegate getCount]-1][@"number"];
+	NSString * updatedNumber = [appDelegate subNumber:presenceNumber.intValue];
+	_countlabel.text = updatedNumber;
 }
+
 -(void)addcount:(UIButton*)button{
-    int tmp = [countarray[labelindex]intValue] + 1;
-    NSNumber *tmpnum = [[NSNumber alloc] initWithInt:tmp];
-    [countarray replaceObjectAtIndex:labelindex withObject:tmpnum];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+	NSString * presenceNumber = [appDelegate getScanedProduct:[appDelegate getCount]-1][@"number"];
+	NSString * updatedNumber = [appDelegate addNumber:presenceNumber.intValue];
+	_countlabel.text = updatedNumber;
+
 }
+
 -(void)subindex:(UIButton*)button{
     if(labelindex > 0){
     labelindex --;
-    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+//    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
+//    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
+//    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
     }
 }
 -(void)addindex:(UIButton*)button{
-    if(labelindex > [namearray count]){
-    labelindex ++;
-    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
-    }
+//    if(labelindex > [namearray count]){
+//    labelindex ++;
+//    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
+//    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
+//    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
+//    }
 }
 
 @end

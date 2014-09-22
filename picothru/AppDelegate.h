@@ -13,6 +13,16 @@
 @property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSMutableArray *products;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
+// スキャンしたデータをいじる関数
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price;
+- (NSDictionary *)getScanedProduct:(int)scanedNumber;
+- (int)getCount;
+- (NSString *)subNumber:(int)scanedNumber;
+- (NSString *)addNumber:(int)scanedNumber;
+
 @end
