@@ -29,17 +29,21 @@
     UIButton *_addbutton;
     UIButton *_nextbutton;
     UIButton *_prebutton;
-	Scanitems *scanitems;
 	AppDelegate *appDelegate;
+	
+	
 	
 	//iBeacon
 	NSString * beaconId;
+
 }
 @end
 
 @implementation ViewController
+//バーコードスキャン履歴
 NSMutableArray *codearray;
-NSInteger labelindex;
+//商品履歴ラベルの位置
+int labelindex;
 
 - (void)viewDidLoad
 {
@@ -53,8 +57,7 @@ NSInteger labelindex;
 	
     //変数初期化処理
 	codearray =[[NSMutableArray array]init];
-    labelindex = -1;
-    
+	
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
     _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
@@ -171,7 +174,15 @@ NSInteger labelindex;
     _nextbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_nextbutton];
-	
+
+	// ラベル書き換え処理
+	if([appDelegate getCount] > 0){
+		NSLog(@"label index UPDATE: %d",labelindex);
+		labelindex = [appDelegate getCount]-1;
+		[self labelUpdate];
+		
+		NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
+	}
 }
 
 - (NSString *)barcode2product:(NSString *)queue
@@ -188,11 +199,8 @@ NSInteger labelindex;
 
 	// 値をDelegateの配列に格納
 	[appDelegate setScanedProduct:name andPrice:price];
-	_namelabel.text = [NSString stringWithFormat:@"%@", name];
-    _pricelabel.text = [NSString stringWithFormat:@"%@円", price];
-    _countlabel.text = @"1";
 
-	return @"hoge";
+	return @"Success";
 	
 }
 
@@ -226,6 +234,9 @@ NSInteger labelindex;
                 [codearray addObject:detectionString];
 				//バーコード値から商品情報を保存する関数を呼び出す
 				[self barcode2product:detectionString];
+				//ラベルを更新
+				labelindex = [appDelegate getCount]-1;
+				[self labelUpdate];
 			}
 
 			//バーコード値をリセット
@@ -234,6 +245,18 @@ NSInteger labelindex;
         }
     }
     _highlightView.frame = highlightViewRect;
+}
+
+//labelindexの位置にある商品のラベルを更新する
+- (void)labelUpdate
+{
+	NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
+	_namelabel.text = [appDelegate getName:labelindex];
+	NSLog(@"[labelUpdate]labelindex: %d",labelindex);
+	NSLog(@"_namelabel.text: %@",_namelabel.text);
+	NSLog(@"products: %@",[appDelegate getScanedProduct:labelindex]);
+	_pricelabel.text = [appDelegate getPrice:labelindex];
+	_countlabel.text = [appDelegate getNumber:labelindex];
 }
 
 //画面遷移ボタン
@@ -245,37 +268,38 @@ NSInteger labelindex;
 //個数減らすボタン
 -(void)subcount:(UIButton*)button{
 	// 一番最近スキャンした商品の個数を1減らす
-	NSString * updatedNumber = [appDelegate subNumber:[appDelegate getCount]-1];
+	NSString * updatedNumber = [appDelegate subNumber:labelindex];
 	if([updatedNumber isEqualToString:@"0"]){
-		_namelabel.text = @"";
-		_pricelabel.text = @"";
+		//個数がゼロになったら最新商品に移動
+		if([appDelegate getCount]>0){
+			labelindex = [appDelegate getCount]-1;
+			[self labelUpdate];
+		}else{//最新商品が無い場合
+			labelindex = 0;
+			_namelabel.text = @"";
+			_pricelabel.text = @"";
+			_countlabel.text = @"";
+		}
 	}
-	_countlabel.text = updatedNumber;
 }
 //個数増やすボタン
 -(void)addcount:(UIButton*)button{
-	NSString * updatedNumber = [appDelegate addNumber:[appDelegate getCount]-1];
-	_countlabel.text = updatedNumber;
-
+	[appDelegate addNumber:[appDelegate getCount]-1];
+	[self labelUpdate];
 }
-
 
 //以下未実装
 -(void)subindex:(UIButton*)button{
     if(labelindex > 0){
-    labelindex --;
-//    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-//    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-//    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
-    }
+		labelindex --;
+		[self labelUpdate];
+	}
 }
 -(void)addindex:(UIButton*)button{
-//    if(labelindex > [namearray count]){
-//    labelindex ++;
-//    _namelabel.text = [NSString stringWithFormat:@"%@", namearray[labelindex]];
-//    _pricelabel.text = [NSString stringWithFormat:@"%@円", pricearray[labelindex]];
-//    _countlabel.text = [NSString stringWithFormat:@"%@", countarray[labelindex]];
-//    }
+    if(labelindex+1 < [appDelegate getCount]){
+		labelindex ++;
+		[self labelUpdate];
+	}
 }
 
 @end
