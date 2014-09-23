@@ -146,7 +146,7 @@ AppDelegate *appDelegate;
     [self presentViewController:CardViewController animated:YES completion:nil];
     }else{
         [self createtoken];
-        [self posttoken];
+      //  [self posttoken];
     }
 }
 
