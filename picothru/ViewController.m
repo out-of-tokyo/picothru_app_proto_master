@@ -241,7 +241,7 @@ int labelindex;
 
 //画面遷移ボタン
 -(void)gotoctv:(UIButton *)button{
-	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
+	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
     [self presentViewController:purchaseViewController animated:YES completion:nil];
 }
 
