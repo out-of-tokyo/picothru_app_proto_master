@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "ConTableViewController.h"
 #import "Entity.h"
-#import "ConViewController.h"
+#import "PurchaseViewController.h"
 #import "AppDelegate.h"
 
 @interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
@@ -243,8 +243,8 @@ int labelindex;
 
 //画面遷移ボタン
 -(void)gotoctv:(UIButton*)button{
-	ConViewController *conViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
-    [self presentViewController:conViewController animated:YES completion:nil];
+	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
+    [self presentViewController:purchaseViewController animated:YES completion:nil];
 }
 
 //個数減らすボタン

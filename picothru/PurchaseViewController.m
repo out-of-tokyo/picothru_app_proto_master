@@ -1,12 +1,12 @@
 //
-//  ConViewController.m
+//  PurchaseViewController.m
 //  picothru
 //
 //  Created by 谷村元気 on 2014/09/20.
 //  Copyright (c) 2014年 Masaru. All rights reserved.
 //
 
-#import "ConViewController.h"
+#import "PurchaseViewController.h"
 #import "ViewController.h"
 #import "Entity.h"
 #import "Payment.h"
@@ -15,11 +15,11 @@
 #import "Webpay.h"
 #import "AppDelegate.h"
 
-@interface ConViewController ()
+@interface PurchaseViewController ()
 
 @end
 
-@implementation ConViewController
+@implementation PurchaseViewController
 NSInteger labelindex;
 NSInteger total;
 NSArray *cardinfo;
