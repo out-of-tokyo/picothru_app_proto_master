@@ -8,7 +8,6 @@
 
 #import "CardViewController.h"
 #import "Webpay.h"
-#import "ConTableViewController.h"
 #import "WPYToken.h"
 #import "Payment.h"
 #import "WPYPaymentViewController.h"
@@ -65,8 +64,6 @@ WPYCreditCard *card;
     payment.month = month;
     payment.year = year;
     [context MR_saveNestedContexts];
-    ConTableViewController *conTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ctv"];
-    [self presentViewController:conTableViewController animated:YES completion:nil];
 }
 
 

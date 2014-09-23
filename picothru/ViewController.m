@@ -8,7 +8,6 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "ViewController.h"
-#import "ConTableViewController.h"
 #import "Entity.h"
 #import "PurchaseViewController.h"
 #import "AppDelegate.h"
