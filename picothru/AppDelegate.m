@@ -69,12 +69,12 @@
 }
 
 //　スキャンしたアイテムを格納
-- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price
 {
 	NSMutableDictionary * product = [NSMutableDictionary dictionary];
 	product[@"name"] = name;
 	product[@"price"] = price;
-	product[@"number"] = @"1";
+	product[@"number"] = @1;
 	
 	NSLog(@"NSMutableDictionary: %@",product);
 
@@ -94,9 +94,7 @@
 - (NSString *)subNumber:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	NSLog(@"[_products objectAtIndex:scanedNumber]: %@",_products[scanedNumber]);
-	NSString * str = _products[scanedNumber][@"number"];
-	int num = str.intValue;
+	int num = [_products[scanedNumber][@"number"] integerValue];
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
@@ -111,11 +109,10 @@
 
 - (NSString *)addNumber:(int)scanedNumber
 {
-	NSString * str = _products[scanedNumber][@"number"];
-	int num = str.intValue;
+	int num = [_products[scanedNumber][@"number"] integerValue];
 	num++;
-	_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
-		return [NSString stringWithFormat:@"%d", num];
+	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+		return @"Success";
 }
 
 - (NSString *)getName:(int)scanedNumber
@@ -123,12 +120,12 @@
 	return _products[scanedNumber][@"name"];
 }
 
-- (NSString *)getPrice:(int)scanedNumber
+- (NSNumber *)getPrice:(int)scanedNumber
 {
 	return _products[scanedNumber][@"price"];
 }
 
-- (NSString *)getNumber:(int)scanedNumber
+- (NSNumber *)getNumber:(int)scanedNumber
 {
 	return _products[scanedNumber][@"number"];
 }
