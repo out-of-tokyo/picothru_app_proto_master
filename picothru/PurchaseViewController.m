@@ -25,6 +25,8 @@ NSString *tokenid;
 NSMutableArray *codes;
 NSNumber *beacon_id;
 NSMutableArray *purchase;
+NSDictionary *card_info;
+NSUserDefaults *defaults;
 AppDelegate *appDelegate;
 
 
@@ -80,6 +82,8 @@ AppDelegate *appDelegate;
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
+    
+    defaults = [NSUserDefaults standardUserDefaults];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -89,8 +93,6 @@ AppDelegate *appDelegate;
     for(int i = 0;i < [appDelegate getCount]; i++) {
 		NSInteger tmp = [[appDelegate getPrice:i] integerValue];
 		tmp *= [[appDelegate getNumber:i]integerValue];
-        NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
-        NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
     }
 
@@ -101,7 +103,6 @@ AppDelegate *appDelegate;
     goukei.textColor = [UIColor whiteColor];
     goukei.textAlignment = NSTextAlignmentCenter;
     NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
-    NSLog(@"%ld",(long)total);
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
     goukei.text = totaltxt ;
     [self.view addSubview: goukei];
@@ -109,7 +110,6 @@ AppDelegate *appDelegate;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -139,24 +139,27 @@ AppDelegate *appDelegate;
     [self presentViewController:ViewController animated:YES completion:nil];
 }
 
--(void)register:(UIButton*)button{
-    CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
-    [self presentViewController:CardViewController animated:YES completion:nil];
-}
-
 -(void)done:(UIButton*)button{
-    [self createtoken];
-    [self posttoken];
+    card_info = [defaults dictionaryForKey:@"card_info"];
+    if(card_info == nil){
+        CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
+    [self presentViewController:CardViewController animated:YES completion:nil];
+    }else{
+        [self createtoken];
+        [self posttoken];
+    }
 }
 
 - (void)createtoken{
     // カードモデルを作成し、必要な値を渡し ます
+    NSInteger yearint =[[card_info objectForKey:@"card_year"] integerValue];
+    NSInteger monthint =[[card_info objectForKey:@"card_month"] integerValue];
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    card.number = @"4242424242424242";
-    card.expiryYear = 2015;
-    card.expiryMonth = 12;
-    card.cvc = @"123";
-    card.name = @"TARO YAMADA";
+    card.number = [card_info objectForKey:@"card_number"];
+    card.expiryYear = yearint;
+    card.expiryMonth = monthint;
+    card.cvc = [card_info objectForKey:@"card_cvc"];
+    card.name =[card_info objectForKey:@"card_name"];
     
     // カードモデルとコールバックを渡します
     [WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error){
