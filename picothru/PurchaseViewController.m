@@ -152,12 +152,12 @@ AppDelegate *appDelegate;
 
 - (void)createtoken{
     // カードモデルを作成し、必要な値を渡し ます
-    NSInteger yearint =[[card_info objectForKey:@"card_year"] integerValue];
-    NSInteger monthint =[[card_info objectForKey:@"card_month"] integerValue];
+    NSInteger year =[[card_info objectForKey:@"card_year"] integerValue];
+    NSInteger month =[[card_info objectForKey:@"card_month"] integerValue];
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
     card.number = [card_info objectForKey:@"card_number"];
-    card.expiryYear = yearint;
-    card.expiryMonth = monthint;
+    card.expiryYear = year;
+    card.expiryMonth = month;
     card.cvc = [card_info objectForKey:@"card_cvc"];
     card.name =[card_info objectForKey:@"card_name"];
     

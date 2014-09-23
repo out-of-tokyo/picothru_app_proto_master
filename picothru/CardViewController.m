@@ -55,14 +55,14 @@ WPYCreditCard *card;
     self.button.enabled = YES;
 }
 -(void)donecard:(UIButton *)button{
-    NSString *monthstr = [[NSString alloc]initWithFormat:@"%ld", (long)card.expiryMonth];
-    NSString *yearstr = [[NSString alloc]initWithFormat:@"%ld", (long)card.expiryYear];
+    NSString *month = [[NSString alloc]initWithFormat:@"%ld", (long)card.expiryMonth];
+    NSString *year = [[NSString alloc]initWithFormat:@"%ld", (long)card.expiryYear];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setObject:card.name forKey:@"card_name"];
     [dictionary setObject:card.number forKey:@"card_number"];
     [dictionary setObject:card.cvc forKey:@"card_cvc"];
-    [dictionary setObject:monthstr forKey:@"card_month"];
-    [dictionary setObject:yearstr forKey:@"card_year"];
+    [dictionary setObject:month forKey:@"card_month"];
+    [dictionary setObject:year forKey:@"card_year"];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:dictionary forKey:@"card_info"];
     PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
