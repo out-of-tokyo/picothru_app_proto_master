@@ -39,7 +39,7 @@ WPYCreditCard *card;
     self.button.enabled = NO;
     UINavigationBar *nav = [[UINavigationBar alloc] init];
     nav.frame = CGRectMake(0, 0, 320, 64);
-    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
 }
@@ -54,7 +54,7 @@ WPYCreditCard *card;
     // フォームに入力されたカード情報がバリデーションを通ると呼ばれます
     self.button.enabled = YES;
 }
--(void)donecard:(UIButton*)button{
+-(void)donecard:(UIButton *)button{
     NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     Payment *payment = [Payment MR_createEntity];
     payment.name = card.name;

@@ -32,7 +32,7 @@
 	AppDelegate *appDelegate;
 
 	//iBeacon
-	NSString * beaconId;
+	NSString *beaconId;
 
 }
 @end
@@ -99,9 +99,9 @@ int labelindex;
     _countlabel.frame = CGRectMake(self.view.bounds.size.width * 1/2, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
     _countlabel.text = @"0";
     
-    NSArray* labels =  @[_namelabel, _pricelabel, _countlabel];
+    NSArray *labels =  @[_namelabel, _pricelabel, _countlabel];
     for (int i = 0; i < labels.count; i++) {
-        UILabel* label = labels[i];
+        UILabel *label = labels[i];
         label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
         label.textColor = [UIColor whiteColor];
@@ -150,9 +150,9 @@ int labelindex;
     _nextbutton.layer.backgroundColor= [UIColor whiteColor].CGColor;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray* buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
+    NSArray *buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
     for (int i = 0; i < buttons.count; i++) {
-        UIButton* button = buttons[i];
+        UIButton *button = buttons[i];
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         button.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self.view addSubview:button];
@@ -173,8 +173,8 @@ int labelindex;
 	//バーコード値を投げてデータを格納
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
 
-    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
     //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
@@ -242,15 +242,15 @@ int labelindex;
 }
 
 //画面遷移ボタン
--(void)gotoctv:(UIButton*)button{
+-(void)gotoctv:(UIButton *)button{
 	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"convc"];
     [self presentViewController:purchaseViewController animated:YES completion:nil];
 }
 
 //個数減らすボタン
--(void)subcount:(UIButton*)button{
+-(void)subcount:(UIButton *)button{
 	// 一番最近スキャンした商品の個数を1減らす
-	NSString * updatedNumber = [appDelegate subNumber:labelindex];
+	NSString *updatedNumber = [appDelegate subNumber:labelindex];
 	if([updatedNumber isEqualToString:@"0"]){
 		//個数がゼロになったら最新商品に移動
 		if([appDelegate getCount]>0){
@@ -265,19 +265,19 @@ int labelindex;
 	}
 }
 //個数増やすボタン
--(void)addcount:(UIButton*)button{
+-(void)addcount:(UIButton *)button{
 	[appDelegate addNumber:[appDelegate getCount]-1];
 	[self labelUpdate];
 }
 
 //過去の商品履歴を見るボタン
--(void)subindex:(UIButton*)button{
+-(void)subindex:(UIButton *)button{
     if(labelindex > 0){
 		labelindex --;
 		[self labelUpdate];
 	}
 }
--(void)addindex:(UIButton*)button{
+-(void)addindex:(UIButton *)button{
     if(labelindex+1 < [appDelegate getCount]){
 		labelindex ++;
 		[self labelUpdate];

@@ -188,7 +188,7 @@ AppDelegate *appDelegate;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if(response){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         BOOL loginResult = [array valueForKey:@"status"];
