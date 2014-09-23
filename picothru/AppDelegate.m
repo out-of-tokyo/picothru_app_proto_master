@@ -189,19 +189,22 @@
 
 - (NSString *)subNumber:(int)scanedNumber
 {
+	NSLog(@"products: %@",_products);
+	NSLog(@"[_products objectAtIndex:scanedNumber]: %@",[_products objectAtIndex:scanedNumber]);
 	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
 	int num = str.intValue;
-	//もとの数値が0より大きければ引いて値を更新する
-	if(num >0){
+	NSLog(@"num: %d",num);
+	//もとの数値が1より大きければ引いて値を更新する
+	if(num > 1){
 		num--;
 		[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
 		return [NSString stringWithFormat:@"%d", num];
 	}else{
+		[self deleteProduct:scanedNumber];
 		return @"0";
 	}
-	
-
 }
+
 - (NSString *)addNumber:(int)scanedNumber
 {
 	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
@@ -221,9 +224,15 @@
 	return [_products objectAtIndex:scanedNumber][@"price"];
 }
 
--(NSString *)getNumber:(int)scanedNumber
+- (NSString *)getNumber:(int)scanedNumber
 {
 	return [_products objectAtIndex:scanedNumber][@"number"];
+}
+
+- (NSString *)deleteProduct:(int)scanedNumber
+{
+	[_products removeObjectAtIndex:scanedNumber];
+	return @"Success";
 }
 
 @end

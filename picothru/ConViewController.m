@@ -126,6 +126,7 @@ AppDelegate *appDelegate;
     NSLog(@"prices count = %d",[appDelegate getCount]);
     for(int i = 0;i < [appDelegate getCount]; i++) {
 		NSInteger tmp = [[appDelegate getPrice:i] integerValue];
+		tmp *= [[appDelegate getNumber:i]integerValue];
         NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
         NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
@@ -170,7 +171,6 @@ AppDelegate *appDelegate;
 	cell.prodactname.text = [appDelegate getName:(int)indexPath.row];
     cell.prodactprice.text = [appDelegate getPrice:(int)indexPath.row];
 	cell.prodactcount.text = [appDelegate getNumber:(int)indexPath.row];
-
 	
 	return cell;
 }

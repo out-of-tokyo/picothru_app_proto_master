@@ -32,6 +32,8 @@
 	Scanitems *scanitems;
 	AppDelegate *appDelegate;
 	
+	//iBeacon
+	NSString * beaconId;
 }
 @end
 
@@ -45,6 +47,8 @@ NSInteger labelindex;
 	
 	//デリゲート生成
 	appDelegate = [[UIApplication sharedApplication] delegate];
+	
+	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
 	
 	
     //変数初期化処理
@@ -196,7 +200,8 @@ NSInteger labelindex;
 {
     CGRect highlightViewRect = CGRectZero;
     AVMetadataMachineReadableCodeObject *barCodeObject;
-    NSString *detectionString = nil;
+    NSString *barCode = nil;
+	NSString *detectionString;
     NSArray *barCodeTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
                               AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
                               AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
@@ -207,34 +212,27 @@ NSInteger labelindex;
             {
                 barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
                 highlightViewRect = barCodeObject.bounds;
-                detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+                barCode = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
                 break;
             }
         }
 		//バーコードスキャン成功したら商品を取得して保存
-        if (detectionString != nil)
+        if (barCode != nil)
         {
 			//ダミーコード
-			detectionString = @"beacon_id=D87CEE67-C2C2-44D2-A847-B728CF8BAAAD&barcode_id=4903326112852";
+			detectionString = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
 			if(![codearray containsObject:detectionString]){//重複しなかった場合
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
 				//バーコード値から商品情報を保存する関数を呼び出す
 				[self barcode2product:detectionString];
-
-			
-				for(int i=0;i<[appDelegate getCount];i++){
-					NSLog(@"[All scaned items][%d]: %@", i, [appDelegate getScanedProduct:i]);
-				}
-
 			}
 
 			//バーコード値をリセット
-			detectionString = nil;
+			barCode = nil;
             break;
         }
     }
-    
     _highlightView.frame = highlightViewRect;
 }
 
@@ -247,18 +245,22 @@ NSInteger labelindex;
 //個数減らすボタン
 -(void)subcount:(UIButton*)button{
 	// 一番最近スキャンした商品の個数を1減らす
-	NSString * presenceNumber = [appDelegate getScanedProduct:[appDelegate getCount]-1][@"number"];
-	NSString * updatedNumber = [appDelegate subNumber:presenceNumber.intValue];
+	NSString * updatedNumber = [appDelegate subNumber:[appDelegate getCount]-1];
+	if([updatedNumber isEqualToString:@"0"]){
+		_namelabel.text = @"";
+		_pricelabel.text = @"";
+	}
 	_countlabel.text = updatedNumber;
 }
 //個数増やすボタン
 -(void)addcount:(UIButton*)button{
-	NSString * presenceNumber = [appDelegate getScanedProduct:[appDelegate getCount]-1][@"number"];
-	NSString * updatedNumber = [appDelegate addNumber:presenceNumber.intValue];
+	NSString * updatedNumber = [appDelegate addNumber:[appDelegate getCount]-1];
 	_countlabel.text = updatedNumber;
 
 }
 
+
+//以下未実装
 -(void)subindex:(UIButton*)button{
     if(labelindex > 0){
     labelindex --;
