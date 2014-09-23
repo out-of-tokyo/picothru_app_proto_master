@@ -13,7 +13,4 @@
 @interface PurchaseViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) ViewController *ViewController;
 @property (weak, nonatomic) CardViewController *CardViewController;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
 @end
