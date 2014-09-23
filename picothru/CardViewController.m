@@ -42,7 +42,6 @@ WPYCreditCard *card;
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
-
 }
 
 - (void)didReceiveMemoryWarning

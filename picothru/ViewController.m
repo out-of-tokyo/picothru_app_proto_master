@@ -30,9 +30,7 @@
     UIButton *_nextbutton;
     UIButton *_prebutton;
 	AppDelegate *appDelegate;
-	
-	
-	
+
 	//iBeacon
 	NSString * beaconId;
 
@@ -53,8 +51,7 @@ int labelindex;
 	appDelegate = [[UIApplication sharedApplication] delegate];
 	
 	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
-	
-	
+
     //変数初期化処理
 	codearray =[[NSMutableArray array]init];
 	
@@ -175,7 +172,6 @@ int labelindex;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_nextbutton];
 
-
 	// ラベル書き換え処理
 	if([appDelegate getCount] > 0){
 		NSLog(@"label index UPDATE: %d",labelindex);
@@ -202,7 +198,6 @@ int labelindex;
 	[appDelegate setScanedProduct:name andPrice:price];
 
 	return @"Success";
-	
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection

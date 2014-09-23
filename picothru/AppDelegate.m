@@ -16,11 +16,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize products = _products;
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	
     // Override point for customization after application launch.
     [MagicalRecord setupCoreDataStack];
 	[Scanitems MR_truncateAll];
@@ -172,7 +169,6 @@
 	[product setObject:@"1" forKey:@"number"];
 	
 	NSLog(@"NSMutableDictionary: %@",product);
-	
 
 	[_products addObject:product];
 	NSLog(@"_products: %@",_products);

@@ -50,14 +50,12 @@ AppDelegate *appDelegate;
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
 	[self.view addSubview:tableView];
 	
-	
 	//上のナビゲーションバー
     UINavigationBar *nav = [[UINavigationBar alloc] init];
     nav.frame = CGRectMake(0, 0, 320, 64);
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
-    
     
     // スキャン画面へ遷移ボタン
     UIButton *back = [[UIButton alloc] init];
@@ -84,8 +82,6 @@ AppDelegate *appDelegate;
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
-	
-
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -111,7 +107,6 @@ AppDelegate *appDelegate;
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
     goukei.text = totaltxt ;
     [self.view addSubview: goukei];
-    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -130,7 +125,6 @@ AppDelegate *appDelegate;
 {
     return [appDelegate getCount];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -189,7 +183,6 @@ AppDelegate *appDelegate;
             NSLog(@"error:%@", [error localizedDescription]);
         }
     }];
-    
 }
 
 - (void)posttoken{
@@ -248,6 +241,7 @@ AppDelegate *appDelegate;
         [self errormessage];
     }
 }
+
 -(void)errormessage{
     UIAlertView *alert =
     [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
