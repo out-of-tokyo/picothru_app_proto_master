@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DF7F5A4819CD163D0042F00F /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4719CD163D0042F00F /* Entity.m */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
@@ -27,11 +26,9 @@
 		DFBBE29B19BF724B007F65AD /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = DFBBE29A19BF724B007F65AD /* Podfile */; };
 		DFCE221019C056CE00BF4128 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCE220F19C056CE00BF4128 /* AVFoundation.framework */; };
 		DFCE221219C06F0700BF4128 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCE221119C06F0700BF4128 /* QuartzCore.framework */; };
-		DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFCE221919C0BCD700BF4128 /* picothru.xcdatamodeld */; };
 		DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */; };
 		DFCE222919C0D39B00BF4128 /* ListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */; };
 		DFCE224C19C283F700BF4128 /* CardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCE224B19C283F700BF4128 /* CardViewController.m */; };
-		DFCE225219C28D1D00BF4128 /* Payment.m in Sources */ = {isa = PBXBuildFile; fileRef = DFCE225119C28D1D00BF4128 /* Payment.m */; };
 		EA0F5B8A4738406C8C238B77 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C268A5914B1410D972E7F91 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -47,10 +44,7 @@
 
 /* Begin PBXFileReference section */
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA09432319CA958B00F065D8 /* picothru 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "picothru 2.xcdatamodel"; sourceTree = "<group>"; };
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		DF7F5A4619CD163D0042F00F /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		DF7F5A4719CD163D0042F00F /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
 		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
 		DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -76,14 +70,11 @@
 		DFBBE29A19BF724B007F65AD /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		DFCE220F19C056CE00BF4128 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DFCE221119C06F0700BF4128 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DFCE221A19C0BCD700BF4128 /* picothru.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = picothru.xcdatamodel; sourceTree = "<group>"; };
 		DFCE222519C0D39B00BF4128 /* ListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewCell.h; sourceTree = "<group>"; };
 		DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewCell.m; sourceTree = "<group>"; };
 		DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListTableViewCell.xib; sourceTree = "<group>"; };
 		DFCE224A19C283F700BF4128 /* CardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardViewController.h; sourceTree = "<group>"; };
 		DFCE224B19C283F700BF4128 /* CardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardViewController.m; sourceTree = "<group>"; };
-		DFCE225019C28D1D00BF4128 /* Payment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Payment.h; sourceTree = "<group>"; };
-		DFCE225119C28D1D00BF4128 /* Payment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Payment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,11 +142,6 @@
 		DFBBE26819BF7228007F65AD /* picothru */ = {
 			isa = PBXGroup;
 			children = (
-				DFCE225019C28D1D00BF4128 /* Payment.h */,
-				DFCE225119C28D1D00BF4128 /* Payment.m */,
-				DF7F5A4619CD163D0042F00F /* Entity.h */,
-				DF7F5A4719CD163D0042F00F /* Entity.m */,
-				DFCE221919C0BCD700BF4128 /* picothru.xcdatamodeld */,
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
@@ -344,12 +330,9 @@
 			files = (
 				DFCE224C19C283F700BF4128 /* CardViewController.m in Sources */,
 				DFBBE27C19BF7228007F65AD /* ViewController.m in Sources */,
-				DFCE225219C28D1D00BF4128 /* Payment.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
-				DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */,
 				DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
-				DF7F5A4819CD163D0042F00F /* Entity.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,20 +560,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		DFCE221919C0BCD700BF4128 /* picothru.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				AA09432319CA958B00F065D8 /* picothru 2.xcdatamodel */,
-				DFCE221A19C0BCD700BF4128 /* picothru.xcdatamodel */,
-			);
-			currentVersion = AA09432319CA958B00F065D8 /* picothru 2.xcdatamodel */;
-			path = picothru.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = DFBBE25719BF7228007F65AD /* Project object */;
 }

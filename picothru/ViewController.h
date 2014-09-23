@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Entity.h"
 
 @interface ViewController : UIViewController
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
 @end

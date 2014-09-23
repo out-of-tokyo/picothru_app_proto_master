@@ -54,16 +54,7 @@ WPYCreditCard *card;
     self.button.enabled = YES;
 }
 -(void)donecard:(UIButton *)button{
-    NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-    Payment *payment = [Payment MR_createEntity];
-    payment.name = card.name;
-    payment.number = card.number;
-    payment.cvc = card.cvc;
-    NSNumber *month = [[NSNumber alloc]initWithInteger:card.expiryMonth];
-    NSNumber *year = [[NSNumber alloc]initWithInteger:card.expiryYear];
-    payment.month = month;
-    payment.year = year;
-    [context MR_saveNestedContexts];
+    
 }
 
 

@@ -8,8 +8,6 @@
 
 #import "PurchaseViewController.h"
 #import "ViewController.h"
-#import "Entity.h"
-#import "Payment.h"
 #import "ListTableViewCell.h"
 #import "CardViewController.h"
 #import "Webpay.h"
@@ -133,7 +131,6 @@ AppDelegate *appDelegate;
 	cell.prodactname.text = [appDelegate getName:(int)indexPath.row];
     cell.prodactprice.text = [appDelegate getPrice:(int)indexPath.row];
 	cell.prodactcount.text = [appDelegate getNumber:(int)indexPath.row];
-	
 	return cell;
 }
 
@@ -196,7 +193,6 @@ AppDelegate *appDelegate;
             UIAlertView *alert =
             [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
             [alert show];
-            [Scanitems MR_truncateAll];
             ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
             [self presentViewController:ViewController animated:YES completion:nil];
         }else{

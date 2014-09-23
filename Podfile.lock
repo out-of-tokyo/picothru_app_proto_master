@@ -20,9 +20,6 @@ PODS:
   - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - MagicalRecord (2.2):
-    - MagicalRecord/Core
-  - MagicalRecord/Core (2.2)
   - WebPay (1.0.4)
   - ZXingObjC (3.0.3):
     - ZXingObjC/All
@@ -30,13 +27,11 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - MagicalRecord
   - WebPay (~> 1.0.4)
   - ZXingObjC
 
 SPEC CHECKSUMS:
   AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
-  MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   WebPay: dd2c20b120429dd3943af4c5cae484eb9d010ebe
   ZXingObjC: 1eebdf4334b7de660ae42ddd23bd97b6d777b07d
 
