@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DF7F5A4819CD163D0042F00F /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4719CD163D0042F00F /* Entity.m */; };
-		DF7F5A4B19CD99D40042F00F /* ConViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* ConViewController.m */; };
+		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
 		DFBBE26519BF7228007F65AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26419BF7228007F65AD /* CoreGraphics.framework */; };
@@ -51,8 +51,8 @@
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DF7F5A4619CD163D0042F00F /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		DF7F5A4719CD163D0042F00F /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
-		DF7F5A4919CD99D40042F00F /* ConViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConViewController.h; sourceTree = "<group>"; };
-		DF7F5A4A19CD99D40042F00F /* ConViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConViewController.m; sourceTree = "<group>"; };
+		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
+		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
 		DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		DFBBE25F19BF7228007F65AD /* picothru.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = picothru.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFBBE26219BF7228007F65AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -163,8 +163,8 @@
 				DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */,
 				DFBBE27A19BF7228007F65AD /* ViewController.h */,
 				DFBBE27B19BF7228007F65AD /* ViewController.m */,
-				DF7F5A4919CD99D40042F00F /* ConViewController.h */,
-				DF7F5A4A19CD99D40042F00F /* ConViewController.m */,
+				DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */,
+				DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */,
 				DFCE222519C0D39B00BF4128 /* ListTableViewCell.h */,
 				DFCE222619C0D39B00BF4128 /* ListTableViewCell.m */,
 				DFCE224A19C283F700BF4128 /* CardViewController.h */,
@@ -347,7 +347,7 @@
 				DFCE225219C28D1D00BF4128 /* Payment.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
 				DFCE221B19C0BCD700BF4128 /* picothru.xcdatamodeld in Sources */,
-				DF7F5A4B19CD99D40042F00F /* ConViewController.m in Sources */,
+				DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
 				DF7F5A4819CD163D0042F00F /* Entity.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,

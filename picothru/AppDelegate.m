@@ -16,16 +16,11 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize products = _products;
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	
     // Override point for customization after application launch.
     [MagicalRecord setupCoreDataStack];
 	[Scanitems MR_truncateAll];
-//	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-//	[context MR_saveNestedContexts];
     [WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
 	
 	// スキャンしたデータの初期化
@@ -172,7 +167,6 @@
 	[product setObject:@"1" forKey:@"number"];
 	
 	NSLog(@"NSMutableDictionary: %@",product);
-	
 
 	[_products addObject:product];
 	NSLog(@"_products: %@",_products);

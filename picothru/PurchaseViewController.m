@@ -1,41 +1,38 @@
 //
-//  ConTableViewController.m
+//  PurchaseViewController.m
 //  picothru
 //
-//  Created by Masaru Iwasa on 2014/09/11.
+//  Created by 谷村元気 on 2014/09/20.
 //  Copyright (c) 2014年 Masaru. All rights reserved.
 //
 
-#import "ConTableViewController.h"
+#import "PurchaseViewController.h"
 #import "ViewController.h"
 #import "Entity.h"
 #import "Payment.h"
 #import "ListTableViewCell.h"
 #import "CardViewController.h"
 #import "Webpay.h"
+#import "AppDelegate.h"
 
-@interface ConTableViewController ()
+@interface PurchaseViewController ()
 
 @end
 
-@implementation ConTableViewController
-
-NSArray *list;
-NSMutableArray *names;
-NSMutableArray *prices;
-NSMutableArray *numbers;
+@implementation PurchaseViewController
+NSInteger labelindex;
 NSInteger total;
 NSArray *cardinfo;
 NSString *tokenid;
 NSMutableArray *codes;
 NSNumber *beacon_id;
 NSMutableArray *purchase;
-int i;
+AppDelegate *appDelegate;
 
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -45,45 +42,24 @@ int i;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //coredataの読み込み
-    id delegate = [[UIApplication sharedApplication] delegate];
-    self.managedObjectContext = [delegate managedObjectContext];
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
-    [fetchrequest setEntity:d];
-    NSError *error = nil;
-    list = [moc executeFetchRequest:fetchrequest error:&error];
-    names = [list valueForKeyPath:@"names"];
-    prices = [list valueForKeyPath:@"prices"];
-    numbers = [list valueForKeyPath:@"number"];
-    //codes = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"scanedcodes"]];
-    //    names = [NSArray arrayWithObjects:@"ゴリラのはなくそ", @"ぷりん", @"生しらす", nil];
-    //    prices = [NSArray arrayWithObjects:@"100", @"150", @"50", nil];
-    //  NSLog(@"%@",list);
-    
-    //  NSLog(@"###################names: %@#####################",[list valueForKeyPath:@"names"]);
-    //  NSLog(@"###################prices: %@#####################",[list valueForKeyPath:@"prices"]);
-    
-    //  NSArray * temp_n = [list valueForKeyPath:@"names"];
-    //  NSString * temp_p = [[list valueForKeyPath:@"prices"] objectAtIndex:0];
-    //  NSLog(@"%@, %@",temp_n,temp_p);
-    
-    //    names = [NSArray arrayWithObjects:temp_n, nil];
-    //    prices = [NSArray arrayWithObjects:temp_p, nil];
-    
-    //  NSLog(@"name: %@, prices: %@",names,prices);
-    
+
+	//デリゲート生成
+	appDelegate = [[UIApplication sharedApplication] delegate];
+		
+	// テーブル定義、位置指定
+	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
+	[self.view addSubview:tableView];
+	
+	//上のナビゲーションバー
     UINavigationBar *nav = [[UINavigationBar alloc] init];
-    nav.frame = CGRectMake(0, -64, 320, 64);
+    nav.frame = CGRectMake(0, 0, 320, 64);
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
     
-    
-    
+    // スキャン画面へ遷移ボタン
     UIButton *back = [[UIButton alloc] init];
-    back.frame = CGRectMake(0, self.view.bounds.size.height - 144, self.view.bounds.size.width, 80);
+    back.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
     back.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     back.backgroundColor = [UIColor orangeColor];
     [ back setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
@@ -92,8 +68,9 @@ int i;
     [back addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:back];
     
+	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
-    done.frame = CGRectMake(0, self.view.bounds.size.height - 224, self.view.bounds.size.width, 80);
+    done.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 80);
     done.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     done.backgroundColor = [UIColor greenColor];
     [ done setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
@@ -101,29 +78,26 @@ int i;
     done.titleLabel.adjustsFontSizeToFitWidth = YES;
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:done];
-    
-    UIEdgeInsets insets = self.tableView.contentInset;
-    insets.top += 64;
-    self.tableView.contentInset = insets;
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
+	
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     total = 0;
-    NSLog(@"prices count = %ld",(long)[prices count]);
-    for(i = 0;i < [names count]; i++) {
-        NSInteger tmp = [prices[i] integerValue];
+    NSLog(@"prices count = %d",[appDelegate getCount]);
+    for(int i = 0;i < [appDelegate getCount]; i++) {
+		NSInteger tmp = [[appDelegate getPrice:i] integerValue];
+		tmp *= [[appDelegate getNumber:i]integerValue];
         NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
         NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
     }
-    
+
     UILabel *goukei = [[UILabel alloc] init];
-    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 264, self.view.bounds.size.width, 40);
+    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
     goukei.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     goukei.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
     goukei.textColor = [UIColor whiteColor];
@@ -133,7 +107,6 @@ int i;
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
     goukei.text = totaltxt ;
     [self.view addSubview: goukei];
-    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -150,20 +123,18 @@ int i;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [names count];
+    return [appDelegate getCount];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = @"cell";
-    ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.prodactname.text = names[indexPath.row];
-    NSString *pricestr = [prices[indexPath.row] stringValue];
-    NSString *numberstr = [numbers[indexPath.row] stringValue];
-    cell.prodactprice.text = pricestr;
-    cell.prodactcount.text = numberstr;
-    return cell;
+	NSString *cellIdentifier = @"cell";
+	ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	cell.prodactname.text = [appDelegate getName:(int)indexPath.row];
+    cell.prodactprice.text = [appDelegate getPrice:(int)indexPath.row];
+	cell.prodactcount.text = [appDelegate getNumber:(int)indexPath.row];
+	
+	return cell;
 }
 
 -(void)gotoscan:(UIButton*)button{
@@ -177,25 +148,12 @@ int i;
 }
 
 -(void)done:(UIButton*)button{
-    /*id delegate = [[UIApplication sharedApplication] delegate];
-     self.managedObjectContext = [delegate managedObjectContext];
-     NSManagedObjectContext *moc = [self managedObjectContext];
-     NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-     NSEntityDescription *d = [NSEntityDescription entityForName: @"Payment" inManagedObjectContext:_managedObjectContext];
-     [fetchrequest setEntity:d];
-     NSError *error = nil;
-     cardinfo = [moc executeFetchRequest:fetchrequest error:&error];
-     if([cardinfo valueForKeyPath:@"name"], [cardinfo valueForKeyPath:@"number"],[cardinfo valueForKeyPath:@"month"], [cardinfo valueForKeyPath:@"year"],[cardinfo valueForKeyPath:@"cvc"] ){
-     ;
-     }
-     CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
-     [self presentViewController:CardViewController animated:YES completion:nil];*/
     [self createtoken];
     [self posttoken];
 }
 
 - (void)createtoken{
-    // カードモデルを作成し、必要な値を渡します
+    // カードモデルを作成し、必要な値を渡し ます
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
     card.number = @"4242424242424242";
     card.expiryYear = 2015;
@@ -212,26 +170,10 @@ int i;
             NSLog(@"error:%@", [error localizedDescription]);
         }
     }];
-    
 }
 
 - (void)posttoken{
-    
-    //テスト用
-     
-    codes = [[NSMutableArray alloc]init];
-    numbers = [[NSMutableArray alloc]init];
-    beacon_id = @"1";
-    NSString *total_price = @"216";
-    [codes addObject:@"4903326112852"];
-    [numbers addObject:@"2"];
-    
-    purchase = [[NSMutableArray alloc]init];
-    for(int i = 0; i < [codes count]; i++){
-        NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
-        [purchase addObject:codestmp];
-    }
-    //NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
+    NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
     [mutableDic setValue:beacon_id forKey:@"store_id"];
     [mutableDic setValue:purchase forKey:@"purchase"];
@@ -246,17 +188,15 @@ int i;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    NSData * response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     if(response){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         BOOL loginResult = [array valueForKey:@"status"];
-        if (!loginResult){
+        if (loginResult){
             UIAlertView *alert =
             [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
             [alert show];
             [Scanitems MR_truncateAll];
-            NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-            [context MR_saveNestedContexts];
             ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
             [self presentViewController:ViewController animated:YES completion:nil];
         }else{
@@ -266,6 +206,7 @@ int i;
         [self errormessage];
     }
 }
+
 -(void)errormessage{
     UIAlertView *alert =
     [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
@@ -273,39 +214,39 @@ int i;
 }
 
 /*
- // Override to support conditional editing of the table view.
+  Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
  {
- // Return NO if you do not want the specified item to be editable.
+  Return NO if you do not want the specified item to be editable.
  return YES;
  }
  */
 
 /*
- // Override to support editing the table view.
+  Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
  if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
+  Delete the row from the data source
  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+  Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
  }
  }
  */
 
 /*
- // Override to support rearranging the table view.
+  Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
  {
  }
  */
 
 /*
- // Override to support conditional rearranging of the table view.
+  Override to support conditional rearranging of the table view.
  - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
  {
- // Return NO if you do not want the item to be re-orderable.
+  Return NO if you do not want the item to be re-orderable.
  return YES;
  }
  */
@@ -313,11 +254,11 @@ int i;
 /*
  #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
+  In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+  Get the new view controller using [segue destinationViewController].
+  Pass the selected object to the new view controller.
  }
  */
 

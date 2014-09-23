@@ -8,7 +8,6 @@
 
 #import "CardViewController.h"
 #import "Webpay.h"
-#import "ConTableViewController.h"
 #import "WPYToken.h"
 #import "Payment.h"
 #import "WPYPaymentViewController.h"
@@ -39,10 +38,9 @@ WPYCreditCard *card;
     self.button.enabled = NO;
     UINavigationBar *nav = [[UINavigationBar alloc] init];
     nav.frame = CGRectMake(0, 0, 320, 64);
-    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +53,7 @@ WPYCreditCard *card;
     // フォームに入力されたカード情報がバリデーションを通ると呼ばれます
     self.button.enabled = YES;
 }
--(void)donecard:(UIButton*)button{
+-(void)donecard:(UIButton *)button{
     NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
     Payment *payment = [Payment MR_createEntity];
     payment.name = card.name;
@@ -66,8 +64,6 @@ WPYCreditCard *card;
     payment.month = month;
     payment.year = year;
     [context MR_saveNestedContexts];
-    ConTableViewController *conTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ctv"];
-    [self presentViewController:conTableViewController animated:YES completion:nil];
 }
 
 

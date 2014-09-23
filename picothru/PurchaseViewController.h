@@ -1,5 +1,5 @@
 //
-//  ConViewController.h
+//  PurchaseViewController.h
 //  picothru
 //
 //  Created by 谷村元気 on 2014/09/20.
@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "CardViewController.h"
 @class ViewController;
-@interface ConViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+@interface PurchaseViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) ViewController *ViewController;
 @property (weak, nonatomic) CardViewController *CardViewController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
