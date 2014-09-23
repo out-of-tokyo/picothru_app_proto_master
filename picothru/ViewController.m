@@ -31,6 +31,7 @@
     UIButton *_prebutton;
 	Scanitems *scanitems;
 	AppDelegate *appDelegate;
+	
 }
 @end
 
@@ -44,6 +45,7 @@ NSInteger labelindex;
 	
 	//デリゲート生成
 	appDelegate = [[UIApplication sharedApplication] delegate];
+	
 	
     //変数初期化処理
 	codearray =[[NSMutableArray array]init];
@@ -178,7 +180,7 @@ NSInteger labelindex;
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
     //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
-    NSString *price = [array valueForKeyPath:@"price"];
+    NSString *price = [[array valueForKeyPath:@"price"] stringValue];
 
 	// 値をDelegateの配列に格納
 	[appDelegate setScanedProduct:name andPrice:price];
@@ -219,7 +221,14 @@ NSInteger labelindex;
                 [codearray addObject:detectionString];
 				//バーコード値から商品情報を保存する関数を呼び出す
 				[self barcode2product:detectionString];
+
+			
+				for(int i=0;i<[appDelegate getCount];i++){
+					NSLog(@"[All scaned items][%d]: %@", i, [appDelegate getScanedProduct:i]);
+				}
+
 			}
+
 			//バーコード値をリセット
 			detectionString = nil;
             break;
@@ -242,7 +251,7 @@ NSInteger labelindex;
 	NSString * updatedNumber = [appDelegate subNumber:presenceNumber.intValue];
 	_countlabel.text = updatedNumber;
 }
-
+//個数増やすボタン
 -(void)addcount:(UIButton*)button{
 	NSString * presenceNumber = [appDelegate getScanedProduct:[appDelegate getCount]-1][@"number"];
 	NSString * updatedNumber = [appDelegate addNumber:presenceNumber.intValue];

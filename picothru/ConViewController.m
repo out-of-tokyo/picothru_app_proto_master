@@ -13,19 +13,13 @@
 #import "ListTableViewCell.h"
 #import "CardViewController.h"
 #import "Webpay.h"
-
+#import "AppDelegate.h"
 
 @interface ConViewController ()
 
 @end
 
 @implementation ConViewController
-NSMutableArray *items;
-NSMutableArray *namearray;
-NSMutableArray *pricearray;
-NSMutableArray *countarray;
-NSMutableArray *codearray;
-NSArray *list;
 NSInteger labelindex;
 NSInteger total;
 NSArray *cardinfo;
@@ -33,6 +27,8 @@ NSString *tokenid;
 NSMutableArray *codes;
 NSNumber *beacon_id;
 NSMutableArray *purchase;
+AppDelegate *appDelegate;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,38 +43,28 @@ NSMutableArray *purchase;
 {
     [super viewDidLoad];
 
+	//デリゲート生成
+	appDelegate = [[UIApplication sharedApplication] delegate];
+	
+	if ([appDelegate getCount] !=0) {
+		NSLog(@"debug product: %@",[appDelegate getScanedProduct:0]);
+		NSLog(@"[appDelegate getName:0]%@",[appDelegate getName:0]);
+		NSLog(@"[appDelegate getPrice:0]%@",[appDelegate getPrice:0]);
+		NSLog(@"[appDelegate getNumber:0]%@",[appDelegate getNumber:0]);
+
+	
+	}
+	
 	//変数初期化処理
-	codearray =[[NSMutableArray array]init];
-    namearray = [[NSMutableArray alloc]init];
-    pricearray = [[NSMutableArray alloc]init];
-	countarray = [[NSMutableArray alloc]init];
-    list = [[NSArray alloc]init];
-    labelindex = -1;
+//	codearray =[[NSMutableArray array]init];
+//    list = [[NSArray alloc]init];
+//    labelindex = -1;
 
 	
 	// テーブル定義、位置指定
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
 	[self.view addSubview:tableView];
 
-    //coredataの読み込み
-    id delegate = [[UIApplication sharedApplication] delegate];
-    self.managedObjectContext = [delegate managedObjectContext];
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *d = [NSEntityDescription entityForName: @"Scanitems" inManagedObjectContext:_managedObjectContext];
-    [fetchrequest setEntity:d];
-    list = [moc executeFetchRequest:fetchrequest error:nil];
-    NSLog(@"list;", list);
-	if(list){
-        NSArray *array = [list valueForKeyPath:@"names"];
-        if ([array count] > 0) {
-            namearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"names"]];
-            pricearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"prices"]];
-            countarray =[NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"counts"]];
-            codearray = [NSKeyedUnarchiver unarchiveObjectWithData:[list valueForKeyPath:@"codes"]];
-			NSLog(@"[con_scanitems.namearray]%@",namearray);
-        }
-    }
 
 //	names = [NSMutableArray array];
 //	for(int i=0;i<20;i++){
@@ -127,24 +113,24 @@ NSMutableArray *purchase;
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:done];
 	
-    // テーブルビューの余白
-	
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
+	
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     total = 0;
-    NSLog(@"prices count = %ld",(long)[pricearray count]);
-    for(int i = 0;i < [namearray count]; i++) {
-        NSInteger tmp = [pricearray[i] integerValue];
+    NSLog(@"prices count = %d",[appDelegate getCount]);
+    for(int i = 0;i < [appDelegate getCount]; i++) {
+		NSInteger tmp = [[appDelegate getPrice:i] integerValue];
         NSLog(@"tmp = %ld (i = %ld)",(long)tmp,(long)i);
         NSLog(@"%ld + %ld = %ld",(long)total,(long)tmp,(long)(total+tmp));
         total += tmp;
     }
-    
+
     UILabel *goukei = [[UILabel alloc] init];
     goukei.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
     goukei.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -173,20 +159,20 @@ NSMutableArray *purchase;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [namearray count];
+    return [appDelegate getCount];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = @"cell";
-    ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.prodactname.text = namearray[indexPath.row];
-    NSString *pricestr = [pricearray[indexPath.row] stringValue];
-    NSString *numberstr = [countarray[indexPath.row] stringValue];
-    cell.prodactprice.text = pricestr;
-    cell.prodactcount.text = numberstr;
-    return cell;
+	NSString *cellIdentifier = @"cell";
+	ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+	cell.prodactname.text = [appDelegate getName:(int)indexPath.row];
+    cell.prodactprice.text = [appDelegate getPrice:(int)indexPath.row];
+	cell.prodactcount.text = [appDelegate getNumber:(int)indexPath.row];
+
+	
+	return cell;
 }
 
 -(void)gotoscan:(UIButton*)button{
@@ -285,8 +271,6 @@ NSMutableArray *purchase;
             [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
             [alert show];
             [Scanitems MR_truncateAll];
-            NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-            [context MR_saveNestedContexts];
             ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
             [self presentViewController:ViewController animated:YES completion:nil];
         }else{
@@ -303,39 +287,39 @@ NSMutableArray *purchase;
 }
 
 /*
- // Override to support conditional editing of the table view.
+  Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
  {
- // Return NO if you do not want the specified item to be editable.
+  Return NO if you do not want the specified item to be editable.
  return YES;
  }
  */
 
 /*
- // Override to support editing the table view.
+  Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
  if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
+  Delete the row from the data source
  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+  Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
  }
  }
  */
 
 /*
- // Override to support rearranging the table view.
+  Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
  {
  }
  */
 
 /*
- // Override to support conditional rearranging of the table view.
+  Override to support conditional rearranging of the table view.
  - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
  {
- // Return NO if you do not want the item to be re-orderable.
+  Return NO if you do not want the item to be re-orderable.
  return YES;
  }
  */
@@ -343,11 +327,11 @@ NSMutableArray *purchase;
 /*
  #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
+  In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
  {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+  Get the new view controller using [segue destinationViewController].
+  Pass the selected object to the new view controller.
  }
  */
 

@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "CardViewController.h"
 @class ViewController;
-@interface ConViewController : UIViewController
+@interface ConViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) ViewController *ViewController;
 @property (weak, nonatomic) CardViewController *CardViewController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

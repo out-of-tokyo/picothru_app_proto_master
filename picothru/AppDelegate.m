@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "Webpay.h"
 #import "Entity.h"
+
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -19,6 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	
     // Override point for customization after application launch.
     [MagicalRecord setupCoreDataStack];
 	[Scanitems MR_truncateAll];
@@ -207,6 +209,21 @@
 	num++;
 	[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
 		return [NSString stringWithFormat:@"%d", num];
+}
+
+- (NSString *)getName:(int)scanedNumber
+{
+	return [_products objectAtIndex:scanedNumber][@"name"];
+}
+
+- (NSString *)getPrice:(int)scanedNumber
+{
+	return [_products objectAtIndex:scanedNumber][@"price"];
+}
+
+-(NSString *)getNumber:(int)scanedNumber
+{
+	return [_products objectAtIndex:scanedNumber][@"number"];
 }
 
 @end

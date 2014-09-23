@@ -25,4 +25,9 @@
 - (NSString *)subNumber:(int)scanedNumber;
 - (NSString *)addNumber:(int)scanedNumber;
 
+- (NSString *)getName:(int)scanedNumber;
+- (NSString *)getPrice:(int)scanedNumber;
+- (NSString *)getNumber:(int)scanedNumber;
+
+
 @end
