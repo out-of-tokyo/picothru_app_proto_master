@@ -87,90 +87,76 @@ int labelindex;
     
     [self.view bringSubviewToFront:_highlightView];
     [self.view bringSubviewToFront:_namelabel];
-	
+
 	// スキャン履歴表示ラベル
     _namelabel = [[UILabel alloc] init];
     _namelabel.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 40);
-    _namelabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _namelabel.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    _namelabel.textColor = [UIColor whiteColor];
-    _namelabel.textAlignment = NSTextAlignmentCenter;
-    _namelabel.text = @"";
-    [self.view addSubview:_namelabel];
     
     _pricelabel = [[UILabel alloc] init];
     _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
-    _pricelabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _pricelabel.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    _pricelabel.textColor = [UIColor whiteColor];
-    _pricelabel.textAlignment = NSTextAlignmentCenter;
-    _pricelabel.text = @"";
-    [self.view addSubview:_pricelabel];
     
     _countlabel = [[UILabel alloc] init];
     _countlabel.frame = CGRectMake(self.view.bounds.size.width * 1/2, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
-    _countlabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _countlabel.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    _countlabel.textColor = [UIColor whiteColor];
-    _countlabel.textAlignment = NSTextAlignmentCenter;
     _countlabel.text = @"0";
-    [self.view addSubview:_countlabel];
+    
+    NSArray* labels =  @[_namelabel, _pricelabel, _countlabel];
+    for (int i = 0; i < labels.count; i++) {
+        UILabel* label = labels[i];
+        label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        [self.view addSubview:label];
+    }
 
     _donebutton = [[UIButton alloc] init];
     _donebutton.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    _donebutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     _donebutton.backgroundColor = [UIColor greenColor];
     [ _donebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _donebutton setTitle:@"確認&決済" forState:UIControlStateNormal ];
-    _donebutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_donebutton addTarget:self action:@selector(gotoctv:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_donebutton];
     
     _subbutton = [[UIButton alloc] init];
     _subbutton.frame = CGRectMake(200, self.view.bounds.size.height - 110, 20, 20);
-    _subbutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     _subbutton.tintColor = [UIColor whiteColor];
     [ _subbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _subbutton setTitle:@"-" forState:UIControlStateNormal ];
     _subbutton.layer.cornerRadius = 10;
     _subbutton.layer.borderColor = [UIColor whiteColor].CGColor;
     _subbutton.layer.borderWidth = 1;
-    _subbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_subbutton addTarget:self action:@selector(subcount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_subbutton];
     
     _addbutton = [[UIButton alloc] init];
     _addbutton.frame = CGRectMake(260, self.view.bounds.size.height - 110, 20, 20);
-    _addbutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     _addbutton.tintColor = [UIColor whiteColor];
     [ _addbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _addbutton setTitle:@"+" forState:UIControlStateNormal ];
     _addbutton.layer.cornerRadius = 10;
     _addbutton.layer.borderColor = [UIColor whiteColor].CGColor;
     _addbutton.layer.borderWidth = 1;
-    _addbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_addbutton addTarget:self action:@selector(addcount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_addbutton];
     
     _prebutton = [[UIButton alloc] init];
     _prebutton.frame = CGRectMake(0, self.view.bounds.size.height - 160, 30, 80);
-    _prebutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [ _prebutton setTitleColor:[ UIColor orangeColor ] forState:UIControlStateNormal ];
     [ _prebutton setTitle:@"<" forState:UIControlStateNormal ];
     _prebutton.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    _prebutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_prebutton addTarget:self action:@selector(subindex:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_prebutton];
     
     _nextbutton = [[UIButton alloc] init];
     _nextbutton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 160, 30, 80);
-    _nextbutton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     [ _nextbutton setTitleColor:[ UIColor orangeColor ] forState:UIControlStateNormal ];
     [ _nextbutton setTitle:@">" forState:UIControlStateNormal ];
     _nextbutton.layer.backgroundColor= [UIColor whiteColor].CGColor;
-    _nextbutton.titleLabel.adjustsFontSizeToFitWidth = YES;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_nextbutton];
+    
+    NSArray* buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
+    for (int i = 0; i < buttons.count; i++) {
+        UIButton* button = buttons[i];
+        button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        [self.view addSubview:button];
+    }
 
 	// ラベル書き換え処理
 	if([appDelegate getCount] > 0){
