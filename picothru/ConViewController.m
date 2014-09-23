@@ -256,7 +256,7 @@ AppDelegate *appDelegate;
     NSError *error = nil;
     NSLog(@"%@",mutableDic);
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableDic options:0 error:&error];
-    NSString *url = @"http://xoxoxoxoxoxo:8080/app/login";
+    NSString *url = @"http://54.64.69.224/api/v0/purchase";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
     [request setURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
@@ -266,7 +266,7 @@ AppDelegate *appDelegate;
     if(response){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         BOOL loginResult = [array valueForKey:@"status"];
-        if (!loginResult){
+        if (loginResult){
             UIAlertView *alert =
             [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
             [alert show];

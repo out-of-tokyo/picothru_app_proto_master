@@ -175,6 +175,7 @@ int labelindex;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_nextbutton];
 
+
 	// ラベル書き換え処理
 	if([appDelegate getCount] > 0){
 		NSLog(@"label index UPDATE: %d",labelindex);
@@ -288,7 +289,7 @@ int labelindex;
 	[self labelUpdate];
 }
 
-//以下未実装
+//過去の商品履歴を見るボタン
 -(void)subindex:(UIButton*)button{
     if(labelindex > 0){
 		labelindex --;
@@ -301,5 +302,4 @@ int labelindex;
 		[self labelUpdate];
 	}
 }
-
 @end
