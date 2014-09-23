@@ -153,11 +153,11 @@ AppDelegate *appDelegate;
 - (void)createtoken{
     // カードモデルを作成し、必要な値を渡します
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    card.number = [card_info objectForKey:@"card_number"];
-    card.expiryYear =[[card_info objectForKey:@"card_year"] integerValue];
-    card.expiryMonth = [[card_info objectForKey:@"card_month"] integerValue];
-    card.cvc = [card_info objectForKey:@"card_cvc"];
-    card.name =[card_info objectForKey:@"card_name"];
+    card.number = card_info[@"card_number"];
+    card.expiryYear =[card_info[@"card_year"] integerValue];
+    card.expiryMonth = [card_info[@"card_month"] integerValue];
+    card.cvc = card_info[@"card_cvc"];
+    card.name =card_info[@"card_name"];
     
     // カードモデルとコールバックを渡します
     [WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error){

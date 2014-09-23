@@ -76,9 +76,9 @@
 - (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price
 {
 	NSMutableDictionary * product = [NSMutableDictionary dictionary];
-	[product setObject:name forKey:@"name"];
-	[product setObject:price forKey:@"price"];
-	[product setObject:@"1" forKey:@"number"];
+	product[@"name"] = name;
+	product[@"price"] = price;
+	product[@"number"] = @"1";
 	
 	NSLog(@"NSMutableDictionary: %@",product);
 
@@ -92,20 +92,20 @@
 {
 	NSLog(@"products: %@",_products);
 	
-	return [_products objectAtIndex:scanedNumber];
+	return _products[scanedNumber];
 }
 
 - (NSString *)subNumber:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	NSLog(@"[_products objectAtIndex:scanedNumber]: %@",[_products objectAtIndex:scanedNumber]);
-	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
+	NSLog(@"[_products objectAtIndex:scanedNumber]: %@",_products[scanedNumber]);
+	NSString * str = _products[scanedNumber][@"number"];
 	int num = str.intValue;
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
 		return [NSString stringWithFormat:@"%d", num];
 	}else{
 		[self deleteProduct:scanedNumber];
@@ -115,26 +115,26 @@
 
 - (NSString *)addNumber:(int)scanedNumber
 {
-	NSString * str = [_products objectAtIndex:scanedNumber][@"number"];
+	NSString * str = _products[scanedNumber][@"number"];
 	int num = str.intValue;
 	num++;
-	[_products objectAtIndex:scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+	_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
 		return [NSString stringWithFormat:@"%d", num];
 }
 
 - (NSString *)getName:(int)scanedNumber
 {
-	return [_products objectAtIndex:scanedNumber][@"name"];
+	return _products[scanedNumber][@"name"];
 }
 
 - (NSString *)getPrice:(int)scanedNumber
 {
-	return [_products objectAtIndex:scanedNumber][@"price"];
+	return _products[scanedNumber][@"price"];
 }
 
 - (NSString *)getNumber:(int)scanedNumber
 {
-	return [_products objectAtIndex:scanedNumber][@"number"];
+	return _products[scanedNumber][@"number"];
 }
 
 - (NSString *)deleteProduct:(int)scanedNumber
