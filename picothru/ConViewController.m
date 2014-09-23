@@ -148,19 +148,6 @@ AppDelegate *appDelegate;
 }
 
 -(void)done:(UIButton*)button{
-    /*id delegate = [[UIApplication sharedApplication] delegate];
-     self.managedObjectContext = [delegate managedObjectContext];
-     NSManagedObjectContext *moc = [self managedObjectContext];
-     NSFetchRequest *fetchrequest = [[NSFetchRequest alloc] init];
-     NSEntityDescription *d = [NSEntityDescription entityForName: @"Payment" inManagedObjectContext:_managedObjectContext];
-     [fetchrequest setEntity:d];
-     NSError *error = nil;
-     cardinfo = [moc executeFetchRequest:fetchrequest error:&error];
-     if([cardinfo valueForKeyPath:@"name"], [cardinfo valueForKeyPath:@"number"],[cardinfo valueForKeyPath:@"month"], [cardinfo valueForKeyPath:@"year"],[cardinfo valueForKeyPath:@"cvc"] ){
-     ;
-     }
-     CardViewController *CardViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cvc"];
-     [self presentViewController:CardViewController animated:YES completion:nil];*/
     [self createtoken];
     [self posttoken];
 }
@@ -186,28 +173,6 @@ AppDelegate *appDelegate;
 }
 
 - (void)posttoken{
-    
-    //テスト用
-    /*
-     
-     codes = [[NSMutableArray alloc]init];
-	 numbers = [[NSMutableArray alloc]init];
-	 beacon_id = @"4";
-	 NSString *total_price = @"450";
-	 tokenid = @"45mjff8pdmh";
-	 [codes addObject:@"345447762"];
-	 [codes addObject:@"245856512"];
-	 [numbers addObject:@"2"];
-	 [numbers addObject:@"1"];
-	 
-	 purchase = [[NSMutableArray alloc]init];
-	 for(int i = 0; i < [codes count]; i++){
-	 NSMutableDictionary *codestmp = [NSMutableDictionary dictionaryWithObjectsAndKeys:codes[i], @"barcode_id",numbers[i], @"amount", nil];
-	 [purchase addObject:codestmp];
-	 }
-	 
-	 */
-	
     NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
     [mutableDic setValue:beacon_id forKey:@"store_id"];

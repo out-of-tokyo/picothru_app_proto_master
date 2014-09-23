@@ -21,8 +21,6 @@
     // Override point for customization after application launch.
     [MagicalRecord setupCoreDataStack];
 	[Scanitems MR_truncateAll];
-//	NSManagedObjectContext *context = [NSManagedObjectContext MR_defaultContext];
-//	[context MR_saveNestedContexts];
     [WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
 	
 	// スキャンしたデータの初期化
