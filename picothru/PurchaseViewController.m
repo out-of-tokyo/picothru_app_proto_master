@@ -96,16 +96,16 @@ AppDelegate *appDelegate;
         total += tmp;
     }
 
-    UILabel *goukei = [[UILabel alloc] init];
-    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
-    goukei.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    goukei.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    goukei.textColor = [UIColor whiteColor];
-    goukei.textAlignment = NSTextAlignmentCenter;
+    UILabel *total_label = [[UILabel alloc] init];
+    total_label.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
+    total_label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    total_label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
+    total_label.textColor = [UIColor whiteColor];
+    total_label.textAlignment = NSTextAlignmentCenter;
     NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
-    goukei.text = totaltxt ;
-    [self.view addSubview: goukei];
+    total_label.text = totaltxt ;
+    [self.view addSubview: total_label];
 }
 - (void)didReceiveMemoryWarning
 {
