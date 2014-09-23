@@ -45,42 +45,10 @@ AppDelegate *appDelegate;
 
 	//デリゲート生成
 	appDelegate = [[UIApplication sharedApplication] delegate];
-	
-	if ([appDelegate getCount] !=0) {
-		NSLog(@"debug product: %@",[appDelegate getScanedProduct:0]);
-		NSLog(@"[appDelegate getName:0]%@",[appDelegate getName:0]);
-		NSLog(@"[appDelegate getPrice:0]%@",[appDelegate getPrice:0]);
-		NSLog(@"[appDelegate getNumber:0]%@",[appDelegate getNumber:0]);
-
-	
-	}
-	
-	//変数初期化処理
-//	codearray =[[NSMutableArray array]init];
-//    list = [[NSArray alloc]init];
-//    labelindex = -1;
-
-	
+		
 	// テーブル定義、位置指定
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
 	[self.view addSubview:tableView];
-
-
-//	names = [NSMutableArray array];
-//	for(int i=0;i<20;i++){
-//		[names addObject:@"ごりらの鼻くそ"];
-//	}
-//	prices = [NSMutableArray array];
-//	for(int i=0;i<20;i++){
-//		[prices addObject:[NSNumber numberWithInt:[@"100" intValue]]];
-//		
-//	}
-//	numbers = [NSMutableArray array];
-//	for(int i=0;i<20;i++){
-//		[numbers addObject:[NSNumber numberWithInt:[@"1" intValue]]];
-//	}
-	
-	
 	
 	
 	//上のナビゲーションバー
