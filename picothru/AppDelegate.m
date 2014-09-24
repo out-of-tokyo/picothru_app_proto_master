@@ -84,8 +84,14 @@
 		NSLog(@"_products: %@",_products);
 
 		return @"Scaned";
-	}else{
+	}else{// スキャン済みの商品は個数を増やし、スキャン順を最新に移動
 		[self addNumber:scanedNumber];
+		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
+		tempProduct = [_products objectAtIndex:scanedNumber];
+		NSLog(@"tempProduct: %@",tempProduct);
+		[self deleteProduct:scanedNumber];
+		[_products addObject:tempProduct];
+		
 		return @"Added";
 	}
 }
