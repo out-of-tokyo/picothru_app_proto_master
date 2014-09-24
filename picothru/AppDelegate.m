@@ -71,17 +71,34 @@
 //　スキャンしたアイテムを格納
 - (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price
 {
-	NSMutableDictionary * product = [NSMutableDictionary dictionary];
-	product[@"name"] = name;
-	product[@"price"] = price;
-	product[@"number"] = @1;
+	int scanedNumber = [self getCountFromName:name];
+	if(scanedNumber == -1){
+		NSMutableDictionary * product = [NSMutableDictionary dictionary];
+		product[@"name"] = name;
+		product[@"price"] = price;
+		product[@"number"] = @1;
 	
-	NSLog(@"NSMutableDictionary: %@",product);
+		NSLog(@"NSMutableDictionary: %@",product);
 
-	[_products addObject:product];
-	NSLog(@"_products: %@",_products);
-	return @"Success";
+		[_products addObject:product];
+		NSLog(@"_products: %@",_products);
+
+		return @"Success";
+	}else{
+		return [NSString stringWithFormat:@"%d",scanedNumber];
+	}
 }
+
+//商品名から何番目にスキャンしたかを取得
+- (int)getCountFromName:(NSString *)name
+{
+	for(int i=0;i<[self getCount];i++){
+		if([[_products objectAtIndex:i][@"name"] isEqualToString:name])
+			return i;
+	}
+	return -1;
+}
+
 
 // スキャンしたアイテムを出力
 - (NSDictionary *)getScanedProduct:(int)scanedNumber
