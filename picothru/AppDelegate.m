@@ -83,9 +83,10 @@
 		[_products addObject:product];
 		NSLog(@"_products: %@",_products);
 
-		return @"Success";
+		return @"Scaned";
 	}else{
-		return [NSString stringWithFormat:@"%d",scanedNumber];
+		[self addNumber:scanedNumber];
+		return @"Added";
 	}
 }
 
