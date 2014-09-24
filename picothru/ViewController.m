@@ -98,8 +98,7 @@ int labelindex;
     _countlabel.text = @"0";
     
     NSArray *labels =  @[_namelabel, _pricelabel, _countlabel];
-    for (int i = 0; i < labels.count; i++) {
-        UILabel *label = labels[i];
+    for (UILabel *label in labels) {
         label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
         label.textColor = [UIColor whiteColor];
@@ -149,8 +148,7 @@ int labelindex;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     
     NSArray *buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
-    for (int i = 0; i < buttons.count; i++) {
-        UIButton *button = buttons[i];
+    for (UIButton *button in buttons) {
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         button.titleLabel.adjustsFontSizeToFitWidth = YES;
         [self.view addSubview:button];
@@ -176,7 +174,7 @@ int labelindex;
     NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
     //値の代入
     NSString *name = [array valueForKeyPath:@"name"];
-    NSString *price = [[array valueForKeyPath:@"price"] stringValue];
+    NSString *price = [array valueForKeyPath:@"price"];
 
 	// 値をDelegateの配列に格納
 	[appDelegate setScanedProduct:name andPrice:price];
@@ -235,8 +233,8 @@ int labelindex;
 	NSLog(@"[labelUpdate]labelindex: %d",labelindex);
 	NSLog(@"_namelabel.text: %@",_namelabel.text);
 	NSLog(@"products: %@",[appDelegate getScanedProduct:labelindex]);
-	_pricelabel.text = [appDelegate getPrice:labelindex];
-	_countlabel.text = [appDelegate getNumber:labelindex];
+	_pricelabel.text = [appDelegate.products[labelindex][@"price"] stringValue];
+	_countlabel.text = [appDelegate.products[labelindex][@"number"] stringValue];
 }
 
 //画面遷移ボタン

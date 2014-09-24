@@ -90,22 +90,22 @@ AppDelegate *appDelegate;
 {
     total = 0;
     NSLog(@"prices count = %d",[appDelegate getCount]);
-    for(int i = 0;i < [appDelegate getCount]; i++) {
-		NSInteger tmp = [[appDelegate getPrice:i] integerValue];
-		tmp *= [[appDelegate getNumber:i]integerValue];
+    for(NSDictionary *product in appDelegate.products) {
+		NSInteger tmp = [product[@"price"] intValue];
+		tmp *= [product[@"number"] intValue];
         total += tmp;
     }
 
-    UILabel *goukei = [[UILabel alloc] init];
-    goukei.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
-    goukei.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    goukei.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    goukei.textColor = [UIColor whiteColor];
-    goukei.textAlignment = NSTextAlignmentCenter;
+    UILabel *total_label = [[UILabel alloc] init];
+    total_label.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
+    total_label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    total_label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
+    total_label.textColor = [UIColor whiteColor];
+    total_label.textAlignment = NSTextAlignmentCenter;
     NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
     NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
-    goukei.text = totaltxt ;
-    [self.view addSubview: goukei];
+    total_label.text = totaltxt ;
+    [self.view addSubview: total_label];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -128,9 +128,10 @@ AppDelegate *appDelegate;
 {
 	NSString *cellIdentifier = @"cell";
 	ListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	cell.prodactname.text = [appDelegate getName:(int)indexPath.row];
-    cell.prodactprice.text = [appDelegate getPrice:(int)indexPath.row];
-	cell.prodactcount.text = [appDelegate getNumber:(int)indexPath.row];
+    int i = (int)indexPath.row;
+	cell.prodactname.text = [appDelegate getName:i];
+    cell.prodactprice.text = [appDelegate.products[i][@"price"] stringValue];
+	cell.prodactcount.text = [appDelegate.products[i][@"number"] stringValue];
 	return cell;
 }
 
@@ -153,11 +154,11 @@ AppDelegate *appDelegate;
 - (void)createtoken{
     // カードモデルを作成し、必要な値を渡します
     WPYCreditCard *card = [[WPYCreditCard alloc] init];
-    card.number = [card_info objectForKey:@"card_number"];
-    card.expiryYear =[[card_info objectForKey:@"card_year"] integerValue];
-    card.expiryMonth = [[card_info objectForKey:@"card_month"] integerValue];
-    card.cvc = [card_info objectForKey:@"card_cvc"];
-    card.name =[card_info objectForKey:@"card_name"];
+    card.number = card_info[@"card_number"];
+    card.expiryYear =[card_info[@"card_year"] integerValue];
+    card.expiryMonth = [card_info[@"card_month"] integerValue];
+    card.cvc = card_info[@"card_cvc"];
+    card.name =card_info[@"card_name"];
     
     // カードモデルとコールバックを渡します
     [WPYTokenizer createTokenFromCard:card completionBlock:^(WPYToken *token, NSError *error){
