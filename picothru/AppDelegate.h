@@ -7,13 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+@import CoreLocation;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,CLLocationManagerDelegate>
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSMutableArray *products;
+//iBeacon
+@property (nonatomic) CLLocationManager *locationManager;
+@property (nonatomic) NSUUID *proximityUUID;
+@property (nonatomic) CLBeaconRegion *beaconRegion;
+@property (strong, nonatomic) CLLocationManager *manager;
+@property (strong, nonatomic) NSString *beaconId;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
@@ -29,5 +36,7 @@
 - (NSString *)getPrice:(int)scanedNumber;
 - (NSString *)getNumber:(int)scanedNumber;
 
+//iBeacon
+- (NSString *)getBeaconId;
 
 @end

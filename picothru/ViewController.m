@@ -48,7 +48,7 @@ int labelindex;
 	//デリゲート生成
 	appDelegate = [[UIApplication sharedApplication] delegate];
 	
-	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
+	beaconId = [appDelegate getBeaconId];
 
     //変数初期化処理
 	codearray =[[NSMutableArray array]init];
