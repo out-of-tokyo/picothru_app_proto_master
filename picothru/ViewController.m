@@ -205,9 +205,16 @@ int labelindex;
 		//バーコードスキャン成功したら商品を取得して保存
         if (barCode != nil)
         {
-			//ダミーコード
+			//クエリ作成
 			detectionString = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
-			if(![codearray containsObject:detectionString]){//重複しなかった場合
+//			if(![codearray containsObject:detectionString]){//重複しなかった場合
+			if(![detectionString isEqualToString:[codearray lastObject]]){//前の商品と重複しなかった場合
+				
+				NSLog(@"[codearray count]: %lu",(unsigned long)[codearray count]);
+				NSLog(@"barCode: %@",barCode);
+				NSLog(@"[codearray lastObject]: %@",[codearray lastObject]);
+				
+				
 				//バーコード値を配列に保管
                 [codearray addObject:detectionString];
 				//バーコード値から商品情報を保存する関数を呼び出す
