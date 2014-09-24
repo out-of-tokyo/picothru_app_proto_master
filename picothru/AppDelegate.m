@@ -68,44 +68,32 @@
 	return (int)[_products count];
 }
 
-//　スキャンしたアイテムを格納
-- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price
+//　スキャンしたアイテムを格納(これが呼ばれるときはバーコード的に必ず重複していないデータが来る)
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price andBarCode:(NSString *)barCode
 {
-	int scanedNumber = [self getCountFromName:name];
-	if(scanedNumber == -1){
-		NSMutableDictionary * product = [NSMutableDictionary dictionary];
-		product[@"name"] = name;
-		product[@"price"] = price;
-		product[@"number"] = @1;
+	NSMutableDictionary * product = [NSMutableDictionary dictionary];
+	product[@"name"] = name;
+	product[@"price"] = price;
+	product[@"number"] = @1;
+	product[@"barCode"] = barCode;
 	
-		NSLog(@"NSMutableDictionary: %@",product);
+	NSLog(@"NSMutableDictionary: %@",product);
 
-		[_products addObject:product];
-		NSLog(@"_products: %@",_products);
+	[_products addObject:product];
+	NSLog(@"_products: %@",_products);
 
-		return @"Scaned";
-	}else{// スキャン済みの商品は個数を増やし、スキャン順を最新に移動
-		[self addNumber:scanedNumber];
-		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
-		tempProduct = [_products objectAtIndex:scanedNumber];
-		NSLog(@"tempProduct: %@",tempProduct);
-		[self deleteProduct:scanedNumber];
-		[_products addObject:tempProduct];
-		
-		return @"Added";
-	}
+	return @"Success";
 }
 
-//商品名から何番目にスキャンしたかを取得
-- (int)getCountFromName:(NSString *)name
+//バーコード値から何番目にスキャンしたかを取得
+- (int)getCountFromBarCode:(NSString *)barCode
 {
 	for(int i=0;i<[self getCount];i++){
-		if([[_products objectAtIndex:i][@"name"] isEqualToString:name])
+		if([[_products objectAtIndex:i][@"barCode"] isEqualToString:barCode])
 			return i;
 	}
 	return -1;
 }
-
 
 // スキャンしたアイテムを出力
 - (NSDictionary *)getScanedProduct:(int)scanedNumber
@@ -118,12 +106,20 @@
 - (NSString *)subNumber:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	int num = [_products[scanedNumber][@"number"] integerValue];
+	int num = [_products[scanedNumber][@"number"] intValue];
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+		// 個数を更新したら、スキャン順を最新の位置に移動する
+		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
+		tempProduct = [_products objectAtIndex:scanedNumber];
+		NSLog(@"tempProduct: %@",tempProduct);
+		[self deleteProduct:scanedNumber];
+		[_products addObject:tempProduct];
+
+		// 更新後の値を返す
 		return [NSString stringWithFormat:@"%d", num];
 	}else{
 		[self deleteProduct:scanedNumber];
@@ -133,10 +129,19 @@
 
 - (NSString *)addNumber:(int)scanedNumber
 {
-	int num = [_products[scanedNumber][@"number"] integerValue];
+	//個数を増やす
+	int num = [_products[scanedNumber][@"number"] intValue];
 	num++;
 	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
-		return @"Success";
+
+	// 個数を更新したら、スキャン順を最新の位置に移動する
+	NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
+	tempProduct = [_products objectAtIndex:scanedNumber];
+	NSLog(@"tempProduct: %@",tempProduct);
+	[self deleteProduct:scanedNumber];
+	[_products addObject:tempProduct];
+
+	return @"Success";
 }
 
 - (NSString *)getName:(int)scanedNumber
@@ -152,6 +157,10 @@
 - (NSNumber *)getNumber:(int)scanedNumber
 {
 	return _products[scanedNumber][@"number"];
+}
+- (NSString *)getBarCode:(int)scanedNumber
+{
+	return _products[scanedNumber][@"barCode"];
 }
 
 - (NSString *)deleteProduct:(int)scanedNumber
