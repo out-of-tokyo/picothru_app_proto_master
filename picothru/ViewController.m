@@ -245,24 +245,29 @@ int labelindex;
 
 //個数減らすボタン
 -(void)subcount:(UIButton *)button{
-	// 一番最近スキャンした商品の個数を1減らす
+	// labelindexの商品の個数を1減らし、0個になったら削除する
 	NSString *updatedNumber = [appDelegate subNumber:labelindex];
+	//商品が削除されたとき
 	if([updatedNumber isEqualToString:@"0"]){
-		//個数がゼロになったら最新商品に移動
+		//スキャン済み商品が他にあれば最新商品に移動
 		if([appDelegate getCount]>0){
 			labelindex = [appDelegate getCount]-1;
 			[self labelUpdate];
-		}else{//最新商品が無い場合
+		}else{//スキャン済み商品がゼロになった場合ラベルを空にする
 			labelindex = 0;
 			_namelabel.text = @"";
 			_pricelabel.text = @"";
 			_countlabel.text = @"";
 		}
+		//商品が削除されたとき、同時にバーコード履歴からも削除する
+		[codearray removeObjectAtIndex:labelindex];
+	}else{//個数を減らしたが0にならなかった場合、ラベル(実質個数のみ)を更新
+		[self labelUpdate];
 	}
 }
 //個数増やすボタン
 -(void)addcount:(UIButton *)button{
-	[appDelegate addNumber:[appDelegate getCount]-1];
+	[appDelegate addNumber:labelindex];
 	[self labelUpdate];
 }
 

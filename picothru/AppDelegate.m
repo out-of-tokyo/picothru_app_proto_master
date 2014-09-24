@@ -99,7 +99,7 @@
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
 		return [NSString stringWithFormat:@"%d", num];
 	}else{
 		[self deleteProduct:scanedNumber];
