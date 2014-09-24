@@ -36,8 +36,6 @@
 @end
 
 @implementation ViewController
-//バーコードスキャン履歴
-NSMutableArray *codearray;
 //商品履歴ラベルの位置
 int labelindex;
 
@@ -49,9 +47,6 @@ int labelindex;
 	appDelegate = [[UIApplication sharedApplication] delegate];
 	
 	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
-
-    //変数初期化処理
-	codearray =[[NSMutableArray array]init];
 	
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
@@ -164,9 +159,10 @@ int labelindex;
 	}
 }
 
-- (NSString *)barcode2product:(NSString *)queue
+- (NSString *)barcode2product:(NSString *)barCode
 {
 	//バーコード値を投げてデータを格納
+	NSString * queue = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -177,7 +173,7 @@ int labelindex;
     NSString *price = [array valueForKeyPath:@"price"];
 
 	// 値をDelegateの配列に格納
-	[appDelegate setScanedProduct:name andPrice:price];
+	[appDelegate setScanedProduct:name andPrice:price andBarCode:barCode];
 
 	return @"Success";
 }
@@ -187,7 +183,6 @@ int labelindex;
     CGRect highlightViewRect = CGRectZero;
     AVMetadataMachineReadableCodeObject *barCodeObject;
     NSString *barCode = nil;
-	NSString *detectionString;
     NSArray *barCodeTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
                               AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
                               AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
@@ -205,17 +200,18 @@ int labelindex;
 		//バーコードスキャン成功したら商品を取得して保存
         if (barCode != nil)
         {
-			//ダミーコード
-			detectionString = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
-			if(![codearray containsObject:detectionString]){//重複しなかった場合
-				//バーコード値を配列に保管
-                [codearray addObject:detectionString];
+			int scanedNumber = [appDelegate getCountFromBarCode:barCode];
+			NSLog(@"読み取ったバーコード値とかぶっている既存の配列値: %d",scanedNumber);
+			if(scanedNumber == -1){//重複しなかった場合
 				//バーコード値から商品情報を保存する関数を呼び出す
-				[self barcode2product:detectionString];
+				[self barcode2product:barCode];
 				//ラベルを更新
 				labelindex = [appDelegate getCount]-1;
 				[self labelUpdate];
-			}
+			}else if(![[appDelegate getBarCode:[appDelegate getCount]-1] isEqualToString:barCode]){//重複しているが最新のスキャン内容ではなかったとき
+				//個数を1増やす
+				[appDelegate addNumber:scanedNumber];
+			}//最新のスキャン内容とかぶっている場合は何もしない
 
 			//バーコード値をリセット
 			barCode = nil;
@@ -259,8 +255,6 @@ int labelindex;
 			_pricelabel.text = @"";
 			_countlabel.text = @"";
 		}
-		//商品が削除されたとき、同時にバーコード履歴からも削除する
-		[codearray removeObjectAtIndex:labelindex];
 	}else{//個数を減らしたが0にならなかった場合、ラベル(実質個数のみ)を更新
 		[self labelUpdate];
 	}
