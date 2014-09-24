@@ -91,7 +91,7 @@
 	return _products[scanedNumber];
 }
 
-- (NSString *)subNumber:(int)scanedNumber
+- (void)subNumber:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
 	int num = [_products[scanedNumber][@"number"] integerValue];
@@ -100,19 +100,16 @@
 	if(num > 1){
 		num--;
 		_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
-		return [NSString stringWithFormat:@"%d", num];
 	}else{
 		[self deleteProduct:scanedNumber];
-		return @"0";
 	}
 }
 
-- (NSString *)addNumber:(int)scanedNumber
+- (void)addNumber:(int)scanedNumber
 {
 	int num = [_products[scanedNumber][@"number"] integerValue];
 	num++;
 	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
-		return @"Success";
 }
 
 - (NSString *)getName:(int)scanedNumber
