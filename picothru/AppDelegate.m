@@ -89,7 +89,7 @@
 - (int)getCountFromBarCode:(NSString *)barCode
 {
 	for(int i=0;i<[self getCount];i++){
-		if([[_products objectAtIndex:i][@"barCode"] isEqualToString:barCode])
+		if([_products[i][@"barCode"] isEqualToString:barCode])
 			return i;
 	}
 	return -1;
@@ -114,7 +114,7 @@
 		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
 		// 個数を更新したら、スキャン順を最新の位置に移動する
 		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
-		tempProduct = [_products objectAtIndex:scanedNumber];
+		tempProduct = _products[scanedNumber];
 		NSLog(@"tempProduct: %@",tempProduct);
 		[self deleteProduct:scanedNumber];
 		[_products addObject:tempProduct];
