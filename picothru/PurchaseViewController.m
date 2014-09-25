@@ -175,13 +175,13 @@ AppDelegate *appDelegate;
 }
 
 - (NSDictionary *) createPurchaseDictionary{
-    NSMutableDictionary *purchaceDictionary = [NSMutableDictionary dictionary];
-    purchaceDictionary[@"beacon_id"] = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";// TODO: Avoid hard coding (Use delegate)
-    purchaceDictionary[@"total_price"] = [NSNumber numberWithInteger:total];
-    purchaceDictionary[@"purchase"] = appDelegate.products;
-    purchaceDictionary[@"token"] = tokenid;
+    NSMutableDictionary *purchaseDictionary = [NSMutableDictionary dictionary];
+    purchaseDictionary[@"beacon_id"] = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";// TODO: Avoid hard coding (Use delegate)
+    purchaseDictionary[@"total_price"] = [NSNumber numberWithInteger:total];
+    purchaseDictionary[@"purchase"] = appDelegate.products;
+    purchaseDictionary[@"token"] = tokenid;
 
-    return purchaceDictionary;
+    return purchaseDictionary;
 }
 
 -(void)errormessage{
