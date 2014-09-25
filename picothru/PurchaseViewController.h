@@ -13,4 +13,6 @@
 @interface PurchaseViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) ViewController *ViewController;
 @property (weak, nonatomic) CardViewController *CardViewController;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
 @end
