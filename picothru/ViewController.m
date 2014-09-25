@@ -86,10 +86,10 @@ int labelindex;
     _namelabel.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 40);
     
     _pricelabel = [[UILabel alloc] init];
-    _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
+    _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
     
     _countlabel = [[UILabel alloc] init];
-    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 1/2, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
+    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 0.5, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
     _countlabel.text = @"0";
     
     NSArray *labels =  @[_namelabel, _pricelabel, _countlabel];
@@ -162,7 +162,7 @@ int labelindex;
 - (NSString *)barcode2product:(NSString *)barCode
 {
 	//バーコード値を投げてデータを格納
-	NSString * queue = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
+	NSString *queue = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -214,8 +214,6 @@ int labelindex;
 				//商品の位置=最新の位置荷移動する
 				labelindex = [appDelegate getCount]-1;
 				[self labelUpdate];
-
-				
 			}//最新のスキャン内容とかぶっている場合は何もしない
 
 			//バーコード値をリセット

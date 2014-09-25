@@ -135,8 +135,8 @@
 	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
 
 	// 個数を更新したら、スキャン順を最新の位置に移動する
-	NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
-	tempProduct = [_products objectAtIndex:scanedNumber];
+	NSMutableDictionary *tempProduct = [NSMutableDictionary dictionary];
+	tempProduct = _products[scanedNumber];
 	NSLog(@"tempProduct: %@",tempProduct);
 	[self deleteProduct:scanedNumber];
 	[_products addObject:tempProduct];
