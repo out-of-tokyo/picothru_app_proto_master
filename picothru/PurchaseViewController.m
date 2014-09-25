@@ -12,6 +12,7 @@
 #import "CardViewController.h"
 #import "Webpay.h"
 #import "AppDelegate.h"
+#import "ZXingObjC.h"
 
 @interface PurchaseViewController ()
 
@@ -147,7 +148,6 @@ AppDelegate *appDelegate;
     [self presentViewController:CardViewController animated:YES completion:nil];
     }else{
         [self createtoken];
-      //  [self posttoken];
     }
 }
 
@@ -165,50 +165,51 @@ AppDelegate *appDelegate;
         if (token){
             NSLog(@"token:%@", token.tokenId);
             tokenid = token.tokenId;
+            [self displayQRcodeForPurchase]; // TODO: shoudn't be here. Move to somewhere.
         }else{
             NSLog(@"error:%@", [error localizedDescription]);
         }
     }];
 }
 
-- (void)posttoken{
-    NSString *total_price = [[NSString alloc] initWithFormat:@"%ld",(long)total];
-    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionary];
-    [mutableDic setValue:beacon_id forKey:@"store_id"];
-    [mutableDic setValue:purchase forKey:@"purchase"];
-    [mutableDic setValue:total_price forKey:@"total_price"];
-    [mutableDic setValue:tokenid forKey:@"token"];
-    NSError *error = nil;
-    NSLog(@"%@",mutableDic);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableDic options:0 error:&error];
-    NSString *url = @"http://54.64.69.224/api/v0/purchase";
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:jsonData];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    if(response){
-        NSArray *array = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
-        BOOL loginResult = [array valueForKey:@"status"];
-        if (loginResult){
-            UIAlertView *alert =
-            [[UIAlertView alloc] initWithTitle:@"Picoした" message:@"完了しました" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
-            [alert show];
-            ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
-            [self presentViewController:ViewController animated:YES completion:nil];
-        }else{
-            [self errormessage];
-        }
-    }else{
-        [self errormessage];
-    }
+- (void)displayQRcodeForPurchase{
+    NSMutableDictionary *purchaceDictionary = [NSMutableDictionary dictionary];
+    purchaceDictionary[@"beacon_id"] = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";// TODO: Avoid hard coding (Use delegate)
+    purchaceDictionary[@"total_price"] = [NSNumber numberWithInteger:total];
+    purchaceDictionary[@"purchase"] = appDelegate.products;
+    purchaceDictionary[@"token"] = tokenid;
+    NSString *str = [NSString stringWithFormat:@"%@", purchaceDictionary];
+    
+    [self createQrCode:str];
 }
 
 -(void)errormessage{
     UIAlertView *alert =
     [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
     [alert show];
+}
+
+- (void)createQrCode:(NSString *)qrcodeTxt
+{
+    if (qrcodeTxt == nil || [qrcodeTxt isEqualToString:@""]) {
+        self.imageView.image = nil;
+        return;
+    }
+    // QRコードを生成します。
+    ZXMultiFormatWriter *writer = [[ZXMultiFormatWriter alloc] init];
+    CGSize imageSize = self.imageView.frame.size;
+    ZXBitMatrix *result = [writer encode:qrcodeTxt
+                                  format:kBarcodeFormatQRCode
+                                   width:imageSize.width
+                                  height:imageSize.height
+                                   error:nil];
+    if (result == nil) {
+        self.imageView.image = nil;
+        return;
+    }
+    // QRコードを表示します。
+    CGImageRef qrImageRef = [ZXImage imageWithMatrix:result].cgimage;
+    self.imageView.image = [UIImage imageWithCGImage:qrImageRef];
 }
 
 /*
