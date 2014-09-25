@@ -50,7 +50,6 @@
 {
 	NSLog(@"ビーコン領域に入りました");
 	[self sendLocalNotificationForMessage:@"ビーコン領域に入りました"];
-	
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
@@ -123,7 +122,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [self saveContext];}
+//   [self saveContext];
+}
 
 #pragma mark - Core Data stack
 

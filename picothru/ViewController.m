@@ -31,7 +31,6 @@
 
 	//iBeacon
 	NSString *beaconId;
-
 }
 @end
 
@@ -69,7 +68,7 @@ int labelindex;
     } else {
         NSLog(@"Error: %@", error);
     }
-    
+	
     _output = [[AVCaptureMetadataOutput alloc] init];
     [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     [_session addOutput:_output];
@@ -162,6 +161,13 @@ int labelindex;
 		
 		NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
 	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	// beaconから呼ぶと_highlightViewが隠れちゃうので。。。
+	[self.view bringSubviewToFront:_highlightView];
+
 }
 
 - (NSString *)barcode2product:(NSString *)queue
