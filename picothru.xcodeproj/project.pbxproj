@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5FDD568619D3B5D4001E9FF3 /* QRcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
@@ -44,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FDD568419D3B5D4001E9FF3 /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
+		5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
 		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
 				DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */,
 				DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */,
+				5FDD568419D3B5D4001E9FF3 /* QRcodeViewController.h */,
+				5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */,
 				DFBBE27A19BF7228007F65AD /* ViewController.h */,
 				DFBBE27B19BF7228007F65AD /* ViewController.m */,
 				DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */,
@@ -331,6 +336,7 @@
 				DFCE224C19C283F700BF4128 /* CardViewController.m in Sources */,
 				DFBBE27C19BF7228007F65AD /* ViewController.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
+				5FDD568619D3B5D4001E9FF3 /* QRcodeViewController.m in Sources */,
 				DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,

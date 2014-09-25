@@ -40,6 +40,33 @@
             </objects>
             <point key="canvasLocation" x="-185" y="67"/>
         </scene>
+        <!--Rcode View Controller-->
+        <scene sceneID="pzF-aD-COF">
+            <objects>
+                <viewController storyboardIdentifier="qrvc" id="jff-ld-DK8" customClass="QRcodeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fXL-Ze-oa5"/>
+                        <viewControllerLayoutGuide type="bottom" id="oGN-Rn-T69"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OT3-Rh-bLk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wF6-Ip-Q31">
+                                <rect key="frame" x="10" y="134" width="300" height="300"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="qrcodeImageView" destination="wF6-Ip-Q31" id="ERs-Vb-PGa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Yt-e4-3iG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="744" y="67"/>
+        </scene>
         <!--Purchase View Controller-->
         <scene sceneID="0Og-SB-g32">
             <objects>
@@ -65,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YNX-v9-7VK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="349" y="67"/>
+            <point key="canvasLocation" x="285" y="67"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

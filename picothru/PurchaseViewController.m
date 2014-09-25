@@ -8,11 +8,11 @@
 
 #import "PurchaseViewController.h"
 #import "ViewController.h"
+#import "QRcodeViewController.h"
 #import "ListTableViewCell.h"
 #import "CardViewController.h"
 #import "Webpay.h"
 #import "AppDelegate.h"
-#import "ZXingObjC.h"
 
 @interface PurchaseViewController ()
 
@@ -165,51 +165,29 @@ AppDelegate *appDelegate;
         if (token){
             NSLog(@"token:%@", token.tokenId);
             tokenid = token.tokenId;
-            [self displayQRcodeForPurchase]; // TODO: shoudn't be here. Move to somewhere.
+            QRcodeViewController *qrcodeViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"qrvc"];
+            qrcodeViewController.purchaseDictionary = [self createPurchaseDictionary];;
+            [self presentViewController:qrcodeViewController animated:YES completion:nil];
         }else{
             NSLog(@"error:%@", [error localizedDescription]);
         }
     }];
 }
 
-- (void)displayQRcodeForPurchase{
+- (NSDictionary *) createPurchaseDictionary{
     NSMutableDictionary *purchaceDictionary = [NSMutableDictionary dictionary];
     purchaceDictionary[@"beacon_id"] = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";// TODO: Avoid hard coding (Use delegate)
     purchaceDictionary[@"total_price"] = [NSNumber numberWithInteger:total];
     purchaceDictionary[@"purchase"] = appDelegate.products;
     purchaceDictionary[@"token"] = tokenid;
-    NSString *str = [NSString stringWithFormat:@"%@", purchaceDictionary];
-    
-    [self createQrCode:str];
+
+    return purchaceDictionary;
 }
 
 -(void)errormessage{
     UIAlertView *alert =
     [[UIAlertView alloc] initWithTitle:@"PicoNothru" message:@"エラー" delegate:self cancelButtonTitle:@"確認" otherButtonTitles:nil];
     [alert show];
-}
-
-- (void)createQrCode:(NSString *)qrcodeTxt
-{
-    if (qrcodeTxt == nil || [qrcodeTxt isEqualToString:@""]) {
-        self.imageView.image = nil;
-        return;
-    }
-    // QRコードを生成します。
-    ZXMultiFormatWriter *writer = [[ZXMultiFormatWriter alloc] init];
-    CGSize imageSize = self.imageView.frame.size;
-    ZXBitMatrix *result = [writer encode:qrcodeTxt
-                                  format:kBarcodeFormatQRCode
-                                   width:imageSize.width
-                                  height:imageSize.height
-                                   error:nil];
-    if (result == nil) {
-        self.imageView.image = nil;
-        return;
-    }
-    // QRコードを表示します。
-    CGImageRef qrImageRef = [ZXImage imageWithMatrix:result].cgimage;
-    self.imageView.image = [UIImage imageWithCGImage:qrImageRef];
 }
 
 /*
