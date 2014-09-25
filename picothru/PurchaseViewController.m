@@ -175,12 +175,11 @@ AppDelegate *appDelegate;
 }
 
 - (NSDictionary *) createPurchaseDictionary{
-    NSMutableDictionary *purchaseDictionary = [NSMutableDictionary dictionary];
-    purchaseDictionary[@"beacon_id"] = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";// TODO: Avoid hard coding (Use delegate)
-    purchaseDictionary[@"total_price"] = [NSNumber numberWithInteger:total];
-    purchaseDictionary[@"purchase"] = appDelegate.products;
-    purchaseDictionary[@"token"] = tokenid;
-
+    NSNumber *total_price = [NSNumber numberWithInteger:total];
+    NSDictionary *purchaseDictionary = @{@"beacon_id":@"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD",
+                                         @"total_price":total_price,
+                                         @"purchase":appDelegate.products,
+                                         @"token":tokenid};
     return purchaseDictionary;
 }
 
