@@ -10,16 +10,94 @@
 #import "Webpay.h"
 
 @implementation AppDelegate
+@synthesize beaconId = _beaconId;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	NSLog(@"didFinishLaunchingWithOptions start");
+	
 	// Override point for customization after application launch.
 	[WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
 	
 	// スキャンしたデータの初期化
 	self.products = [[NSMutableArray alloc] init];
 	
-	return YES;
+	//iBeacon
+	if ([CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
+		_beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
+		// CLLocationManagerの生成とデリゲートの設定
+		self.locationManager = [CLLocationManager new];
+		self.locationManager.delegate = self;
+		
+		// 生成したUUIDからNSUUIDを作成
+		self.proximityUUID = [[NSUUID alloc] initWithUUIDString:_beaconId];
+		
+		// 観測するビーコン領域の作成
+		self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:self.proximityUUID identifier:@"net.noumenon-th"];
+		
+		//以下はデフォルト値で設定されている
+		self.beaconRegion.notifyOnEntry = YES;
+		self.beaconRegion.notifyOnExit = YES;
+		self.beaconRegion.notifyEntryStateOnDisplay = NO;
+		
+		// Beaconによる領域観測を開始
+		[self.locationManager startMonitoringForRegion:self.beaconRegion];
+		
+	}
+	
+	NSLog(@"didFinishLaunchingWithOptions stop");
+
+    return YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
+{
+	NSLog(@"ビーコン領域に入りました");
+	[self sendLocalNotificationForMessage:@"ローソン東京リクルート店でお買い物できます！"];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
+{
+	NSLog(@"ビーコン領域を出ました");
+//	[self sendLocalNotificationForMessage:@"ビーコン領域を出ました"];
+}
+
+//新しい領域のモニタリングを開始したことを伝える
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+	[self.locationManager requestStateForRegion:region];
+}
+
+//モニタリングの結果を受けて、現在どのような状態かを知らせる
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+	switch (state) {
+		case CLRegionStateInside:
+			NSLog(@"ビーコン領域にいます");
+			break;
+		case CLRegionStateOutside:
+			NSLog(@"ビーコン領域外です");
+			break;
+		case CLRegionStateUnknown:
+			NSLog(@"どちらにいるのか良く分かりません");
+			break;
+		default:
+			break;
+	}
+}
+
+- (NSString *)getBeaconId
+{
+	return _beaconId;
+}
+
+- (void)sendLocalNotificationForMessage:(NSString *)message
+{
+	UILocalNotification *localNotification = [UILocalNotification new];
+	localNotification.alertBody = message;
+	localNotification.fireDate = [NSDate date];
+	localNotification.soundName = UILocalNotificationDefaultSoundName;
+	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -39,15 +117,26 @@
 	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
+//iBeaconの通知から呼び出したときに呼ばれる
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	[self loadViewController];
+}
+
+// ViewControllerに遷移する
+- (void)loadViewController
+{
+	UIStoryboard *storyboard = [[[self window] rootViewController] storyboard];
+	UIViewController *ViewController = [storyboard instantiateViewControllerWithIdentifier:@"vc"];
+	self.window.rootViewController = ViewController;
+	[self.window makeKeyAndVisible];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-//	[self saveContext];
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+//   [self saveContext];
 }
 
 #pragma mark - Core Data stack

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5FDD568619D3B5D4001E9FF3 /* QRcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */; };
+		AA66C0DE19D2711E00237764 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA66C0DD19D2711E00237764 /* CoreLocation.framework */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
@@ -47,6 +48,7 @@
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDD568419D3B5D4001E9FF3 /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
 		5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
+		AA66C0DD19D2711E00237764 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
 		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA66C0DE19D2711E00237764 /* CoreLocation.framework in Frameworks */,
 				DFCE221219C06F0700BF4128 /* QuartzCore.framework in Frameworks */,
 				DFCE221019C056CE00BF4128 /* AVFoundation.framework in Frameworks */,
 				DFBBE26519BF7228007F65AD /* CoreGraphics.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		DFBBE26119BF7228007F65AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA66C0DD19D2711E00237764 /* CoreLocation.framework */,
 				DFCE221119C06F0700BF4128 /* QuartzCore.framework */,
 				DFCE220F19C056CE00BF4128 /* AVFoundation.framework */,
 				DFBBE26219BF7228007F65AD /* Foundation.framework */,
@@ -246,6 +250,11 @@
 				TargetAttributes = {
 					DFBBE25E19BF7228007F65AD = {
 						DevelopmentTeam = GTK63E6JGW;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					DFBBE28219BF7229007F65AD = {
 						TestTargetID = DFBBE25E19BF7228007F65AD;
