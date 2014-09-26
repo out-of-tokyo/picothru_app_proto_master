@@ -31,8 +31,7 @@
 		self.proximityUUID = [[NSUUID alloc] initWithUUIDString:_beaconId];
 		
 		// 観測するビーコン領域の作成
-		self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:self.proximityUUID
-															   identifier:@"net.noumenon-th"];
+		self.beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:self.proximityUUID identifier:@"net.noumenon-th"];
 		
 		//以下はデフォルト値で設定されている
 		self.beaconRegion.notifyOnEntry = YES;
