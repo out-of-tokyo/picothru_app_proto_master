@@ -178,6 +178,7 @@ AppDelegate *appDelegate;
     NSNumber *total_price = [NSNumber numberWithInteger:total];
     for (NSMutableDictionary *product in appDelegate.products) {
         [product removeObjectForKey:@"name"];
+        [product removeObjectForKey:@"price"];
     }
     NSDictionary *purchaseDictionary = @{@"beacon_id":@"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD",
                                          @"total_price":total_price,
