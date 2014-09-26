@@ -48,7 +48,7 @@ int labelindex;
 	beaconId = [appDelegate getBeaconId];
 	
 	//カメラを起動する
-	[self cameraLaunch];
+	[self launchCamera];
 
 	// スキャン履歴表示ラベル
     _namelabel = [[UILabel alloc] init];
@@ -129,7 +129,7 @@ int labelindex;
 }
 
 // カメラを起動する
-- (void)cameraLaunch
+- (void)launchCamera
 {
 	_highlightView = [[UIView alloc] init];
 	_highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
