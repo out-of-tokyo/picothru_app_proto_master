@@ -15,19 +15,19 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSMutableArray *products;
 
-- (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
 // スキャンしたデータをいじる関数
-- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price;
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSString *)price andBarCode:(NSString *)barCode;
+- (int)getCountFromBarCode:(NSString *)barCode;
 - (NSDictionary *)getScanedProduct:(int)scanedNumber;
 - (int)getCount;
 - (NSString *)subNumber:(int)scanedNumber;
 - (NSString *)addNumber:(int)scanedNumber;
 
 - (NSString *)getName:(int)scanedNumber;
-- (NSString *)getPrice:(int)scanedNumber;
-- (NSString *)getNumber:(int)scanedNumber;
-
+- (NSNumber *)getPrice:(int)scanedNumber;
+- (NSNumber *)getNumber:(int)scanedNumber;
+- (NSString *)getBarCode:(int)scanedNumber;
 
 @end

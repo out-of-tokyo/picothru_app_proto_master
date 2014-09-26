@@ -36,8 +36,6 @@
 @end
 
 @implementation ViewController
-//バーコードスキャン履歴
-NSMutableArray *codearray;
 //商品履歴ラベルの位置
 int labelindex;
 
@@ -49,9 +47,6 @@ int labelindex;
 	appDelegate = [[UIApplication sharedApplication] delegate];
 	
 	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
-
-    //変数初期化処理
-	codearray =[[NSMutableArray array]init];
 	
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
@@ -91,10 +86,10 @@ int labelindex;
     _namelabel.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 40);
     
     _pricelabel = [[UILabel alloc] init];
-    _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
+    _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
     
     _countlabel = [[UILabel alloc] init];
-    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 1/2, self.view.bounds.size.height - 120, self.view.bounds.size.width * 1/2, 40);
+    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 0.5, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
     _countlabel.text = @"0";
     
     NSArray *labels =  @[_namelabel, _pricelabel, _countlabel];
@@ -164,9 +159,10 @@ int labelindex;
 	}
 }
 
-- (NSString *)barcode2product:(NSString *)queue
+- (NSString *)barcode2product:(NSString *)barCode
 {
 	//バーコード値を投げてデータを格納
+	NSString *queue = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
     NSString *url=[NSString stringWithFormat:@"http://54.64.69.224/api/v0/product?%@",queue];
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -177,7 +173,7 @@ int labelindex;
     NSString *price = [array valueForKeyPath:@"price"];
 
 	// 値をDelegateの配列に格納
-	[appDelegate setScanedProduct:name andPrice:price];
+	[appDelegate setScanedProduct:name andPrice:price andBarCode:barCode];
 
 	return @"Success";
 }
@@ -187,7 +183,6 @@ int labelindex;
     CGRect highlightViewRect = CGRectZero;
     AVMetadataMachineReadableCodeObject *barCodeObject;
     NSString *barCode = nil;
-	NSString *detectionString;
     NSArray *barCodeTypes = @[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
                               AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
                               AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
@@ -205,17 +200,21 @@ int labelindex;
 		//バーコードスキャン成功したら商品を取得して保存
         if (barCode != nil)
         {
-			//ダミーコード
-			detectionString = [NSString stringWithFormat:@"beacon_id=%@&barcode_id=%@",beaconId,barCode];
-			if(![codearray containsObject:detectionString]){//重複しなかった場合
-				//バーコード値を配列に保管
-                [codearray addObject:detectionString];
+			int scanedNumber = [appDelegate getCountFromBarCode:barCode];
+			NSLog(@"読み取ったバーコード値とかぶっている既存の配列値: %d",scanedNumber);
+			if(scanedNumber == -1){//重複しなかった場合
 				//バーコード値から商品情報を保存する関数を呼び出す
-				[self barcode2product:detectionString];
+				[self barcode2product:barCode];
 				//ラベルを更新
 				labelindex = [appDelegate getCount]-1;
 				[self labelUpdate];
-			}
+			}else if(![[appDelegate getBarCode:[appDelegate getCount]-1] isEqualToString:barCode]){//重複しているが最新のスキャン内容ではなかったとき
+				//個数を増やして商品を最新の位置に移動させる
+				[appDelegate addNumber:scanedNumber];
+				//商品の位置=最新の位置荷移動する
+				labelindex = [appDelegate getCount]-1;
+				[self labelUpdate];
+			}//最新のスキャン内容とかぶっている場合は何もしない
 
 			//バーコード値をリセット
 			barCode = nil;
@@ -245,25 +244,36 @@ int labelindex;
 
 //個数減らすボタン
 -(void)subcount:(UIButton *)button{
-	// 一番最近スキャンした商品の個数を1減らす
-	NSString *updatedNumber = [appDelegate subNumber:labelindex];
-	if([updatedNumber isEqualToString:@"0"]){
-		//個数がゼロになったら最新商品に移動
-		if([appDelegate getCount]>0){
+	if([appDelegate getCount]!=0){
+		// labelindexの商品の個数を1減らし、0個になったら削除する
+		NSString *updatedNumber = [appDelegate subNumber:labelindex];
+		//商品が削除されたとき
+		if([updatedNumber isEqualToString:@"0"]){
+			//スキャン済み商品が他にあれば最新商品に移動
+			if([appDelegate getCount]>0){
+				labelindex = [appDelegate getCount]-1;
+				[self labelUpdate];
+			}else{//スキャン済み商品がゼロになった場合ラベルを空にする
+				labelindex = -1;
+				_namelabel.text = @"";
+				_pricelabel.text = @"";
+				_countlabel.text = @"";
+			}
+		}else{//個数を減らしたが0にならなかった場合、最新の商品になっているので位置を更新
 			labelindex = [appDelegate getCount]-1;
 			[self labelUpdate];
-		}else{//最新商品が無い場合
-			labelindex = 0;
-			_namelabel.text = @"";
-			_pricelabel.text = @"";
-			_countlabel.text = @"";
 		}
 	}
 }
 //個数増やすボタン
 -(void)addcount:(UIButton *)button{
-	[appDelegate addNumber:[appDelegate getCount]-1];
-	[self labelUpdate];
+	if([appDelegate getCount]!=0){
+		//個数を増やして商品を最新の位置に移動させる
+		[appDelegate addNumber:labelindex];
+		//商品の位置=最新の位置荷移動する
+		labelindex = [appDelegate getCount]-1;
+		[self labelUpdate];
+	}
 }
 
 //過去の商品履歴を見るボタン

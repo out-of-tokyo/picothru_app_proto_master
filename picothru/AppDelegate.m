@@ -13,41 +13,42 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    [WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
+	// Override point for customization after application launch.
+	[WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
 	
 	// スキャンしたデータの初期化
 	self.products = [[NSMutableArray alloc] init];
 	
-    return YES;
+	return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+	// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+	// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [self saveContext];}
+	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+//	[self saveContext];
+}
 
 #pragma mark - Core Data stack
 
@@ -59,7 +60,7 @@
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 //　スキャンしたアイテムの総数を返す
@@ -68,19 +69,31 @@
 	return (int)[_products count];
 }
 
-//　スキャンしたアイテムを格納
-- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price
+//　スキャンしたアイテムを格納(これが呼ばれるときはバーコード的に必ず重複していないデータが来る)
+- (NSString *)setScanedProduct:(NSString *)name andPrice:(NSNumber *)price andBarCode:(NSString *)barCode
 {
 	NSMutableDictionary * product = [NSMutableDictionary dictionary];
 	product[@"name"] = name;
 	product[@"price"] = price;
 	product[@"number"] = @1;
+	product[@"barCode"] = barCode;
 	
 	NSLog(@"NSMutableDictionary: %@",product);
-
+	
 	[_products addObject:product];
 	NSLog(@"_products: %@",_products);
+	
 	return @"Success";
+}
+
+//バーコード値から何番目にスキャンしたかを取得
+- (int)getCountFromBarCode:(NSString *)barCode
+{
+	for(int i=0;i<[self getCount];i++){
+		if([_products[i][@"barCode"] isEqualToString:barCode])
+			return i;
+	}
+	return -1;
 }
 
 // スキャンしたアイテムを出力
@@ -91,25 +104,45 @@
 	return _products[scanedNumber];
 }
 
-- (void)subNumber:(int)scanedNumber
+- (NSString *)subNumber:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	int num = [_products[scanedNumber][@"number"] integerValue];
+	int num = [_products[scanedNumber][@"number"] intValue];
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		_products[scanedNumber][@"number"] = [NSString stringWithFormat:@"%d", num];
+		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+		// 個数を更新したら、スキャン順を最新の位置に移動する
+		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
+		tempProduct = _products[scanedNumber];
+		NSLog(@"tempProduct: %@",tempProduct);
+		[self deleteProduct:scanedNumber];
+		[_products addObject:tempProduct];
+		
+		// 更新後の値を返す
+		return [NSString stringWithFormat:@"%d", num];
 	}else{
 		[self deleteProduct:scanedNumber];
+		return @"0";
 	}
 }
 
-- (void)addNumber:(int)scanedNumber
+- (NSString *)addNumber:(int)scanedNumber
 {
-	int num = [_products[scanedNumber][@"number"] integerValue];
+	//個数を増やす
+	int num = [_products[scanedNumber][@"number"] intValue];
 	num++;
 	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+	
+	// 個数を更新したら、スキャン順を最新の位置に移動する
+	NSMutableDictionary *tempProduct = [NSMutableDictionary dictionary];
+	tempProduct = _products[scanedNumber];
+	NSLog(@"tempProduct: %@",tempProduct);
+	[self deleteProduct:scanedNumber];
+	[_products addObject:tempProduct];
+	
+	return @"Success";
 }
 
 - (NSString *)getName:(int)scanedNumber
@@ -125,6 +158,10 @@
 - (NSNumber *)getNumber:(int)scanedNumber
 {
 	return _products[scanedNumber][@"number"];
+}
+- (NSString *)getBarCode:(int)scanedNumber
+{
+	return _products[scanedNumber][@"barCode"];
 }
 
 - (NSString *)deleteProduct:(int)scanedNumber
