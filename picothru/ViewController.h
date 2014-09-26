@@ -9,4 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+
+- (void)cameraLaunch;
+
 @end

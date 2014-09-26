@@ -31,7 +31,6 @@
 
 	//iBeacon
 	NSString *beaconId;
-
 }
 @end
 
@@ -46,40 +45,10 @@ int labelindex;
 	//デリゲート生成
 	appDelegate = [[UIApplication sharedApplication] delegate];
 	
-	beaconId = @"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD";
+	beaconId = [appDelegate getBeaconId];
 	
-    _highlightView = [[UIView alloc] init];
-    _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
-    _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
-    _highlightView.layer.borderWidth = 3;
-    [self.view addSubview:_highlightView];
-    
-    _session = [[AVCaptureSession alloc] init];
-    _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    NSError *error = nil;
-    
-    _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:&error];
-    if (_input) {
-        [_session addInput:_input];
-    } else {
-        NSLog(@"Error: %@", error);
-    }
-    
-    _output = [[AVCaptureMetadataOutput alloc] init];
-    [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-    [_session addOutput:_output];
-    
-    _output.metadataObjectTypes = [_output availableMetadataObjectTypes];
-    
-    _prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
-    _prevLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 180);
-    _prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [self.view.layer addSublayer:_prevLayer];
-    
-    [_session startRunning];
-    
-    [self.view bringSubviewToFront:_highlightView];
-    [self.view bringSubviewToFront:_namelabel];
+	//カメラを起動する
+	[self cameraLaunch];
 
 	// スキャン履歴表示ラベル
     _namelabel = [[UILabel alloc] init];
@@ -157,6 +126,42 @@ int labelindex;
 		
 		NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
 	}
+}
+
+// カメラを起動する
+- (void)cameraLaunch
+{
+	_highlightView = [[UIView alloc] init];
+	_highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+	_highlightView.layer.borderColor = [UIColor greenColor].CGColor;
+	_highlightView.layer.borderWidth = 3;
+	[self.view addSubview:_highlightView];
+	
+	_session = [[AVCaptureSession alloc] init];
+	_device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+	NSError *error = nil;
+	
+	_input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:&error];
+	if (_input) {
+		[_session addInput:_input];
+	} else {
+		NSLog(@"Error: %@", error);
+	}
+	
+	_output = [[AVCaptureMetadataOutput alloc] init];
+	[_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+	[_session addOutput:_output];
+	
+	_output.metadataObjectTypes = [_output availableMetadataObjectTypes];
+	
+	_prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
+	_prevLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 180);
+	_prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+	[self.view.layer addSublayer:_prevLayer];
+	
+	[_session startRunning];
+	
+	[self.view bringSubviewToFront:_highlightView];
 }
 
 - (NSString *)barcode2product:(NSString *)barCode
