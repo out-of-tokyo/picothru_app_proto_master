@@ -53,13 +53,13 @@
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
 	NSLog(@"ビーコン領域に入りました");
-	[self sendLocalNotificationForMessage:@"ビーコン領域に入りました"];
+	[self sendLocalNotificationForMessage:@"ローソン東京リクルート店でお買い物できます！"];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
 	NSLog(@"ビーコン領域を出ました");
-	[self sendLocalNotificationForMessage:@"ビーコン領域を出ました"];
+//	[self sendLocalNotificationForMessage:@"ビーコン領域を出ました"];
 }
 
 //新しい領域のモニタリングを開始したことを伝える
