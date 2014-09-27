@@ -124,7 +124,7 @@ int labelindex;
 		labelindex = [appDelegate getCount]-1;
 		[self labelUpdate];
 		
-		NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
+		NSLog(@"[viewdidload]product[0] name: %@, price: %@, amount: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getAmount:0]);
 	}
 }
 
@@ -215,7 +215,7 @@ int labelindex;
 				[self labelUpdate];
 			}else if(![[appDelegate getBarCode:[appDelegate getCount]-1] isEqualToString:barCode]){//重複しているが最新のスキャン内容ではなかったとき
 				//個数を増やして商品を最新の位置に移動させる
-				[appDelegate addNumber:scanedNumber];
+				[appDelegate addAmount:scanedNumber];
 				//商品の位置=最新の位置荷移動する
 				labelindex = [appDelegate getCount]-1;
 				[self labelUpdate];
@@ -232,13 +232,13 @@ int labelindex;
 //labelindexの位置にある商品のラベルを更新する
 - (void)labelUpdate
 {
-	NSLog(@"[viewdidload]product[0] name: %@, price: %@, number: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getNumber:0]);
+	NSLog(@"[viewdidload]product[0] name: %@, price: %@, amount: %@",[appDelegate getName:0],[appDelegate getPrice:0],[appDelegate getAmount:0]);
 	_namelabel.text = [appDelegate getName:labelindex];
 	NSLog(@"[labelUpdate]labelindex: %d",labelindex);
 	NSLog(@"_namelabel.text: %@",_namelabel.text);
 	NSLog(@"products: %@",[appDelegate getScanedProduct:labelindex]);
 	_pricelabel.text = [appDelegate.products[labelindex][@"price"] stringValue];
-	_countlabel.text = [appDelegate.products[labelindex][@"number"] stringValue];
+	_countlabel.text = [appDelegate.products[labelindex][@"amount"] stringValue];
 }
 
 //画面遷移ボタン
@@ -251,9 +251,9 @@ int labelindex;
 -(void)subcount:(UIButton *)button{
 	if([appDelegate getCount]!=0){
 		// labelindexの商品の個数を1減らし、0個になったら削除する
-		NSString *updatedNumber = [appDelegate subNumber:labelindex];
+		NSString *updatedAmount = [appDelegate subAmount:labelindex];
 		//商品が削除されたとき
-		if([updatedNumber isEqualToString:@"0"]){
+		if([updatedAmount isEqualToString:@"0"]){
 			//スキャン済み商品が他にあれば最新商品に移動
 			if([appDelegate getCount]>0){
 				labelindex = [appDelegate getCount]-1;
@@ -274,7 +274,7 @@ int labelindex;
 -(void)addcount:(UIButton *)button{
 	if([appDelegate getCount]!=0){
 		//個数を増やして商品を最新の位置に移動させる
-		[appDelegate addNumber:labelindex];
+		[appDelegate addAmount:labelindex];
 		//商品の位置=最新の位置荷移動する
 		labelindex = [appDelegate getCount]-1;
 		[self labelUpdate];

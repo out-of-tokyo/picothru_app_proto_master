@@ -29,12 +29,12 @@
 - (int)getCountFromBarCode:(NSString *)barCode;
 - (NSDictionary *)getScanedProduct:(int)scanedNumber;
 - (int)getCount;
-- (NSString *)subNumber:(int)scanedNumber;
-- (NSString *)addNumber:(int)scanedNumber;
+- (NSString *)subAmount:(int)scanedNumber;
+- (NSString *)addAmount:(int)scanedNumber;
 
 - (NSString *)getName:(int)scanedNumber;
 - (NSNumber *)getPrice:(int)scanedNumber;
-- (NSNumber *)getNumber:(int)scanedNumber;
+- (NSNumber *)getAmount:(int)scanedNumber;
 - (NSString *)getBarCode:(int)scanedNumber;
 
 //iBeacon

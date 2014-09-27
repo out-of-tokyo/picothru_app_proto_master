@@ -17,7 +17,7 @@
 	NSLog(@"didFinishLaunchingWithOptions start");
 	
 	// Override point for customization after application launch.
-	[WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
+	[WPYTokenizer setPublicKey:@"test_public_dek0byd8V4VAcI7cw1fN71L4"];
 	
 	// スキャンしたデータの初期化
 	self.products = [[NSMutableArray alloc] init];
@@ -164,8 +164,8 @@
 	NSMutableDictionary * product = [NSMutableDictionary dictionary];
 	product[@"name"] = name;
 	product[@"price"] = price;
-	product[@"number"] = @1;
-	product[@"barCode"] = barCode;
+	product[@"amount"] = @1;
+	product[@"barcode_id"] = barCode;
 	
 	NSLog(@"NSMutableDictionary: %@",product);
 	
@@ -179,7 +179,7 @@
 - (int)getCountFromBarCode:(NSString *)barCode
 {
 	for(int i=0;i<[self getCount];i++){
-		if([_products[i][@"barCode"] isEqualToString:barCode])
+		if([_products[i][@"barcode_id"] isEqualToString:barCode])
 			return i;
 	}
 	return -1;
@@ -193,15 +193,15 @@
 	return _products[scanedNumber];
 }
 
-- (NSString *)subNumber:(int)scanedNumber
+- (NSString *)subAmount:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	int num = [_products[scanedNumber][@"number"] intValue];
+	int num = [_products[scanedNumber][@"amount"] intValue];
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+		_products[scanedNumber][@"amount"] = [NSNumber numberWithInt:num];
 		// 個数を更新したら、スキャン順を最新の位置に移動する
 		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
 		tempProduct = _products[scanedNumber];
@@ -217,12 +217,12 @@
 	}
 }
 
-- (NSString *)addNumber:(int)scanedNumber
+- (NSString *)addAmount:(int)scanedNumber
 {
 	//個数を増やす
-	int num = [_products[scanedNumber][@"number"] intValue];
-	num++;
-	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+	int amount = [_products[scanedNumber][@"amount"] intValue];
+	amount++;
+	_products[scanedNumber][@"amount"] = [NSNumber numberWithInt:amount];
 	
 	// 個数を更新したら、スキャン順を最新の位置に移動する
 	NSMutableDictionary *tempProduct = [NSMutableDictionary dictionary];
@@ -244,13 +244,13 @@
 	return _products[scanedNumber][@"price"];
 }
 
-- (NSNumber *)getNumber:(int)scanedNumber
+- (NSNumber *)getAmount:(int)scanedNumber
 {
-	return _products[scanedNumber][@"number"];
+	return _products[scanedNumber][@"amount"];
 }
 - (NSString *)getBarCode:(int)scanedNumber
 {
-	return _products[scanedNumber][@"barCode"];
+	return _products[scanedNumber][@"barcode_id"];
 }
 
 - (NSString *)deleteProduct:(int)scanedNumber

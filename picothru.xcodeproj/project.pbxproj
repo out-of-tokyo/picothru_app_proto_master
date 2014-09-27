@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5FDD568619D3B5D4001E9FF3 /* QRcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */; };
+		5FDD56C019D60B8C001E9FF3 /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56B919D60B8C001E9FF3 /* AESCrypt.m */; };
+		5FDD56C119D60B8C001E9FF3 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56BB19D60B8C001E9FF3 /* NSData+Base64.m */; };
+		5FDD56C219D60B8C001E9FF3 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56BD19D60B8C001E9FF3 /* NSData+CommonCrypto.m */; };
+		5FDD56C319D60B8C001E9FF3 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56BF19D60B8C001E9FF3 /* NSString+Base64.m */; };
 		AA66C0DE19D2711E00237764 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA66C0DD19D2711E00237764 /* CoreLocation.framework */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
@@ -48,6 +52,14 @@
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDD568419D3B5D4001E9FF3 /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
 		5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
+		5FDD56B819D60B8C001E9FF3 /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESCrypt.h; path = picothru/lib/AESCrypt.h; sourceTree = "<group>"; };
+		5FDD56B919D60B8C001E9FF3 /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AESCrypt.m; path = picothru/lib/AESCrypt.m; sourceTree = "<group>"; };
+		5FDD56BA19D60B8C001E9FF3 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "picothru/lib/NSData+Base64.h"; sourceTree = "<group>"; };
+		5FDD56BB19D60B8C001E9FF3 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "picothru/lib/NSData+Base64.m"; sourceTree = "<group>"; };
+		5FDD56BC19D60B8C001E9FF3 /* NSData+CommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+CommonCrypto.h"; path = "picothru/lib/NSData+CommonCrypto.h"; sourceTree = "<group>"; };
+		5FDD56BD19D60B8C001E9FF3 /* NSData+CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+CommonCrypto.m"; path = "picothru/lib/NSData+CommonCrypto.m"; sourceTree = "<group>"; };
+		5FDD56BE19D60B8C001E9FF3 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Base64.h"; path = "picothru/lib/NSString+Base64.h"; sourceTree = "<group>"; };
+		5FDD56BF19D60B8C001E9FF3 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Base64.m"; path = "picothru/lib/NSString+Base64.m"; sourceTree = "<group>"; };
 		AA66C0DD19D2711E00237764 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
@@ -110,6 +122,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5FDD56B019D60684001E9FF3 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				5FDD56B819D60B8C001E9FF3 /* AESCrypt.h */,
+				5FDD56B919D60B8C001E9FF3 /* AESCrypt.m */,
+				5FDD56BA19D60B8C001E9FF3 /* NSData+Base64.h */,
+				5FDD56BB19D60B8C001E9FF3 /* NSData+Base64.m */,
+				5FDD56BC19D60B8C001E9FF3 /* NSData+CommonCrypto.h */,
+				5FDD56BD19D60B8C001E9FF3 /* NSData+CommonCrypto.m */,
+				5FDD56BE19D60B8C001E9FF3 /* NSString+Base64.h */,
+				5FDD56BF19D60B8C001E9FF3 /* NSString+Base64.m */,
+			);
+			name = lib;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		DFBBE25619BF7228007F65AD = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +177,7 @@
 		DFBBE26819BF7228007F65AD /* picothru */ = {
 			isa = PBXGroup;
 			children = (
+				5FDD56B019D60684001E9FF3 /* lib */,
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
@@ -342,13 +371,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FDD56C019D60B8C001E9FF3 /* AESCrypt.m in Sources */,
 				DFCE224C19C283F700BF4128 /* CardViewController.m in Sources */,
+				5FDD56C219D60B8C001E9FF3 /* NSData+CommonCrypto.m in Sources */,
 				DFBBE27C19BF7228007F65AD /* ViewController.m in Sources */,
 				DFBBE27319BF7228007F65AD /* AppDelegate.m in Sources */,
 				5FDD568619D3B5D4001E9FF3 /* QRcodeViewController.m in Sources */,
+				5FDD56C319D60B8C001E9FF3 /* NSString+Base64.m in Sources */,
 				DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */,
 				DFCE222819C0D39B00BF4128 /* ListTableViewCell.m in Sources */,
 				DFBBE26F19BF7228007F65AD /* main.m in Sources */,
+				5FDD56C119D60B8C001E9FF3 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

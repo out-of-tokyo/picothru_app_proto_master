@@ -93,7 +93,7 @@ AppDelegate *appDelegate;
     NSLog(@"prices count = %d",[appDelegate getCount]);
     for(NSDictionary *product in appDelegate.products) {
 		NSInteger tmp = [product[@"price"] intValue];
-		tmp *= [product[@"number"] intValue];
+		tmp *= [product[@"amount"] intValue];
         total += tmp;
     }
 
@@ -132,7 +132,7 @@ AppDelegate *appDelegate;
     int i = (int)indexPath.row;
 	cell.prodactname.text = [appDelegate getName:i];
     cell.prodactprice.text = [appDelegate.products[i][@"price"] stringValue];
-	cell.prodactcount.text = [appDelegate.products[i][@"number"] stringValue];
+	cell.prodactcount.text = [appDelegate.products[i][@"amount"] stringValue];
 	return cell;
 }
 
@@ -176,9 +176,13 @@ AppDelegate *appDelegate;
 
 - (NSDictionary *) createPurchaseDictionary{
     NSNumber *total_price = [NSNumber numberWithInteger:total];
+    for (NSMutableDictionary *product in appDelegate.products) {
+        [product removeObjectForKey:@"name"];
+        [product removeObjectForKey:@"price"];
+    }
     NSDictionary *purchaseDictionary = @{@"beacon_id":@"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD",
                                          @"total_price":total_price,
-                                         @"purchase":appDelegate.products,
+                                         @"products":appDelegate.products,
                                          @"token":tokenid};
     return purchaseDictionary;
 }

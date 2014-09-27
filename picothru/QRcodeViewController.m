@@ -9,6 +9,7 @@
 #import "QRcodeViewController.h"
 #import "ZXingObjC.h"
 #import "AppDelegate.h"
+#import "AESCrypt.h"
 
 @interface QRcodeViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *qrcodeImageView;
@@ -24,9 +25,11 @@ AppDelegate *appDelegate;
     [super viewDidLoad];
     
     appDelegate = [[UIApplication sharedApplication] delegate];
-    
-    NSString *purchaseString = [NSString stringWithFormat:@"%@", purchaseDictionary];
-    UIImage *qrcode = [self createQrCode:purchaseString];
+
+    NSData *data=[NSJSONSerialization dataWithJSONObject:purchaseDictionary options:2 error:nil];
+    NSString *purchaseString=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSString *encryptedPurchaseString = [AESCrypt encrypt:purchaseString password:@"0123456789ABCDEF"];
+    UIImage *qrcode = [self createQrCode:encryptedPurchaseString];
     
     self.qrcodeImageView.image = qrcode;
     [self.view addSubview:self.qrcodeImageView];
