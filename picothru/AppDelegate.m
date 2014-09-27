@@ -165,7 +165,7 @@
 	product[@"name"] = name;
 	product[@"price"] = price;
 	product[@"amount"] = @1;
-	product[@"barCode"] = barCode;
+	product[@"barcode_id"] = barCode;
 	
 	NSLog(@"NSMutableDictionary: %@",product);
 	
@@ -179,7 +179,7 @@
 - (int)getCountFromBarCode:(NSString *)barCode
 {
 	for(int i=0;i<[self getCount];i++){
-		if([_products[i][@"barCode"] isEqualToString:barCode])
+		if([_products[i][@"barcode_id"] isEqualToString:barCode])
 			return i;
 	}
 	return -1;
@@ -250,7 +250,7 @@
 }
 - (NSString *)getBarCode:(int)scanedNumber
 {
-	return _products[scanedNumber][@"barCode"];
+	return _products[scanedNumber][@"barcode_id"];
 }
 
 - (NSString *)deleteProduct:(int)scanedNumber
