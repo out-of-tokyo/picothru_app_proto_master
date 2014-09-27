@@ -17,7 +17,7 @@
 	NSLog(@"didFinishLaunchingWithOptions start");
 	
 	// Override point for customization after application launch.
-	[WPYTokenizer setPublicKey:@"test_public_fdvbxDd9c2VCcftgP6b2o99z"];
+	[WPYTokenizer setPublicKey:@"test_public_dek0byd8V4VAcI7cw1fN71L4"];
 	
 	// スキャンしたデータの初期化
 	self.products = [[NSMutableArray alloc] init];
