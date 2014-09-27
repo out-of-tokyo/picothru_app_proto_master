@@ -182,7 +182,7 @@ AppDelegate *appDelegate;
     }
     NSDictionary *purchaseDictionary = @{@"beacon_id":@"D87CEE67-C2C2-44D2-A847-B728CF8BAAAD",
                                          @"total_price":total_price,
-                                         @"purchase":appDelegate.products,
+                                         @"products":appDelegate.products,
                                          @"token":tokenid};
     return purchaseDictionary;
 }
