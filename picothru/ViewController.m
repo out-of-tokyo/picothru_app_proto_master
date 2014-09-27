@@ -52,13 +52,13 @@ int labelindex;
 
 	// スキャン履歴表示ラベル
     _namelabel = [[UILabel alloc] init];
-    _namelabel.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 40);
+    _namelabel.frame = CGRectMake(45, self.view.bounds.size.height - 190, self.view.bounds.size.width - 90, 50);
     
     _pricelabel = [[UILabel alloc] init];
-    _pricelabel.frame = CGRectMake(0, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
+    _pricelabel.frame = CGRectMake(45, self.view.bounds.size.height - 140, self.view.bounds.size.width * 0.5 - 45, 50);
     
     _countlabel = [[UILabel alloc] init];
-    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 0.5, self.view.bounds.size.height - 120, self.view.bounds.size.width * 0.5, 40);
+    _countlabel.frame = CGRectMake(self.view.bounds.size.width * 0.5, self.view.bounds.size.height - 140, self.view.bounds.size.width * 0.5 - 45, 50);
     _countlabel.text = @"0";
     
     NSArray *labels =  @[_namelabel, _pricelabel, _countlabel];
@@ -69,46 +69,61 @@ int labelindex;
         label.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:label];
     }
+	
+	//上のナビゲーションバー
+	UINavigationBar *nav = [[UINavigationBar alloc] init];
+	nav.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64);
+	UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"スキャン"];
+	nav.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+	[nav setItems:@[item]];
+	nav.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	nav.barTintColor = nil;
+	[self.view addSubview:nav];
 
+	//一覧画面へ移るボタン
     _donebutton = [[UIButton alloc] init];
-    _donebutton.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    _donebutton.backgroundColor = [UIColor greenColor];
+    _donebutton.frame = CGRectMake(0, self.view.bounds.size.height - 60 , self.view.bounds.size.width, 60);
+    _donebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
     [ _donebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _donebutton setTitle:@"確認&決済" forState:UIControlStateNormal ];
     [_donebutton addTarget:self action:@selector(gotoctv:) forControlEvents:UIControlEventTouchUpInside];
-    
+
+	//個数マイナスボタン
     _subbutton = [[UIButton alloc] init];
-    _subbutton.frame = CGRectMake(200, self.view.bounds.size.height - 110, 20, 20);
+    _subbutton.frame = CGRectMake((self.view.bounds.size.width - 90) * 0.75 - 10, self.view.bounds.size.height - 135, 40, 40);
     _subbutton.tintColor = [UIColor whiteColor];
     [ _subbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _subbutton setTitle:@"-" forState:UIControlStateNormal ];
-    _subbutton.layer.cornerRadius = 10;
+    _subbutton.layer.cornerRadius = 20;
     _subbutton.layer.borderColor = [UIColor whiteColor].CGColor;
     _subbutton.layer.borderWidth = 1;
     [_subbutton addTarget:self action:@selector(subcount:) forControlEvents:UIControlEventTouchUpInside];
-    
+	
+	//個数プラスボタン
     _addbutton = [[UIButton alloc] init];
-    _addbutton.frame = CGRectMake(260, self.view.bounds.size.height - 110, 20, 20);
+    _addbutton.frame = CGRectMake((self.view.bounds.size.width - 90) * 0.75 + 60, self.view.bounds.size.height - 135, 40, 40);
     _addbutton.tintColor = [UIColor whiteColor];
     [ _addbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _addbutton setTitle:@"+" forState:UIControlStateNormal ];
-    _addbutton.layer.cornerRadius = 10;
+    _addbutton.layer.cornerRadius = 20;
     _addbutton.layer.borderColor = [UIColor whiteColor].CGColor;
     _addbutton.layer.borderWidth = 1;
     [_addbutton addTarget:self action:@selector(addcount:) forControlEvents:UIControlEventTouchUpInside];
-    
+	
+	//左の商品に戻るボタン
     _prebutton = [[UIButton alloc] init];
-    _prebutton.frame = CGRectMake(0, self.view.bounds.size.height - 160, 30, 80);
-    [ _prebutton setTitleColor:[ UIColor orangeColor ] forState:UIControlStateNormal ];
+    _prebutton.frame = CGRectMake(5, self.view.bounds.size.height - 190, 40, 100);
+    [ _prebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _prebutton setTitle:@"<" forState:UIControlStateNormal ];
-    _prebutton.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    _prebutton.layer.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.45].CGColor;
     [_prebutton addTarget:self action:@selector(subindex:) forControlEvents:UIControlEventTouchUpInside];
-    
+	
+	//右の商品に進むボタン
     _nextbutton = [[UIButton alloc] init];
-    _nextbutton.frame = CGRectMake(self.view.bounds.size.width - 30, self.view.bounds.size.height - 160, 30, 80);
-    [ _nextbutton setTitleColor:[ UIColor orangeColor ] forState:UIControlStateNormal ];
+    _nextbutton.frame = CGRectMake(self.view.bounds.size.width - 45, self.view.bounds.size.height - 190, 40, 100);
+    [ _nextbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _nextbutton setTitle:@">" forState:UIControlStateNormal ];
-    _nextbutton.layer.backgroundColor= [UIColor whiteColor].CGColor;
+    _nextbutton.layer.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.45].CGColor;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     
     NSArray *buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
@@ -155,7 +170,7 @@ int labelindex;
 	_output.metadataObjectTypes = [_output availableMetadataObjectTypes];
 	
 	_prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
-	_prevLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 180);
+	_prevLayer.frame = CGRectMake(0, 64 , self.view.bounds.size.width, self.view.bounds.size.height - 264);
 	_prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 	[self.view.layer addSublayer:_prevLayer];
 	
