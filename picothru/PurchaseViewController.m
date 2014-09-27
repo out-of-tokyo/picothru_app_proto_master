@@ -93,7 +93,7 @@ AppDelegate *appDelegate;
     NSLog(@"prices count = %d",[appDelegate getCount]);
     for(NSDictionary *product in appDelegate.products) {
 		NSInteger tmp = [product[@"price"] intValue];
-		tmp *= [product[@"number"] intValue];
+		tmp *= [product[@"amount"] intValue];
         total += tmp;
     }
 
@@ -132,7 +132,7 @@ AppDelegate *appDelegate;
     int i = (int)indexPath.row;
 	cell.prodactname.text = [appDelegate getName:i];
     cell.prodactprice.text = [appDelegate.products[i][@"price"] stringValue];
-	cell.prodactcount.text = [appDelegate.products[i][@"number"] stringValue];
+	cell.prodactcount.text = [appDelegate.products[i][@"amount"] stringValue];
 	return cell;
 }
 

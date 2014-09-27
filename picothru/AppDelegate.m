@@ -164,7 +164,7 @@
 	NSMutableDictionary * product = [NSMutableDictionary dictionary];
 	product[@"name"] = name;
 	product[@"price"] = price;
-	product[@"number"] = @1;
+	product[@"amount"] = @1;
 	product[@"barCode"] = barCode;
 	
 	NSLog(@"NSMutableDictionary: %@",product);
@@ -193,15 +193,15 @@
 	return _products[scanedNumber];
 }
 
-- (NSString *)subNumber:(int)scanedNumber
+- (NSString *)subAmount:(int)scanedNumber
 {
 	NSLog(@"products: %@",_products);
-	int num = [_products[scanedNumber][@"number"] intValue];
+	int num = [_products[scanedNumber][@"amount"] intValue];
 	NSLog(@"num: %d",num);
 	//もとの数値が1より大きければ引いて値を更新する
 	if(num > 1){
 		num--;
-		_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+		_products[scanedNumber][@"amount"] = [NSNumber numberWithInt:num];
 		// 個数を更新したら、スキャン順を最新の位置に移動する
 		NSMutableDictionary * tempProduct = [NSMutableDictionary dictionary];
 		tempProduct = _products[scanedNumber];
@@ -217,12 +217,12 @@
 	}
 }
 
-- (NSString *)addNumber:(int)scanedNumber
+- (NSString *)addAmount:(int)scanedNumber
 {
 	//個数を増やす
-	int num = [_products[scanedNumber][@"number"] intValue];
-	num++;
-	_products[scanedNumber][@"number"] = [NSNumber numberWithInt:num];
+	int amount = [_products[scanedNumber][@"amount"] intValue];
+	amount++;
+	_products[scanedNumber][@"amount"] = [NSNumber numberWithInt:amount];
 	
 	// 個数を更新したら、スキャン順を最新の位置に移動する
 	NSMutableDictionary *tempProduct = [NSMutableDictionary dictionary];
@@ -244,9 +244,9 @@
 	return _products[scanedNumber][@"price"];
 }
 
-- (NSNumber *)getNumber:(int)scanedNumber
+- (NSNumber *)getAmount:(int)scanedNumber
 {
-	return _products[scanedNumber][@"number"];
+	return _products[scanedNumber][@"amount"];
 }
 - (NSString *)getBarCode:(int)scanedNumber
 {
