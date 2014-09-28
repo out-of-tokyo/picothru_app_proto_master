@@ -28,9 +28,8 @@ WPYCreditCard *card;
     [self.view addSubview: cardForm];
     
     _button = [[UIButton alloc] init];
-    _button.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    _button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _button.backgroundColor = [UIColor greenColor];
+    _button.frame = CGRectMake(20, self.view.bounds.size.height - 140, self.view.bounds.size.width - 40, 60);
+    _button.backgroundColor = [UIColor orangeColor];
     [ _button setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ _button setTitle:@"このカードを登録する" forState:UIControlStateNormal ];
     _button.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -38,10 +37,13 @@ WPYCreditCard *card;
     [self.view addSubview:_button];
     self.button.enabled = NO;
     UINavigationBar *nav = [[UINavigationBar alloc] init];
-    nav.frame = CGRectMake(0, 0, 320, 64);
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
+    nav.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64);
+    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"決済情報入力"];
+    nav.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     [nav setItems:@[item]];
+    [UINavigationBar appearance].barTintColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.000];
     [self.view addSubview:nav];
+
 }
 
 - (void)didReceiveMemoryWarning
