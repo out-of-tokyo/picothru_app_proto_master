@@ -46,8 +46,8 @@
 	}
 	
 	NSLog(@"didFinishLaunchingWithOptions stop");
-
-    return YES;
+	
+	return YES;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
@@ -59,7 +59,7 @@
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
 	NSLog(@"ビーコン領域を出ました");
-//	[self sendLocalNotificationForMessage:@"ビーコン領域を出ました"];
+	//	[self sendLocalNotificationForMessage:@"ビーコン領域を出ました"];
 }
 
 //新しい領域のモニタリングを開始したことを伝える
@@ -130,13 +130,13 @@
 	UIViewController *ViewController = [storyboard instantiateViewControllerWithIdentifier:@"vc"];
 	self.window.rootViewController = ViewController;
 	[self.window makeKeyAndVisible];
-
+	
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-//   [self saveContext];
+	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	//   [self saveContext];
 }
 
 #pragma mark - Core Data stack

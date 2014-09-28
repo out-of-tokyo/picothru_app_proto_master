@@ -13,6 +13,7 @@
 #import "CardViewController.h"
 #import "Webpay.h"
 #import "AppDelegate.h"
+#import "NewsViewController.h"
 
 @interface PurchaseViewController ()
 
@@ -83,6 +84,8 @@ AppDelegate *appDelegate;
 	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
 	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
 	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+	[_newsbutton addTarget:self action:@selector(gotoNews:) forControlEvents:UIControlEventTouchUpInside];
+
 	
 	//一覧画面へ移るボタン(動作なし)
 	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
@@ -166,6 +169,16 @@ AppDelegate *appDelegate;
 -(void)gotoscan:(UIButton*)button{
     ViewController *ViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
     [self presentViewController:ViewController animated:YES completion:nil];
+}
+
+-(void)gotoNews:(UIButton*)button{
+	NewsViewController *newsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"nw"];
+	[self presentViewController:newsViewController animated:YES completion:nil];
+}
+
+-(void)gotoPurchase:(UIButton*)button{
+	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"nw"];
+	[self presentViewController:purchaseViewController animated:YES completion:nil];
 }
 
 -(void)done:(UIButton*)button{

@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "PurchaseViewController.h"
 #import "AppDelegate.h"
+#import "NewsViewController.h"
 
 @interface ViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -92,13 +93,14 @@ int labelindex;
 	NSLog(@"self.view.bounds.size.width: %f",self.view.bounds.size.width);
 	NSLog(@"self.view.bounds.size.height: %f",self.view.bounds.size.height);
 
-	//新聞画面へ移るボタン(動作なし)
+	//新聞画面へ移るボタン
 	UIImage *img_news = [UIImage imageNamed:@"news-menu.png"];
 	_newsbutton = [[UIButton alloc] init];
 	_newsbutton.frame = CGRectMake(107, self.view.bounds.size.height - 60 , 106, 60);
 	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
 	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
 	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+	[_newsbutton addTarget:self action:@selector(gotoNews:) forControlEvents:UIControlEventTouchUpInside];
 
 	//一覧画面へ移るボタン
 	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
@@ -281,6 +283,11 @@ int labelindex;
 -(void)gotoctv:(UIButton *)button{
 	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
     [self presentViewController:purchaseViewController animated:YES completion:nil];
+}
+
+-(void)gotoNews:(UIButton*)button{
+	NewsViewController *newsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"nw"];
+	[self presentViewController:newsViewController animated:YES completion:nil];
 }
 
 //個数減らすボタン

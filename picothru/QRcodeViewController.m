@@ -12,6 +12,7 @@
 #import "AESCrypt.h"
 #import "ViewController.h"
 #import "PurchaseViewController.h"
+#import "NewsViewController.h"
 
 @interface QRcodeViewController ()
 {
@@ -57,7 +58,7 @@ AppDelegate *appDelegate;
 	_scanbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
 	[ _scanbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
 	[_scanbutton setBackgroundImage:img_scan forState:UIControlStateNormal];
-	[_purchasebutton addTarget:self action:@selector(gotoScan:) forControlEvents:UIControlEventTouchUpInside];
+	[_scanbutton addTarget:self action:@selector(gotoScan:) forControlEvents:UIControlEventTouchUpInside];
 	
 	//新聞画面へ移るボタン(動作なし)
 	UIImage *img_news = [UIImage imageNamed:@"news-menu.png"];
@@ -66,6 +67,7 @@ AppDelegate *appDelegate;
 	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
 	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
 	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+	[_newsbutton addTarget:self action:@selector(gotoNews:) forControlEvents:UIControlEventTouchUpInside];
 	
 	//一覧画面へ移るボタン
 	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
@@ -149,6 +151,11 @@ AppDelegate *appDelegate;
 -(void)gotoPurchase:(UIButton *)button{
 	PurchaseViewController *purchaseViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
 	[self presentViewController:purchaseViewController animated:YES completion:nil];
+}
+
+-(void)gotoNews:(UIButton*)button{
+	NewsViewController *newsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"nw"];
+	[self presentViewController:newsViewController animated:YES completion:nil];
 }
 
 /*
