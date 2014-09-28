@@ -49,33 +49,34 @@ AppDelegate *appDelegate;
 		
 	// テーブル定義、位置指定
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
+	tableView.tableFooterView = [[UIView alloc] init];
 	[self.view addSubview:tableView];
 	
 	//上のナビゲーションバー
     UINavigationBar *nav = [[UINavigationBar alloc] init];
-    nav.frame = CGRectMake(0, 0, 320, 64);
-    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
+    nav.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64);
+    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"購入確認"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
     
     // スキャン画面へ遷移ボタン
     UIButton *back = [[UIButton alloc] init];
-    back.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
+    back.frame = CGRectMake(0, self.view.bounds.size.height - 60, self.view.bounds.size.width * 0.3, 60);
     back.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    back.backgroundColor = [UIColor orangeColor];
+    back.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
     [ back setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ back setTitle:@"スキャン画面に戻る" forState:UIControlStateNormal ];
+    [ back setTitle:@"スキャン" forState:UIControlStateNormal ];
     back.titleLabel.adjustsFontSizeToFitWidth = YES;
     [back addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:back];
     
 	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
-    done.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 80);
+    done.frame = CGRectMake(20, self.view.bounds.size.height - 140, self.view.bounds.size.width - 40, 60);
     done.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    done.backgroundColor = [UIColor greenColor];
-    [ done setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ done setTitle:@"会計を完了する" forState:UIControlStateNormal ];
+    done.backgroundColor = [UIColor orangeColor];
+    [ done setTitleColor:[ UIColor blackColor ] forState:UIControlStateNormal ];
+    [ done setTitle:@"決済" forState:UIControlStateNormal ];
     done.titleLabel.adjustsFontSizeToFitWidth = YES;
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:done];
@@ -100,11 +101,11 @@ AppDelegate *appDelegate;
     UILabel *total_label = [[UILabel alloc] init];
     total_label.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
     total_label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    total_label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    total_label.textColor = [UIColor whiteColor];
+	total_label.backgroundColor = [UIColor colorWithRed:0.69 green:0.769 blue:0.871 alpha:1.0];
+    total_label.textColor = [UIColor blackColor];
     total_label.textAlignment = NSTextAlignmentCenter;
     NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
-    NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
+    NSString *totaltxt = [NSString stringWithFormat:@"合計金額 ¥%@(税込)",txt];
     total_label.text = totaltxt ;
     [self.view addSubview: total_label];
 }
