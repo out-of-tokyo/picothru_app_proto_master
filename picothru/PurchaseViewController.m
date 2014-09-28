@@ -91,7 +91,6 @@ AppDelegate *appDelegate;
 	_purchasebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.392 blue:0.0 alpha:1.0];
 	[ _purchasebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
 	[_purchasebutton setBackgroundImage:img_purchase forState:UIControlStateNormal];
-
     
 	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
