@@ -28,6 +28,9 @@ NSNumber *beacon_id;
 NSMutableArray *purchase;
 NSDictionary *card_info;
 NSUserDefaults *defaults;
+UIButton *_scanbutton;
+UIButton *_newsbutton;
+UIButton *_purchasebutton;
 AppDelegate *appDelegate;
 
 
@@ -49,41 +52,66 @@ AppDelegate *appDelegate;
 		
 	// テーブル定義、位置指定
 	UITableView *tableView = [[UITableView alloc]initWithFrame: CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 264) style:UITableViewStylePlain];
+	tableView.tableFooterView = [[UIView alloc] init];
 	[self.view addSubview:tableView];
 	
 	//上のナビゲーションバー
-    UINavigationBar *nav = [[UINavigationBar alloc] init];
-    nav.frame = CGRectMake(0, 0, 320, 64);
-    UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
-    [nav setItems:@[item]];
-    [self.view addSubview:nav];
-    
-    // スキャン画面へ遷移ボタン
-    UIButton *back = [[UIButton alloc] init];
-    back.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    back.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    back.backgroundColor = [UIColor orangeColor];
-    [ back setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ back setTitle:@"スキャン画面に戻る" forState:UIControlStateNormal ];
-    back.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [back addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:back];
+	UINavigationBar *nav = [[UINavigationBar alloc] init];
+	nav.frame = CGRectMake(0, 0, self.view.bounds.size.width, 64);
+	UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"購入確認"];
+	nav.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+	[nav setItems:@[item]];
+	[UINavigationBar appearance].barTintColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.000];
+	[self.view addSubview:nav];
+	
+	//スキャン画面へ移るボタン
+	UIImage *img_scan = [UIImage imageNamed:@"scan-menu.png"];
+	_scanbutton = [[UIButton alloc] init];
+	_scanbutton.frame = CGRectMake(0, self.view.bounds.size.height - 60 , 107, 60);
+	_scanbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _scanbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_scanbutton setBackgroundImage:img_scan forState:UIControlStateNormal];
+	[_scanbutton addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
+	
+	NSLog(@"self.view.bounds.size.width: %f",self.view.bounds.size.width);
+	NSLog(@"self.view.bounds.size.height: %f",self.view.bounds.size.height);
+	
+	//新聞画面へ移るボタン(動作なし)
+	UIImage *img_news = [UIImage imageNamed:@"news-menu.png"];
+	_newsbutton = [[UIButton alloc] init];
+	_newsbutton.frame = CGRectMake(107, self.view.bounds.size.height - 60 , 106, 60);
+	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+	
+	//一覧画面へ移るボタン(動作なし)
+	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
+	_purchasebutton = [[UIButton alloc] init];
+	_purchasebutton.frame = CGRectMake(213, self.view.bounds.size.height - 60 , 107, 60);
+	_purchasebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.392 blue:0.0 alpha:1.0];
+	[ _purchasebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_purchasebutton setBackgroundImage:img_purchase forState:UIControlStateNormal];
+
     
 	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
-    done.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 80);
-    done.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    done.backgroundColor = [UIColor greenColor];
+    done.frame = CGRectMake(20, self.view.bounds.size.height - 140, self.view.bounds.size.width - 40, 60);
+    done.backgroundColor = [UIColor orangeColor];
     [ done setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ done setTitle:@"会計を完了する" forState:UIControlStateNormal ];
-    done.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [ done setTitle:@"決済" forState:UIControlStateNormal ];
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:done];
+
+	NSArray *buttons =  @[_scanbutton, _newsbutton, _purchasebutton, done];
+	for (UIButton *button in buttons) {
+		button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+		button.titleLabel.adjustsFontSizeToFitWidth = YES;
+		[self.view addSubview:button];
+	}
 	
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
-    
+
     defaults = [NSUserDefaults standardUserDefaults];
 }
 
@@ -97,16 +125,16 @@ AppDelegate *appDelegate;
         total += tmp;
     }
 
-    UILabel *total_label = [[UILabel alloc] init];
-    total_label.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
-    total_label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    total_label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    total_label.textColor = [UIColor whiteColor];
-    total_label.textAlignment = NSTextAlignmentCenter;
-    NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
-    NSString *totaltxt = [NSString stringWithFormat:@"合計%@円",txt];
-    total_label.text = totaltxt ;
-    [self.view addSubview: total_label];
+	UILabel *total_label = [[UILabel alloc] init];
+	total_label.frame = CGRectMake(0, self.view.bounds.size.height - 200, self.view.bounds.size.width, 40);
+	total_label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+	total_label.backgroundColor = [UIColor colorWithRed:0.69 green:0.769 blue:0.871 alpha:1.0];
+	total_label.textColor = [UIColor blackColor];
+	total_label.textAlignment = NSTextAlignmentCenter;
+	NSString *txt = [NSString stringWithFormat:@"%ld", (long)total];
+	NSString *totaltxt = [NSString stringWithFormat:@"合計金額 ¥%@(税込)",txt];
+	total_label.text = totaltxt ;
+	[self.view addSubview: total_label];
 }
 - (void)didReceiveMemoryWarning
 {

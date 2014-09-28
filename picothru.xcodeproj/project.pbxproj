@@ -13,6 +13,9 @@
 		5FDD56C219D60B8C001E9FF3 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56BD19D60B8C001E9FF3 /* NSData+CommonCrypto.m */; };
 		5FDD56C319D60B8C001E9FF3 /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDD56BF19D60B8C001E9FF3 /* NSString+Base64.m */; };
 		AA66C0DE19D2711E00237764 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA66C0DD19D2711E00237764 /* CoreLocation.framework */; };
+		AA68C71619D7BA84003A7F95 /* purchase-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71519D7BA84003A7F95 /* purchase-menu.png */; };
+		AA68C71819D7BADD003A7F95 /* scan-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71719D7BADD003A7F95 /* scan-menu.png */; };
+		AA68C71A19D7C134003A7F95 /* news-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71919D7C134003A7F95 /* news-menu.png */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
@@ -49,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1408FAA0D6D98031E491A851 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		5C268A5914B1410D972E7F91 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDD568419D3B5D4001E9FF3 /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
 		5FDD568519D3B5D4001E9FF3 /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
@@ -61,7 +65,10 @@
 		5FDD56BE19D60B8C001E9FF3 /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Base64.h"; path = "picothru/lib/NSString+Base64.h"; sourceTree = "<group>"; };
 		5FDD56BF19D60B8C001E9FF3 /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Base64.m"; path = "picothru/lib/NSString+Base64.m"; sourceTree = "<group>"; };
 		AA66C0DD19D2711E00237764 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		C6FBF0D2410B4458AA23746D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		AA68C71519D7BA84003A7F95 /* purchase-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-menu.png"; sourceTree = "<group>"; };
+		AA68C71719D7BADD003A7F95 /* scan-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan-menu.png"; sourceTree = "<group>"; };
+		AA68C71919D7C134003A7F95 /* news-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news-menu.png"; sourceTree = "<group>"; };
+		CCA9CA55A7D579DE32234037 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
 		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
 		DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -138,15 +145,33 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		99996FCBF540DF3D25AC6E80 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CCA9CA55A7D579DE32234037 /* Pods.debug.xcconfig */,
+				1408FAA0D6D98031E491A851 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AA68C71219D7B716003A7F95 /* images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = images;
+			path = picothru;
+			sourceTree = "<group>";
+		};
 		DFBBE25619BF7228007F65AD = {
 			isa = PBXGroup;
 			children = (
 				DFBBE29A19BF724B007F65AD /* Podfile */,
+				AA68C71219D7B716003A7F95 /* images */,
 				DFBBE26819BF7228007F65AD /* picothru */,
 				DFBBE28A19BF7229007F65AD /* picothruTests */,
 				DFBBE26119BF7228007F65AD /* Frameworks */,
 				DFBBE26019BF7228007F65AD /* Products */,
-				C6FBF0D2410B4458AA23746D /* Pods.xcconfig */,
+				99996FCBF540DF3D25AC6E80 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,6 +204,9 @@
 			children = (
 				5FDD56B019D60684001E9FF3 /* lib */,
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
+				AA68C71719D7BADD003A7F95 /* scan-menu.png */,
+				AA68C71519D7BA84003A7F95 /* purchase-menu.png */,
+				AA68C71919D7C134003A7F95 /* news-menu.png */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
 				DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */,
@@ -315,10 +343,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFBBE29B19BF724B007F65AD /* Podfile in Resources */,
+				AA68C71A19D7C134003A7F95 /* news-menu.png in Resources */,
 				DFCE222919C0D39B00BF4128 /* ListTableViewCell.xib in Resources */,
 				DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */,
 				DFBBE27919BF7228007F65AD /* Main_iPad.storyboard in Resources */,
 				DFBBE27E19BF7229007F65AD /* Images.xcassets in Resources */,
+				AA68C71619D7BA84003A7F95 /* purchase-menu.png in Resources */,
+				AA68C71819D7BADD003A7F95 /* scan-menu.png in Resources */,
 				DFBBE26D19BF7228007F65AD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B701EA94037B46DCA2398907 /* Check Pods Manifest.lock */ = {
@@ -505,7 +536,7 @@
 		};
 		DFBBE29519BF7229007F65AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6FBF0D2410B4458AA23746D /* Pods.xcconfig */;
+			baseConfigurationReference = CCA9CA55A7D579DE32234037 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -522,7 +553,7 @@
 		};
 		DFBBE29619BF7229007F65AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6FBF0D2410B4458AA23746D /* Pods.xcconfig */;
+			baseConfigurationReference = 1408FAA0D6D98031E491A851 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
