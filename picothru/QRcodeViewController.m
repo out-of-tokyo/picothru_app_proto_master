@@ -76,7 +76,7 @@ AppDelegate *appDelegate;
 	[_purchasebutton setBackgroundImage:img_purchase forState:UIControlStateNormal];
 	[_purchasebutton addTarget:self action:@selector(gotoPurchase:) forControlEvents:UIControlEventTouchUpInside];
 
-	// 会計完了ボタン
+	// 買い物キャンセルボタン(スキャン画面へ戻る)
 	_cancelbutton = [[UIButton alloc] init];
 	_cancelbutton.frame = CGRectMake(20, self.view.bounds.size.height - 140, self.view.bounds.size.width - 40, 60);
 	_cancelbutton.backgroundColor = [UIColor orangeColor];
