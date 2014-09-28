@@ -78,8 +78,7 @@ int labelindex;
 	UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"スキャン"];
 	nav.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
 	[nav setItems:@[item]];
-	nav.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
-	nav.barTintColor = nil;
+	[UINavigationBar appearance].barTintColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.000];
 	[self.view addSubview:nav];
 
 	//スキャン画面へ移るボタン(動作なし)

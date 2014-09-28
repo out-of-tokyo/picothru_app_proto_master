@@ -15,6 +15,7 @@
 		AA66C0DE19D2711E00237764 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA66C0DD19D2711E00237764 /* CoreLocation.framework */; };
 		AA68C71619D7BA84003A7F95 /* purchase-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71519D7BA84003A7F95 /* purchase-menu.png */; };
 		AA68C71819D7BADD003A7F95 /* scan-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71719D7BADD003A7F95 /* scan-menu.png */; };
+		AA68C71A19D7C134003A7F95 /* news-menu.png in Resources */ = {isa = PBXBuildFile; fileRef = AA68C71919D7C134003A7F95 /* news-menu.png */; };
 		DF7F5A4B19CD99D40042F00F /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */; };
 		DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF7F5A4C19CD99FE0042F00F /* Main_iPhone.storyboard */; };
 		DFBBE26319BF7228007F65AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBBE26219BF7228007F65AD /* Foundation.framework */; };
@@ -66,6 +67,7 @@
 		AA66C0DD19D2711E00237764 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AA68C71519D7BA84003A7F95 /* purchase-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purchase-menu.png"; sourceTree = "<group>"; };
 		AA68C71719D7BADD003A7F95 /* scan-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan-menu.png"; sourceTree = "<group>"; };
+		AA68C71919D7C134003A7F95 /* news-menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news-menu.png"; sourceTree = "<group>"; };
 		CCA9CA55A7D579DE32234037 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF7F5A4919CD99D40042F00F /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
 		DF7F5A4A19CD99D40042F00F /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				DFCE222719C0D39B00BF4128 /* ListTableViewCell.xib */,
 				AA68C71719D7BADD003A7F95 /* scan-menu.png */,
 				AA68C71519D7BA84003A7F95 /* purchase-menu.png */,
+				AA68C71919D7C134003A7F95 /* news-menu.png */,
 				DFBBE27119BF7228007F65AD /* AppDelegate.h */,
 				DFBBE27219BF7228007F65AD /* AppDelegate.m */,
 				DFBBE27719BF7228007F65AD /* Main_iPad.storyboard */,
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFBBE29B19BF724B007F65AD /* Podfile in Resources */,
+				AA68C71A19D7C134003A7F95 /* news-menu.png in Resources */,
 				DFCE222919C0D39B00BF4128 /* ListTableViewCell.xib in Resources */,
 				DF7F5A4D19CD99FE0042F00F /* Main_iPhone.storyboard in Resources */,
 				DFBBE27919BF7228007F65AD /* Main_iPad.storyboard in Resources */,
