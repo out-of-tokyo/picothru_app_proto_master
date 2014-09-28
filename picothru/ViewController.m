@@ -273,7 +273,7 @@ int labelindex;
 	NSLog(@"[labelUpdate]labelindex: %d",labelindex);
 	NSLog(@"_namelabel.text: %@",_namelabel.text);
 	NSLog(@"products: %@",[appDelegate getScanedProduct:labelindex]);
-	_pricelabel.text = [appDelegate.products[labelindex][@"price"] stringValue];
+	_pricelabel.text = [NSString stringWithFormat:@"¥%@",[appDelegate.products[labelindex][@"price"] stringValue]];
 	_countlabel.text = [appDelegate.products[labelindex][@"amount"] stringValue];
 }
 
