@@ -22,6 +22,8 @@
     UILabel *_namelabel;
     UILabel *_pricelabel;
     UILabel *_countlabel;
+	UIButton *_scanbutton;
+	UIButton *_newsbutton;
     UIButton *_donebutton;
     UIButton *_subbutton;
     UIButton *_addbutton;
@@ -80,13 +82,33 @@ int labelindex;
 	nav.barTintColor = nil;
 	[self.view addSubview:nav];
 
+	//スキャン画面へ移るボタン(動作なし)
+	UIImage *img_scan = [UIImage imageNamed:@"scan-menu.png"];
+	_scanbutton = [[UIButton alloc] init];
+	_scanbutton.frame = CGRectMake(0, self.view.bounds.size.height - 60 , 107, 60);
+	_scanbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.392 blue:0.0 alpha:1.0];
+	[ _scanbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_scanbutton setBackgroundImage:img_scan forState:UIControlStateNormal];
+
+	NSLog(@"self.view.bounds.size.width: %f",self.view.bounds.size.width);
+	NSLog(@"self.view.bounds.size.height: %f",self.view.bounds.size.height);
+
+	//新聞画面へ移るボタン(動作なし)
+	UIImage *img_news = [UIImage imageNamed:@"news-menu.png"];
+	_newsbutton = [[UIButton alloc] init];
+	_newsbutton.frame = CGRectMake(107, self.view.bounds.size.height - 60 , 106, 60);
+	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+
 	//一覧画面へ移るボタン
-    _donebutton = [[UIButton alloc] init];
-    _donebutton.frame = CGRectMake(0, self.view.bounds.size.height - 60 , self.view.bounds.size.width, 60);
-    _donebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
-    [ _donebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ _donebutton setTitle:@"確認&決済" forState:UIControlStateNormal ];
-    [_donebutton addTarget:self action:@selector(gotoctv:) forControlEvents:UIControlEventTouchUpInside];
+	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
+	_donebutton = [[UIButton alloc] init];
+	_donebutton.frame = CGRectMake(213, self.view.bounds.size.height - 60 , 107, 60);
+	_donebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _donebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_donebutton setBackgroundImage:img_purchase forState:UIControlStateNormal];
+	[_donebutton addTarget:self action:@selector(gotoctv:) forControlEvents:UIControlEventTouchUpInside];
 
 	//個数マイナスボタン
     _subbutton = [[UIButton alloc] init];
@@ -126,7 +148,7 @@ int labelindex;
     _nextbutton.layer.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.45].CGColor;
     [_nextbutton addTarget:self action:@selector(addindex:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSArray *buttons =  @[_donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
+    NSArray *buttons =  @[_scanbutton, _newsbutton, _donebutton, _subbutton, _addbutton, _prebutton, _nextbutton];
     for (UIButton *button in buttons) {
         button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         button.titleLabel.adjustsFontSizeToFitWidth = YES;

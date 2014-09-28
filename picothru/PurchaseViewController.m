@@ -28,6 +28,9 @@ NSNumber *beacon_id;
 NSMutableArray *purchase;
 NSDictionary *card_info;
 NSUserDefaults *defaults;
+UIButton *_scanbutton;
+UIButton *_newsbutton;
+UIButton *_purchasebutton;
 AppDelegate *appDelegate;
 
 
@@ -57,33 +60,55 @@ AppDelegate *appDelegate;
     UINavigationItem* item = [[UINavigationItem alloc] initWithTitle:@"会計確認"];
     [nav setItems:@[item]];
     [self.view addSubview:nav];
-    
-    // スキャン画面へ遷移ボタン
-    UIButton *back = [[UIButton alloc] init];
-    back.frame = CGRectMake(0, self.view.bounds.size.height - 80, self.view.bounds.size.width, 80);
-    back.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    back.backgroundColor = [UIColor orangeColor];
-    [ back setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
-    [ back setTitle:@"スキャン画面に戻る" forState:UIControlStateNormal ];
-    back.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [back addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:back];
+	
+	//スキャン画面へ移るボタン
+	UIImage *img_scan = [UIImage imageNamed:@"scan-menu.png"];
+	_scanbutton = [[UIButton alloc] init];
+	_scanbutton.frame = CGRectMake(0, self.view.bounds.size.height - 60 , 107, 60);
+	_scanbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _scanbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_scanbutton setBackgroundImage:img_scan forState:UIControlStateNormal];
+	[_scanbutton addTarget:self action:@selector(gotoscan:) forControlEvents:UIControlEventTouchUpInside];
+	
+	NSLog(@"self.view.bounds.size.width: %f",self.view.bounds.size.width);
+	NSLog(@"self.view.bounds.size.height: %f",self.view.bounds.size.height);
+	
+	//新聞画面へ移るボタン(動作なし)
+	UIImage *img_news = [UIImage imageNamed:@"news-menu.png"];
+	_newsbutton = [[UIButton alloc] init];
+	_newsbutton.frame = CGRectMake(107, self.view.bounds.size.height - 60 , 106, 60);
+	_newsbutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.502 blue:0.0 alpha:1.0];
+	[ _newsbutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_newsbutton setBackgroundImage:img_news forState:UIControlStateNormal];
+	
+	//一覧画面へ移るボタン(動作なし)
+	UIImage *img_purchase = [UIImage imageNamed:@"purchase-menu.png"];
+	_purchasebutton = [[UIButton alloc] init];
+	_purchasebutton.frame = CGRectMake(213, self.view.bounds.size.height - 60 , 107, 60);
+	_purchasebutton.backgroundColor = [UIColor colorWithRed:0.0 green:0.392 blue:0.0 alpha:1.0];
+	[ _purchasebutton setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
+	[_purchasebutton setBackgroundImage:img_purchase forState:UIControlStateNormal];
+
     
 	// 会計完了ボタン
     UIButton *done = [[UIButton alloc] init];
     done.frame = CGRectMake(0, self.view.bounds.size.height - 160, self.view.bounds.size.width, 80);
-    done.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     done.backgroundColor = [UIColor greenColor];
     [ done setTitleColor:[ UIColor whiteColor ] forState:UIControlStateNormal ];
     [ done setTitle:@"会計を完了する" forState:UIControlStateNormal ];
-    done.titleLabel.adjustsFontSizeToFitWidth = YES;
     [done addTarget:self action:@selector(done:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:done];
+
+	NSArray *buttons =  @[_scanbutton, _newsbutton, _purchasebutton, done];
+	for (UIButton *button in buttons) {
+		button.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+		button.titleLabel.adjustsFontSizeToFitWidth = YES;
+		[self.view addSubview:button];
+	}
 	
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView registerNib:[UINib nibWithNibName:@"ListTableViewCell" bundle:nil]forCellReuseIdentifier:@"cell"];
-    
+
     defaults = [NSUserDefaults standardUserDefaults];
 }
 
